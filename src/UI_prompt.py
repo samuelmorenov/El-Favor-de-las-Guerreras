@@ -7,18 +7,23 @@ class UI_pront:
         self.c = Controller()
         
     def printTablero(self):
-        tablero = self.c.getTablero()
         print("Tablero:")
         for i in range(1,7):
             for j in range(1,7):
-                print(str(tablero[(i,j)]), end=' ')
+                print(str(self.c.tablero[(i,j)]), end=' ')
             print()
-            
+
             
     def printMazo(self):
-        mazo = self.c.getMazo()
         print("Mazo:")
-        print(mazo)
+        print(self.c.mazo)
+        
+    def robarTodoElMazo(self):
+        print("Robando todo el mazo:")
+        while (len(self.c.mazo)>0):
+            print(ui.c.robarCarta(), end=' ')
+        print()
+        
         
         
         
@@ -26,4 +31,7 @@ class UI_pront:
 ui = UI_pront()
 ui.printTablero()
 ui.printMazo()
+ui.robarTodoElMazo()
+ui.printMazo()
+
     
