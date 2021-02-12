@@ -8,10 +8,7 @@ class UI_pront:
         
     def printTablero(self):
         print("Tablero:")
-        for i in range(1,7):
-            for j in range(1,7):
-                print(str(self.c.tablero[(i,j)]), end=' ')
-            print()
+        print(self.c.tablero)
 
             
     def printMazo(self):
@@ -30,8 +27,6 @@ class UI_pront:
         
 ui = UI_pront()
 ui.printTablero()
-ui.printMazo()
-ui.robarTodoElMazo()
 ui.printMazo()
 
     
