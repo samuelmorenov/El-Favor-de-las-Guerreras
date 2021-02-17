@@ -8,6 +8,7 @@ class BotTonto:
         
         
     def realizarAccion(self, tablero):
-        #TODO
-        print(self.__yo + " realiza una accion")
+        print("Soy "+self.__yo+", me llega este tablero:")
+        print(tablero)
+        #print("Soy "+self.__yo+", realizando accion...")
         return np.zeros(2, dtype=int)

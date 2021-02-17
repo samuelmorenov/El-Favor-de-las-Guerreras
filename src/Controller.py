@@ -39,15 +39,50 @@ class Controller:
         self.__robarCarta()
         self.__repartoDeCartas()
     
-    def getTablero(self, jugador):
-        #TODO
-        return 0
+    def getVistaTablero(self, jugador):
+        tableroParcial = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
+        
+        """MANO"""
+        tableroParcial[const.MANO_JUGADOR1] = self.__tablero[jugador]
+
+        """ACCIONES"""
+        accionesJugador = const.ACCIONES_USADAS_JUGADOR1
+        accionesAdversario = const.ACCIONES_USADAS_JUGADOR2
+        if(jugador == const.JUGADOR2):
+            accionesJugador = const.ACCIONES_USADAS_JUGADOR2
+            accionesAdversario = const.ACCIONES_USADAS_JUGADOR1
+        
+        tableroParcial[const.ACCIONES_USADAS_JUGADOR1] = self.__tablero[accionesJugador]
+
+        accionesVistas = self.__tablero[accionesAdversario]
+        print(accionesVistas)
+        accionesOcultas = np.zeros(const.NCOLUMNA, dtype=int)
+        for i in range(const.NCOLUMNA):
+            if(accionesVistas[i] != 0):
+                accionesOcultas[i] = 1
+            
+        tableroParcial[const.ACCIONES_USADAS_JUGADOR2] =  accionesOcultas
+        
+        """ARMAS USADAS"""
+        armasJugador = const.ARMAS_USADAS_JUGADOR1
+        armasAdversario = const.ARMAS_USADAS_JUGADOR2
+        if(jugador == const.JUGADOR2):
+            armasJugador = const.ARMAS_USADAS_JUGADOR2
+            armasAdversario = const.ARMAS_USADAS_JUGADOR1
+        
+        tableroParcial[const.ARMAS_USADAS_JUGADOR1] = self.__tablero[armasJugador]
+        tableroParcial[const.ARMAS_USADAS_JUGADOR2] = self.__tablero[armasAdversario]
+        
+        tableroParcial[const.FAVOR_DE_GUERRERA] = self.__tablero[const.FAVOR_DE_GUERRERA]
+        tableroParcial[const.ACCION_PENDIENTE] = self.__tablero[const.ACCION_PENDIENTE]
+        
+        return tableroParcial
     
     def hacerRecuento(self):
         #TODO
         return True
         
-#"""
+"""
     #Metodos auxiliares, en el futuno deben ser borrados
     
     def printMazo(self):
