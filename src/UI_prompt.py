@@ -3,9 +3,8 @@
 from Controller import Controller
 from BotTonto import BotTonto
 
-JUGADOR1 = 0
-JUGADOR2 = 1
-N_ACCIONES = 4
+import Constantes as const
+
 
 class UI_pront:
     def __init__(self):
@@ -19,11 +18,11 @@ class UI_pront:
     def __turno(self):
         self.c.initRonda()
         
-        for i in range(N_ACCIONES):
-            tablero = self.c.getTablero(JUGADOR1)
-            self.bot1.realizarAccion(tablero)
-            tablero = self.c.getTablero(JUGADOR2)
-            self.bot2.realizarAccion(tablero)
+        for i in range(const.N_ACCIONES):
+            tablero1 = self.c.getVistaTablero(const.JUGADOR1)
+            self.bot1.realizarAccion(tablero1)
+            tablero2 = self.c.getVistaTablero(const.JUGADOR2)
+            self.bot2.realizarAccion(tablero2)
         
         self.win = self.c.hacerRecuento()
         

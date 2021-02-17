@@ -1,27 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from random import randrange
 
-N_CARTAS_INICIAL = 6
-
-#Disposicion de las filas del tablero
-MANO_JUGADOR1 = 0
-MANO_JUGADOR2 = 1
-ACCIONES_USADAS_JUGADOR1 = 1
-ACCIONES_USADAS_JUGADOR2 = 2
-ARMAS_USADAS_JUGADOR1 = 2
-ARMAS_USADAS_JUGADOR2 = 3
-FAVOR_DE_GUERRERA = 4
-ACCION_PENDIENTE = 5
-
-NFILA = 8 #Este numero depende de el numero de filas definidas arriba
-NCOLUMNA = 7 #Este numero depende del numero maximo de cartas en la mano
+import Constantes as const
 
 
 class Controller:
     def __init__(self):
-        self.__tablero = np.zeros((NFILA,NCOLUMNA), dtype=int)
+        self.__tablero = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
         self.__initMazo()
         
     def __initMazo(self):
@@ -31,13 +17,13 @@ class Controller:
     def __robarCarta(self):
         if(len(self.__mazoArmas) < 1):
             raise Exception("Mazo vacio")
-        return self.__mazoArmas.pop(randrange(len(self.__mazoArmas)))
+        return self.__mazoArmas.pop(np.random.randint(len(self.__mazoArmas)))
         
     #Se reparten 6 cartas del mazo a cada jugador
     def __repartoDeCartas(self):
-        for i in range(N_CARTAS_INICIAL):
-            self.__conseguirCarta(MANO_JUGADOR1)
-            self.__conseguirCarta(MANO_JUGADOR2)
+        for i in range(const.N_CARTAS_INICIAL):
+            self.__conseguirCarta(const.MANO_JUGADOR1)
+            self.__conseguirCarta(const.MANO_JUGADOR2)
             
     #Se le asigna una carta del mazo a la mano del jugador
     def __conseguirCarta(self, jugador):
