@@ -1,32 +1,30 @@
 # -*- coding: utf-8 -*-
 
 from Controller import Controller
+from BotTonto import BotTonto
+
+JUGADOR1 = 0
+JUGADOR2 = 1
+N_ACCIONES = 4
 
 class UI_pront:
     def __init__(self):
         self.c = Controller()
-        
-    def printTablero(self):
-        print("Tablero:")
-        print(self.c.tablero)
-
+        self.win = False
+        self.bot1 = BotTonto("Bot 1")
+        self.bot2 = BotTonto("Bot 2")
+        while (self.win == False):
+            self.__turno()
             
-    def printMazo(self):
-        print("Mazo:")
-        print(self.c.mazo)
+    def __turno(self):
+        self.c.initRonda()
         
-    def robarTodoElMazo(self):
-        print("Robando todo el mazo:")
-        while (len(self.c.mazo)>0):
-            print(ui.c.robarCarta(), end=' ')
-        print()
+        for i in range(N_ACCIONES):
+            tablero = self.c.getTablero(JUGADOR1)
+            self.bot1.realizarAccion(tablero)
+            tablero = self.c.getTablero(JUGADOR2)
+            self.bot2.realizarAccion(tablero)
         
-        
-        
-        
+        self.win = self.c.hacerRecuento()
         
 ui = UI_pront()
-ui.printTablero()
-ui.printMazo()
-
-    
