@@ -11,12 +11,8 @@ JUGADOR2 = 1
 """Las 7 cartas del jugador"""
 MANO_JUGADOR1 = 0 
 MANO_JUGADOR2 = 1
-"""
-Posicion 0 guarda el secreto
-Posicion 1 y 2 guarda la renuncia
-Posicion 3 guarda si se ha usado el regalo
-Posicion 4 guarda si se ha usado la competicion
-"""
+
+"""Acciones que ha usado cada jugador"""
 ACCIONES_USADAS_JUGADOR1 = 1 
 ACCIONES_USADAS_JUGADOR2 = 2
 """Para cada guerrera guarda la cantidad de armas que le ha dado el jugador"""
@@ -43,22 +39,38 @@ ACCION_PENDIENTE = 5
 NFILA = 8 #Este numero depende de el numero de filas definidas arriba
 NCOLUMNA = 7 #Este numero depende del numero maximo de cartas en la mano
 
+"""
+Posicion 0 guarda el secreto
+Posicion 1 y 2 guarda la renuncia
+Posicion 3 guarda si se ha usado el regalo
+Posicion 4 guarda si se ha usado la competicion
+"""
+TIPO_SECRETO = 0
+TIPO_RENUNCIA = 1
+TIPO_RENUNCIA_1 = 1
+TIPO_RENUNCIA_2 = 2
+TIPO_REGALO = 3
+TIPO_COMPETICION = 4
 
 #Posicion de las acciones:
 ACCION_REALIZADA = 0
 
-ACCION_1 = 2
+ACCION_1 = 1
+ACCION_1_COUNT = 1
 
-ACCION_2_1 = 2
-ACCION_2_2 = 3
+ACCION_2_1 = 1
+ACCION_2_2 = 2
+ACCION_2_COUNT = 2
 
-ACCION_3_1 = 2
-ACCION_3_2 = 3
-ACCION_3_3 = 4
+ACCION_3_1 = 1
+ACCION_3_2 = 2
+ACCION_3_3 = 3
+ACCION_3_COUNT = 3
 
-ACCION_4_1_1 = 2
-ACCION_4_1_2 = 3
-ACCION_4_2_1 = 4
-ACCION_4_2_2 = 5
+ACCION_4_1_1 = 1
+ACCION_4_1_2 = 2
+ACCION_4_2_1 = 3
+ACCION_4_2_2 = 4
+ACCION_4_COUNT = 4
 
 ACCION_SIMPLE = 1
