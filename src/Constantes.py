@@ -42,3 +42,23 @@ ACCION_PENDIENTE = 5
 
 NFILA = 8 #Este numero depende de el numero de filas definidas arriba
 NCOLUMNA = 7 #Este numero depende del numero maximo de cartas en la mano
+
+
+#Posicion de las acciones:
+ACCION_REALIZADA = 0
+
+ACCION_1 = 2
+
+ACCION_2_1 = 2
+ACCION_2_2 = 3
+
+ACCION_3_1 = 2
+ACCION_3_2 = 3
+ACCION_3_3 = 4
+
+ACCION_4_1_1 = 2
+ACCION_4_1_2 = 3
+ACCION_4_2_1 = 4
+ACCION_4_2_2 = 5
+
+ACCION_SIMPLE = 1
