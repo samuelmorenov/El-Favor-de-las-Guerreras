@@ -4,12 +4,15 @@ import numpy as np
 
 import Constantes as const
 
+LOG = False
+
 class BotTonto:
     def __init__(self, yo):
         self.__yo = yo
         
         
     def decidirAccion(self, tablero):
+        
         print("Soy "+self.__yo)
         
         print("- Este es el tablero que me llega:")
@@ -21,14 +24,16 @@ class BotTonto:
             if(tablero[const.MANO_JUGADOR1][i] != 0):
                 listaDeCartasEnMano.append(tablero[const.MANO_JUGADOR1][i])
         
-        print("- Estas son las cartas de mi mano:")
-        print(listaDeCartasEnMano)
+        if(LOG):
+            print("- Estas son las cartas de mi mano:")
+            print(listaDeCartasEnMano)
         
         listaAccionesPosibles = []
         accionesRealizadas = tablero[const.ACCIONES_USADAS_JUGADOR1]
         
-        print("- Estas son las acciones realizadas:")
-        print(accionesRealizadas)
+        if(LOG):
+            print("- Estas son las acciones realizadas:")
+            print(accionesRealizadas)
         
         if(accionesRealizadas[const.TIPO_SECRETO] == 0):
             listaAccionesPosibles.append(const.TIPO_SECRETO)
@@ -38,14 +43,16 @@ class BotTonto:
             listaAccionesPosibles.append(const.TIPO_REGALO)
         if(accionesRealizadas[const.TIPO_COMPETICION] == 0):
             listaAccionesPosibles.append(const.TIPO_COMPETICION)
-            
-        print("- Estas son las acciones que puedo hacer:")
-        print(listaAccionesPosibles)
+           
+        if(LOG):
+            print("- Estas son las acciones que puedo hacer:")
+            print(listaAccionesPosibles)
         
         accionARealizar = listaAccionesPosibles.pop(np.random.randint(len(listaAccionesPosibles)))
         
-        print("- He decidido realizar la accion: ")
-        print(accionARealizar)        
+        if(LOG):
+            print("- He decidido realizar la accion: ")
+            print(accionARealizar)        
         
         cartasSeleccionadas = []
         accionCount = 0
@@ -66,11 +73,11 @@ class BotTonto:
             carta = listaDeCartasEnMano.pop(posicion)
             cartasSeleccionadas.append(carta)
             
-        
-        print("- He seleccionado estas cartas para hacer la accion:")
-        print(cartasSeleccionadas)
-        print("- Estas son las cartas que quedan en mi mano:")
-        print(listaDeCartasEnMano)        
+        if(LOG):
+            print("- He seleccionado estas cartas para hacer la accion:")
+            print(cartasSeleccionadas)
+            print("- Estas son las cartas que quedan en mi mano:")
+            print(listaDeCartasEnMano)        
 
         accionCompleta = np.zeros(const.NCOLUMNA, dtype=int)
         
