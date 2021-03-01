@@ -46,7 +46,7 @@ class Controller:
         tableroParcial = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
         
         """MANO"""
-        tableroParcial[const.MANO_JUGADOR1] = self.__tablero[jugador]
+        tableroParcial[const.MANO_JUGADOR1] = self.__tablero[jugador].copy()
 
         """ACCIONES"""
         accionesJugador = const.ACCIONES_USADAS_JUGADOR1
@@ -55,9 +55,9 @@ class Controller:
             accionesJugador = const.ACCIONES_USADAS_JUGADOR2
             accionesAdversario = const.ACCIONES_USADAS_JUGADOR1
         
-        tableroParcial[const.ACCIONES_USADAS_JUGADOR1] = self.__tablero[accionesJugador]
+        tableroParcial[const.ACCIONES_USADAS_JUGADOR1] = self.__tablero[accionesJugador].copy()
 
-        accionesVistas = self.__tablero[accionesAdversario]
+        accionesVistas = self.__tablero[accionesAdversario].copy()
         accionesOcultas = np.zeros(const.NCOLUMNA, dtype=int)
         for i in range(const.NCOLUMNA):
             if(accionesVistas[i] != 0):
@@ -72,11 +72,11 @@ class Controller:
             armasJugador = const.ARMAS_USADAS_JUGADOR2
             armasAdversario = const.ARMAS_USADAS_JUGADOR1
         
-        tableroParcial[const.ARMAS_USADAS_JUGADOR1] = self.__tablero[armasJugador]
-        tableroParcial[const.ARMAS_USADAS_JUGADOR2] = self.__tablero[armasAdversario]
+        tableroParcial[const.ARMAS_USADAS_JUGADOR1] = self.__tablero[armasJugador].copy()
+        tableroParcial[const.ARMAS_USADAS_JUGADOR2] = self.__tablero[armasAdversario].copy()
         
-        tableroParcial[const.FAVOR_DE_GUERRERA] = self.__tablero[const.FAVOR_DE_GUERRERA]
-        tableroParcial[const.ACCION_PENDIENTE] = self.__tablero[const.ACCION_PENDIENTE]
+        tableroParcial[const.FAVOR_DE_GUERRERA] = self.__tablero[const.FAVOR_DE_GUERRERA].copy()
+        tableroParcial[const.ACCION_PENDIENTE] = self.__tablero[const.ACCION_PENDIENTE].copy()
         
         return tableroParcial.copy()
     
@@ -93,31 +93,42 @@ class Controller:
         if(jugador == const.JUGADOR2):
             filaAcciones = const.ACCIONES_USADAS_JUGADOR2
             
-        if(accion[const.ACCION_REALIZADA] == const.TIPO_SECRETO 
-           and self.__tablero[filaAcciones][0] != 0):
-            self.__accion1(filaAcciones, accion[const.ACCION_1])
+        if(accion[const.ACCION_REALIZADA] == const.TIPO_SECRETO): 
+            if(self.__tablero[filaAcciones][0] == 0):
+                self.__accion1(filaAcciones,
+                               accion[const.ACCION_1])
+            else:
+                raise Exception("Accion 1 ya usada")
             
-        elif (accion[const.ACCION_REALIZADA] == const.TIPO_RENUNCIA
-              and self.__tablero[filaAcciones][1] != 0 
-              and self.__tablero[filaAcciones][2] != 0):
-            self.__accion2(filaAcciones, accion[const.ACCION_2_1], 
-                           accion[const.ACCION_2_2])
+        elif (accion[const.ACCION_REALIZADA] == const.TIPO_RENUNCIA): 
+            if(self.__tablero[filaAcciones][1] == 0 and self.__tablero[filaAcciones][2] == 0):
+                self.__accion2(filaAcciones,
+                               accion[const.ACCION_2_1],
+                               accion[const.ACCION_2_2])
+            else:
+                raise Exception("Accion 2 ya usada")
             
-        elif (accion[const.ACCION_REALIZADA] == const.TIPO_REGALO
-              and self.__tablero[filaAcciones][3] != 0):
-            self.__accion3(filaAcciones, accion[const.ACCION_3_1], 
-                           accion[const.ACCION_3_2], 
-                           accion[const.ACCION_3_3])
+        elif (accion[const.ACCION_REALIZADA] == const.TIPO_REGALO): 
+            if(self.__tablero[filaAcciones][3] == 0):
+                self.__accion3(filaAcciones,
+                               accion[const.ACCION_3_1],
+                               accion[const.ACCION_3_2],
+                               accion[const.ACCION_3_3])
+            else:
+                raise Exception("Accion 3 ya usada")
             
-        elif (accion[const.ACCION_REALIZADA] == const.TIPO_COMPETICION
-              and self.__tablero[filaAcciones][4] != 0):
-            self.__accion3(filaAcciones, accion[const.ACCION_4_1_1], 
+        elif (accion[const.ACCION_REALIZADA] == const.TIPO_COMPETICION): 
+            if(self.__tablero[filaAcciones][4] == 0):
+                self.__accion4(filaAcciones,
+                           accion[const.ACCION_4_1_1], 
                            accion[const.ACCION_4_1_2], 
                            accion[const.ACCION_4_2_1], 
                            accion[const.ACCION_4_2_2])
+            else:
+                raise Exception("Accion 4 ya usada")
             
         else:
-            raise Exception("Accion erronea")
+            raise Exception("Accion no encontrada")
         
     def __accion1(self, filaAcciones, carta):
         self.__tablero[filaAcciones][const.TIPO_SECRETO] = carta

@@ -13,18 +13,18 @@ MANO_JUGADOR1 = 0
 MANO_JUGADOR2 = 1
 
 """Acciones que ha usado cada jugador"""
-ACCIONES_USADAS_JUGADOR1 = 1 
-ACCIONES_USADAS_JUGADOR2 = 2
+ACCIONES_USADAS_JUGADOR1 = 2
+ACCIONES_USADAS_JUGADOR2 = 3
 """Para cada guerrera guarda la cantidad de armas que le ha dado el jugador"""
-ARMAS_USADAS_JUGADOR1 = 2
-ARMAS_USADAS_JUGADOR2 = 3
+ARMAS_USADAS_JUGADOR1 = 4
+ARMAS_USADAS_JUGADOR2 = 5
 """
 Para cada guerrera guarda quien se ha ganado su favor
 0: Nadie
 1: Jugador1
 2: Jugador2
 """
-FAVOR_DE_GUERRERA = 4
+FAVOR_DE_GUERRERA = 6
 """
 Para las acciones 3 y 4, esta fila guarda las cartas que se muestran al adversario
 En la posicion 0 el numero de la accion
@@ -34,7 +34,7 @@ Si es la accion 4:
     Se guarda la opcion 1 en las posiciones 1 y 2
     Se guarda la opcion 2 en las posiciones 3 y 4
 """
-ACCION_PENDIENTE = 5
+ACCION_PENDIENTE = 7
 
 NFILA = 8 #Este numero depende de el numero de filas definidas arriba
 NCOLUMNA = 7 #Este numero depende del numero maximo de cartas en la mano

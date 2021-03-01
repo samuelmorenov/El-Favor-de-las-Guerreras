@@ -12,6 +12,9 @@ class UI_pront:
         self.win = False
         self.bot1 = BotTonto("Bot 1")
         self.bot2 = BotTonto("Bot 2")
+        self.__partida()
+        
+    def __partida(self):
         while (self.win == False):
             self.__turno()
             
@@ -28,7 +31,7 @@ class UI_pront:
         tablero = self.c.getVistaTablero(jugador1)
         accion = bot1.decidirAccion(tablero)
             
-        #self.c.realizarAccion(jugador1, accion)
+        self.c.realizarAccion(jugador1, accion)
         
         #if(accion[const.ACCION_SIMPLE] == 1):
             #tablero = self.c.getVistaTablero(jugador2)
