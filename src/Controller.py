@@ -24,6 +24,8 @@ class Controller:
         for i in range(const.N_CARTAS_INICIAL):
             self.__conseguirCarta(const.MANO_JUGADOR1)
             self.__conseguirCarta(const.MANO_JUGADOR2)
+        self.__ordenarMano(const.MANO_JUGADOR1)
+        self.__ordenarMano(const.MANO_JUGADOR2)
             
     #Se le asigna una carta del mazo a la mano del jugador
     def __conseguirCarta(self, jugadorIndex):
@@ -55,6 +57,11 @@ class Controller:
         if(jugadorIndex == const.JUGADOR2):
             manoIndex = const.MANO_JUGADOR2
         return manoIndex
+    
+    def __ordenarMano(self, manoIndex):
+        manoList = self.__tablero[manoIndex]
+        manoList = np.sort(manoList)
+        self.__tablero[manoIndex] = manoList
 
     #Se inicializa el mazo con todas las cartas menos una y se reparten las cartas iniciales
     def initRonda(self):
@@ -63,7 +70,9 @@ class Controller:
         self.__repartoDeCartas()
         
     def jugadorRobaCarta(self, jugador):
-        self.__conseguirCarta(jugador)
+        mano = self.__getMano(jugador)
+        self.__conseguirCarta(mano)
+        self.__ordenarMano(mano)
     
     def getVistaTablero(self, jugadorIndex):
         if(jugadorIndex != const.JUGADOR1 and jugadorIndex != const.JUGADOR2):
@@ -159,6 +168,9 @@ class Controller:
         self.__tablero[manoIndex] = manoList
         
     def __accion2(self, manoIndex, filaAccionesIndex, carta1, carta2):
+        if(carta1 > carta2):
+            carta1,carta2 = carta2,carta1
+        
         self.__tablero[filaAccionesIndex][const.TIPO_RENUNCIA_1] = carta1
         self.__tablero[filaAccionesIndex][const.TIPO_RENUNCIA_2] = carta2
         manoList = self.__tablero[manoIndex]
@@ -189,6 +201,7 @@ class Controller:
     def hacerRecuento(self):
         #TODO
         print("Haciendo recuento... Fin de pertida")
+        print(self.__tablero)
         return True
     
         
