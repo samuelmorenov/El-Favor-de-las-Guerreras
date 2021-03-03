@@ -33,19 +33,9 @@ class UI_pront:
         self.c.jugadorRobaCarta(jugador1)
         tablero = self.c.getVistaTablero(jugador1)
         accion = bot1.decidirAccion(tablero)
+        self.c.realizarAccion(jugador1, accion)
         
-        accionSimple = True;
-        if(accion[const.ACCION_REALIZADA] == const.TIPO_REGALO 
-           or accion[const.ACCION_REALIZADA] == const.TIPO_COMPETICION):
-            accionSimple = True;
-    
-        if(accionSimple):
-            self.c.realizarAccion(jugador1, accion)
-        else:
-            tablero = self.c.getVistaTablero(jugador2)
-            accion = bot2.decidirAccion(tablero)
-            
-            self.c.realizarAccion(jugador2, accion)
-        
-        
+        if(self.c.hayAccionPendiente()):
+            self.c.borrarAccionPendiente__() #TODO: Aqui el bot tiene que decidir
+
 ui = UI_pront()

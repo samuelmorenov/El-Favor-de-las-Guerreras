@@ -131,16 +131,16 @@ class Controller:
             
         if(accionArray[const.ACCION_REALIZADA] == const.TIPO_SECRETO):
             self.__comprobarAccion1(manoIndex, filaAcciones, accionArray)
-            self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion1(manoIndex, filaAcciones, accionArray)
 
             
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_RENUNCIA): 
             self.__comprobarAccion2(manoIndex, filaAcciones, accionArray)
-            self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion2(manoIndex, filaAcciones, accionArray)
             
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_REGALO): 
             self.__comprobarAccion3(manoIndex, filaAcciones, accionArray)
-            self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion3(manoIndex, filaAcciones, accionArray)
             
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_COMPETICION): 
             self.__comprobarAccion4(manoIndex, filaAcciones, accionArray)
@@ -192,12 +192,24 @@ class Controller:
         self.__tablero[manoIndex] = manoList
         
     def __guardarAccion3(self, manoIndex, filaAccionesIndex, accionArray):
+        #Obtencion de las cartas
         carta1 = accionArray[const.ACCION_3_1]
         carta2 = accionArray[const.ACCION_3_2]
         carta3 = accionArray[const.ACCION_3_3]
         
+        #Actualizacion de el flag de la accion 3
         self.__tablero[filaAccionesIndex][const.TIPO_REGALO] = 1
-        #TODO: Preparar decision
+        
+        #Preparar accion pendiente
+        decisionList = self.__tablero[const.ACCION_PENDIENTE]
+        cartasList = np.array([carta1, carta2, carta3])
+        cartasListOrdenada = np.sort(cartasList)
+        decisionList[const.PENDIENTE_3_1] = cartasListOrdenada[0]
+        decisionList[const.PENDIENTE_3_2] = cartasListOrdenada[1]
+        decisionList[const.PENDIENTE_3_3] = cartasListOrdenada[2]
+        decisionList[const.PENDIENTE_TIPO] = const.TIPO_REGALO
+        
+        #Eliminar cartas de la mano
         manoList = self.__tablero[manoIndex]
         manoList = self.__soltarCarta(manoList, carta1)
         manoList = self.__soltarCarta(manoList, carta2)
@@ -206,19 +218,43 @@ class Controller:
         
         
     def __guardarAccion4(self, manoIndex, filaAccionesIndex, accionArray):
-        
+        #Obtencion de las cartas
         carta1 = accionArray[const.ACCION_4_1_1]
         carta2 = accionArray[const.ACCION_4_1_2]
         carta3 = accionArray[const.ACCION_4_2_1]
         carta4 = accionArray[const.ACCION_4_2_2]
+        
+        #Actualizacion de el flag de la accion 4
         self.__tablero[filaAccionesIndex][const.TIPO_COMPETICION] = 1
-        #TODO: Preparar decision
+        
+        #Preparar accion pendiente
+        decisionList = self.__tablero[const.ACCION_PENDIENTE]
+        cartasList = np.array([carta1, carta2, carta3, carta4])
+        cartasListOrdenada = np.sort(cartasList)
+        decisionList[const.PENDIENTE_4_1_1] = cartasListOrdenada[0]
+        decisionList[const.PENDIENTE_4_1_2] = cartasListOrdenada[1]
+        decisionList[const.PENDIENTE_4_2_1] = cartasListOrdenada[2]
+        decisionList[const.PENDIENTE_4_2_2] = cartasListOrdenada[3]
+        decisionList[const.PENDIENTE_TIPO] = const.TIPO_COMPETICION
+        
+        #Eliminar cartas de la mano
         manoList = self.__tablero[manoIndex]
         manoList = self.__soltarCarta(manoList, carta1)
         manoList = self.__soltarCarta(manoList, carta2)
         manoList = self.__soltarCarta(manoList, carta3)
         manoList = self.__soltarCarta(manoList, carta4)
         self.__tablero[manoIndex] = manoList
+        
+    def hayAccionPendiente(self):
+        pendiente = self.__tablero[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO]
+        return pendiente != 0
+    
+    def borrarAccionPendiente__(self):
+        #TODO: Metodo provisitional, hay que borrarlo
+        print("Borrada accion pendiente:")
+        print(self.__tablero[const.ACCION_PENDIENTE])
+        print("___________________________________")
+        self.__tablero[const.ACCION_PENDIENTE] = np.zeros(const.NCOLUMNA, dtype=int)
         
     def hacerRecuento(self):
         #TODO
