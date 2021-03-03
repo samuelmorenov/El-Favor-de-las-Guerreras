@@ -12,6 +12,12 @@ class BotTonto:
         
         
     def decidirAccion(self, tablero):
+
+        if(self.__yo == "Bot 1"):
+            print("\033[;33m",end="") #Amarillo
+        if(self.__yo == "Bot 2"):
+            print("\033[;36m",end="") #Cian
+        
         
         print("Soy "+self.__yo)
         
@@ -103,11 +109,8 @@ class BotTonto:
             accionCompleta[const.ACCION_4_2_1] = cartasSeleccionadas.pop(0)
             accionCompleta[const.ACCION_4_2_2] = cartasSeleccionadas.pop(0)
             
-            
-        
         print("- Esta es la accion completa que realizo:")
-        print(accionCompleta)       
-
+        print(accionCompleta)
+        print("\033[0m",end="")
         print("___________________________________") #Separador de bots
-        #print("Soy "+self.__yo+", realizando accion...")
         return accionCompleta
