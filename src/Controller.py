@@ -19,7 +19,7 @@ class Controller:
             raise Exception("Mazo vacio")
         return self.__mazoArmas.pop(np.random.randint(len(self.__mazoArmas)))
         
-    #Se reparten 6 cartas del mazo a cada jugador
+    #Se reparten 6 cartas del mazo a cada jugador y ordena las manos
     def __repartoDeCartas(self):
         for i in range(const.N_CARTAS_INICIAL):
             self.__conseguirCarta(const.MANO_JUGADOR1)
@@ -36,28 +36,32 @@ class Controller:
         manoList = np.append(manoList, cartaValue)
         self.__tablero[jugadorIndex] = manoList
         
+    #Se le pasa el array de la mano y el valor de la carta que sustituye por 0
     def __soltarCarta(self, manoList, cartaValue):
         manoList = self.__eliminarCarta(manoList, cartaValue)
         cartaNula = 0
         manoList = np.append(manoList, cartaNula)
         return manoList
         
+    #Se le pasa el array de la mano y el valor de la carta a eliminar (puede ser 0)
     def __eliminarCarta(self, manoList, cartaValue):
         return np.delete(manoList, np.argwhere(manoList == cartaValue)[0])
     
+    #Se le pasa el indice del jugador y te devuelve el indice de sus acciones usadas
     def __getFilaAcciones(self, jugadorIndex):
         filaAccionesIndex = const.ACCIONES_USADAS_JUGADOR1
         if(jugadorIndex == const.JUGADOR2):
             filaAccionesIndex = const.ACCIONES_USADAS_JUGADOR2
-            
         return filaAccionesIndex
     
+    #Se le pasa el indice del jugador y te devuelve el indice de su mano
     def __getMano(self, jugadorIndex):
         manoIndex = const.MANO_JUGADOR1
         if(jugadorIndex == const.JUGADOR2):
             manoIndex = const.MANO_JUGADOR2
         return manoIndex
     
+    #Se le pasa el indice de la mano del jugador y ordena su mano
     def __ordenarMano(self, manoIndex):
         manoList = self.__tablero[manoIndex]
         manoList = np.sort(manoList)
@@ -69,10 +73,11 @@ class Controller:
         self.__robarCarta()
         self.__repartoDeCartas()
         
-    def jugadorRobaCarta(self, jugador):
-        mano = self.__getMano(jugador)
-        self.__conseguirCarta(mano)
-        self.__ordenarMano(mano)
+    #Se le pasa el indice del jugador
+    def jugadorRobaCarta(self, jugadorIndex):
+        manoIndex = self.__getMano(jugadorIndex)
+        self.__conseguirCarta(manoIndex)
+        self.__ordenarMano(manoIndex)
     
     def getVistaTablero(self, jugadorIndex):
         if(jugadorIndex != const.JUGADOR1 and jugadorIndex != const.JUGADOR2):
@@ -124,50 +129,58 @@ class Controller:
         filaAcciones = self.__getFilaAcciones(jugadorIndex)
         manoIndex = self.__getMano(jugadorIndex)
             
-        if(accionArray[const.ACCION_REALIZADA] == const.TIPO_SECRETO): 
-            if(self.__tablero[filaAcciones][0] == 0):
-                self.__accion1(manoIndex, filaAcciones,
-                               accionArray[const.ACCION_1])
-            else:
-                raise Exception("Accion 1 ya usada")
+        if(accionArray[const.ACCION_REALIZADA] == const.TIPO_SECRETO):
+            self.__comprobarAccion1(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
+
             
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_RENUNCIA): 
-            if(self.__tablero[filaAcciones][1] == 0 and self.__tablero[filaAcciones][2] == 0):
-                self.__accion2(manoIndex, filaAcciones,
-                               accionArray[const.ACCION_2_1],
-                               accionArray[const.ACCION_2_2])
-            else:
-                raise Exception("Accion 2 ya usada")
+            self.__comprobarAccion2(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
             
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_REGALO): 
-            if(self.__tablero[filaAcciones][3] == 0):
-                self.__accion3(manoIndex, filaAcciones,
-                               accionArray[const.ACCION_3_1],
-                               accionArray[const.ACCION_3_2],
-                               accionArray[const.ACCION_3_3])
-            else:
-                raise Exception("Accion 3 ya usada")
+            self.__comprobarAccion3(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
             
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_COMPETICION): 
-            if(self.__tablero[filaAcciones][4] == 0):
-                self.__accion4(manoIndex, filaAcciones,
-                           accionArray[const.ACCION_4_1_1], 
-                           accionArray[const.ACCION_4_1_2], 
-                           accionArray[const.ACCION_4_2_1], 
-                           accionArray[const.ACCION_4_2_2])
-            else:
-                raise Exception("Accion 4 ya usada")
+            self.__comprobarAccion4(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
             
         else:
             raise Exception("Accion no encontrada")
+            
+    def __comprobarAccion1(self, manoIndex, filaAcciones, accionArray):
+        if(self.__tablero[filaAcciones][0] != 0):
+            raise Exception("Accion 1 ya usada")
+        #TODO: Comprobar que la carta exista en la mano
         
-    def __accion1(self, manoIndex, filaAccionesIndex, carta1):
+    def __comprobarAccion2(self, manoIndex, filaAcciones, accionArray):
+        if(self.__tablero[filaAcciones][1] != 0 or self.__tablero[filaAcciones][2] != 0):
+            raise Exception("Accion 2 ya usada")
+        #TODO: Comprobar que las cartas existan en la mano
+        
+    def __comprobarAccion3(self, manoIndex, filaAcciones, accionArray):
+        if(self.__tablero[filaAcciones][3] != 0):
+            raise Exception("Accion 3 ya usada")
+        #TODO: Comprobar que las cartas existan en la mano
+        
+    def __comprobarAccion4(self, manoIndex, filaAcciones, accionArray):
+        if(self.__tablero[filaAcciones][4] != 0):
+            raise Exception("Accion 4 ya usada")
+        #TODO: Comprobar que las cartas existan en la mano
+        
+        
+    def __guardarAccion1(self, manoIndex, filaAccionesIndex, accionArray):
+        carta1 = accionArray[const.ACCION_1]
         self.__tablero[filaAccionesIndex][const.TIPO_SECRETO] = carta1
         manoList = self.__tablero[manoIndex]
         manoList = self.__soltarCarta(manoList, carta1)
         self.__tablero[manoIndex] = manoList
         
-    def __accion2(self, manoIndex, filaAccionesIndex, carta1, carta2):
+    def __guardarAccion2(self, manoIndex, filaAccionesIndex, accionArray):
+        carta1 = accionArray[const.ACCION_2_1]
+        carta2 = accionArray[const.ACCION_2_2]
+        
         if(carta1 > carta2):
             carta1,carta2 = carta2,carta1
         
@@ -178,7 +191,11 @@ class Controller:
         manoList = self.__soltarCarta(manoList, carta2)
         self.__tablero[manoIndex] = manoList
         
-    def __accion3(self, manoIndex, filaAccionesIndex, carta1, carta2, carta3):
+    def __guardarAccion3(self, manoIndex, filaAccionesIndex, accionArray):
+        carta1 = accionArray[const.ACCION_3_1]
+        carta2 = accionArray[const.ACCION_3_2]
+        carta3 = accionArray[const.ACCION_3_3]
+        
         self.__tablero[filaAccionesIndex][const.TIPO_REGALO] = 1
         #TODO: Preparar decision
         manoList = self.__tablero[manoIndex]
@@ -188,7 +205,12 @@ class Controller:
         self.__tablero[manoIndex] = manoList
         
         
-    def __accion4(self, manoIndex, filaAccionesIndex, carta1, carta2, carta3, carta4):
+    def __guardarAccion4(self, manoIndex, filaAccionesIndex, accionArray):
+        
+        carta1 = accionArray[const.ACCION_4_1_1]
+        carta2 = accionArray[const.ACCION_4_1_2]
+        carta3 = accionArray[const.ACCION_4_2_1]
+        carta4 = accionArray[const.ACCION_4_2_2]
         self.__tablero[filaAccionesIndex][const.TIPO_COMPETICION] = 1
         #TODO: Preparar decision
         manoList = self.__tablero[manoIndex]
