@@ -29,13 +29,15 @@ class UI_pront:
             
         self.win = self.c.hacerRecuento()
         
-    def __accion(self, jugador1, jugador2, bot1, bot2):
+    def __accion(self, jugador1, jugador2, botSeleccionadoComo1, botSeleccionadoComo2):
         self.c.jugadorRobaCarta(jugador1)
         tablero = self.c.getVistaTablero(jugador1)
-        accion = bot1.decidirAccion(tablero)
+        accion = botSeleccionadoComo1.decidirAccion(tablero)
         self.c.realizarAccion(jugador1, accion)
         
         if(self.c.hayAccionPendiente()):
-            self.c.borrarAccionPendiente__() #TODO: Aqui el bot tiene que decidir
+            tablero = self.c.getVistaTablero(jugador2)
+            accionDeSeleccion = botSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
+            self.c.realizarAccion(jugador2, accionDeSeleccion)
 
 ui = UI_pront()

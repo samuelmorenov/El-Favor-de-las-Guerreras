@@ -109,6 +109,58 @@ class BotTonto:
             accionCompleta[const.ACCION_4_2_1] = cartasSeleccionadas.pop(0)
             accionCompleta[const.ACCION_4_2_2] = cartasSeleccionadas.pop(0)
             
+        else:
+            raise Exception("Error al encontrar accion en bot")
+            
+        print("- Esta es la accion completa que realizo:")
+        print(accionCompleta)
+        print("\033[0m",end="")
+        print("___________________________________") #Separador de bots
+        return accionCompleta
+    
+    def decidirAccionDeSeleccion(self, tablero):
+        
+        if(self.__yo == "Bot 1"):
+            print("\033[;33m",end="") #Amarillo
+        if(self.__yo == "Bot 2"):
+            print("\033[;36m",end="") #Cian
+        
+        
+        print("Soy "+self.__yo)
+        
+        print("- Esta es la accion pendiente que me llega:")
+        print(tablero[const.ACCION_PENDIENTE])
+        
+        accionPendienteList = tablero[const.ACCION_PENDIENTE]
+        accionPendienteTipo = accionPendienteList[const.PENDIENTE_TIPO]
+        
+        accionCompleta = np.zeros(const.NCOLUMNA, dtype=int)
+        accionCompleta[const.ACCION_REALIZADA] = accionPendienteTipo
+        
+        if(accionPendienteTipo == const.TIPO_DECISION_REGALO):
+            cartasList = []
+            cartasList.append(accionPendienteList[const.PENDIENTE_5_1]) 
+            cartasList.append(accionPendienteList[const.PENDIENTE_5_2])
+            cartasList.append(accionPendienteList[const.PENDIENTE_5_3])
+            
+            posicion = np.random.randint(len(cartasList))
+            carta = cartasList.pop(posicion)
+            accionCompleta[const.PENDIENTE_5_ELEGIDA] = carta
+            
+        elif(accionPendienteTipo == const.TIPO_DECISION_COMPETICION):
+
+            cartasElegidas = np.random.randint(2)
+            
+            if(cartasElegidas == 1):
+                accionCompleta[const.PENDIENTE_6_ELEGIDA_1] = accionPendienteList[const.PENDIENTE_6_1_1]
+                accionCompleta[const.PENDIENTE_6_ELEGIDA_2] = accionPendienteList[const.PENDIENTE_6_1_2]
+            else:
+                accionCompleta[const.PENDIENTE_6_ELEGIDA_1] = accionPendienteList[const.PENDIENTE_6_2_1]
+                accionCompleta[const.PENDIENTE_6_ELEGIDA_2] = accionPendienteList[const.PENDIENTE_6_2_2]
+                        
+        else:
+            raise Exception("Error al encontrar accion en bot")
+        
         print("- Esta es la accion completa que realizo:")
         print(accionCompleta)
         print("\033[0m",end="")

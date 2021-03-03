@@ -146,27 +146,46 @@ class Controller:
             self.__comprobarAccion4(manoIndex, filaAcciones, accionArray)
             self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
             
+        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_DECISION_REGALO): 
+            self.__comprobarAccionDecision3(jugadorIndex, accionArray)
+            self.__guardarAccionDecision3(jugadorIndex, accionArray)
+        
+        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_DECISION_COMPETICION): 
+            self.__comprobarAccionDecision4(jugadorIndex, accionArray)
+            self.__guardarAccionDecision4(jugadorIndex, accionArray)
+            
         else:
             raise Exception("Accion no encontrada")
             
     def __comprobarAccion1(self, manoIndex, filaAcciones, accionArray):
-        if(self.__tablero[filaAcciones][0] != 0):
+        if(self.__tablero[filaAcciones][const.TIPO_SECRETO] != 0):
             raise Exception("Accion 1 ya usada")
         #TODO: Comprobar que la carta exista en la mano
         
     def __comprobarAccion2(self, manoIndex, filaAcciones, accionArray):
-        if(self.__tablero[filaAcciones][1] != 0 or self.__tablero[filaAcciones][2] != 0):
+        if(self.__tablero[filaAcciones][const.TIPO_RENUNCIA_1] != 0 
+           or self.__tablero[filaAcciones][const.TIPO_RENUNCIA_2] != 0):
             raise Exception("Accion 2 ya usada")
         #TODO: Comprobar que las cartas existan en la mano
         
     def __comprobarAccion3(self, manoIndex, filaAcciones, accionArray):
-        if(self.__tablero[filaAcciones][3] != 0):
+        if(self.__tablero[filaAcciones][const.TIPO_REGALO] != 0):
             raise Exception("Accion 3 ya usada")
         #TODO: Comprobar que las cartas existan en la mano
         
     def __comprobarAccion4(self, manoIndex, filaAcciones, accionArray):
-        if(self.__tablero[filaAcciones][4] != 0):
+        if(self.__tablero[filaAcciones][const.TIPO_COMPETICION] != 0):
             raise Exception("Accion 4 ya usada")
+        #TODO: Comprobar que las cartas existan en la mano
+        
+    def __comprobarAccionDecision3(self, manoIndex, accionArray):
+        if(self.__tablero[const.ACCION_PENDIENTE][const.TIPO_SECRETO] != const.TIPO_DECISION_REGALO):
+            raise Exception("Accion de decision 3 no disponible")
+        #TODO: Comprobar que la carta exista en la 
+        
+    def __comprobarAccionDecision4(self, manoIndex, accionArray):
+        if(self.__tablero[const.ACCION_PENDIENTE][const.TIPO_SECRETO] != const.TIPO_DECISION_COMPETICION):
+            raise Exception("Accion de decision 4 no disponible")
         #TODO: Comprobar que las cartas existan en la mano
         
         
@@ -204,10 +223,10 @@ class Controller:
         decisionList = self.__tablero[const.ACCION_PENDIENTE]
         cartasList = np.array([carta1, carta2, carta3])
         cartasListOrdenada = np.sort(cartasList)
-        decisionList[const.PENDIENTE_3_1] = cartasListOrdenada[0]
-        decisionList[const.PENDIENTE_3_2] = cartasListOrdenada[1]
-        decisionList[const.PENDIENTE_3_3] = cartasListOrdenada[2]
-        decisionList[const.PENDIENTE_TIPO] = const.TIPO_REGALO
+        decisionList[const.PENDIENTE_5_1] = cartasListOrdenada[0]
+        decisionList[const.PENDIENTE_5_2] = cartasListOrdenada[1]
+        decisionList[const.PENDIENTE_5_3] = cartasListOrdenada[2]
+        decisionList[const.PENDIENTE_TIPO] = const.TIPO_DECISION_REGALO
         
         #Eliminar cartas de la mano
         manoList = self.__tablero[manoIndex]
@@ -231,11 +250,11 @@ class Controller:
         decisionList = self.__tablero[const.ACCION_PENDIENTE]
         cartasList = np.array([carta1, carta2, carta3, carta4])
         cartasListOrdenada = np.sort(cartasList)
-        decisionList[const.PENDIENTE_4_1_1] = cartasListOrdenada[0]
-        decisionList[const.PENDIENTE_4_1_2] = cartasListOrdenada[1]
-        decisionList[const.PENDIENTE_4_2_1] = cartasListOrdenada[2]
-        decisionList[const.PENDIENTE_4_2_2] = cartasListOrdenada[3]
-        decisionList[const.PENDIENTE_TIPO] = const.TIPO_COMPETICION
+        decisionList[const.PENDIENTE_6_1_1] = cartasListOrdenada[0]
+        decisionList[const.PENDIENTE_6_1_2] = cartasListOrdenada[1]
+        decisionList[const.PENDIENTE_6_2_1] = cartasListOrdenada[2]
+        decisionList[const.PENDIENTE_6_2_2] = cartasListOrdenada[3]
+        decisionList[const.PENDIENTE_TIPO] = const.TIPO_DECISION_COMPETICION
         
         #Eliminar cartas de la mano
         manoList = self.__tablero[manoIndex]
@@ -245,14 +264,22 @@ class Controller:
         manoList = self.__soltarCarta(manoList, carta4)
         self.__tablero[manoIndex] = manoList
         
+    
+    def __guardarAccionDecision3(self, jugadorIndex, accionArray):
+        self.__borrarAccionPendiente__()
+        #TODO
+        
+    def __guardarAccionDecision4(self, jugadorIndex, accionArray):
+        self.__borrarAccionPendiente__()
+        #TODO
+        
     def hayAccionPendiente(self):
         pendiente = self.__tablero[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO]
         return pendiente != 0
     
-    def borrarAccionPendiente__(self):
+    def __borrarAccionPendiente__(self):
         #TODO: Metodo provisitional, hay que borrarlo
-        print("Borrada accion pendiente:")
-        print(self.__tablero[const.ACCION_PENDIENTE])
+        print("Borrada accion pendiente....")
         print("___________________________________")
         self.__tablero[const.ACCION_PENDIENTE] = np.zeros(const.NCOLUMNA, dtype=int)
         
