@@ -13,6 +13,10 @@ class Controller:
     def __initMazo(self):
         self.__mazoArmas = [1,1,2,2,3,3,4,4,4,5,5,5,6,6,6,6,7,7,7,7,7]
         
+    def __borrarAcciones(self):
+        self.__tablero[const.ACCIONES_USADAS_JUGADOR1] = np.zeros(const.NCOLUMNA, dtype=int)
+        self.__tablero[const.ACCIONES_USADAS_JUGADOR2] = np.zeros(const.NCOLUMNA, dtype=int)
+        
     #Elimina del mazo de cartas una carta random y la devuelve en el return
     def __robarCarta(self):
         if(len(self.__mazoArmas) < 1):
@@ -241,14 +245,45 @@ class Controller:
         #Reseteamos la accion de seleccion
         self.__tablero[const.ACCION_PENDIENTE] = np.zeros(const.NCOLUMNA, dtype=int)
         
+    def __guardarSecreto(self, accionesJugadorIndex, filaArmasIndex):
+        carta = self.__tablero[accionesJugadorIndex][const.TIPO_SECRETO]
+        self.__sumarCarta(filaArmasIndex, carta)
+        
     def __sumarCarta(self, filaArmasIndex, carta):
         self.__tablero[filaArmasIndex][carta-1] = self.__tablero[filaArmasIndex][carta-1]+1
+        
+    def __getGanador(self):
+        puntosGuerreras = [2, 2, 2, 3, 3, 4, 5]
+        puntosJugador1 = 0
+        puntosJugador2 = 0
+        favorJugador1 = 0
+        favorJugador2 = 0
+        
+        for i in range(const.NCOLUMNA):
+            if(self.__tablero[const.FAVOR_DE_GUERRERA][i] == 1):
+                puntosJugador1 = puntosJugador1 + puntosGuerreras[i]
+                favorJugador1 = favorJugador1 + 1
+            elif(self.__tablero[const.FAVOR_DE_GUERRERA][i] == 2):
+                puntosJugador2 = puntosJugador2 + puntosGuerreras[i]
+                favorJugador2 = favorJugador2 + 1
+            
+        if(puntosJugador1 >= 11):
+            return 1
+        elif (puntosJugador2 >= 11):
+            return 2
+        elif (favorJugador1 >= 4):
+            return 1
+        elif (favorJugador2 >= 4):
+            return 2
+        else:
+            return 0
 
     #Se inicializa el mazo con todas las cartas menos una y se reparten las cartas iniciales
     def initRonda(self):
         self.__initMazo()
         self.__robarCarta()
         self.__repartoDeCartas()
+        self.__borrarAcciones()
         
     #Se le pasa el indice del jugador
     def jugadorRobaCarta(self, jugadorIndex):
@@ -337,31 +372,23 @@ class Controller:
     def hayAccionPendiente(self):
         pendiente = self.__tablero[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO]
         return pendiente != 0
-    
-    def __borrarAccionPendiente__(self):
-        #TODO: Metodo provisitional, hay que borrarlo
-        print("Borrada accion pendiente....")
-        print("___________________________________")
-        self.__tablero[const.ACCION_PENDIENTE] = np.zeros(const.NCOLUMNA, dtype=int)
         
-    def hacerRecuento(self):
-        #TODO
-        print("Haciendo recuento... Fin de pertida")
+    def finalizarTurno(self):
+        self.__guardarSecreto(const.ACCIONES_USADAS_JUGADOR1, const.ARMAS_USADAS_JUGADOR1)
+        self.__guardarSecreto(const.ACCIONES_USADAS_JUGADOR2, const.ARMAS_USADAS_JUGADOR2)
+        
+        for i in range(const.NCOLUMNA):
+            armas1 = self.__tablero[const.ARMAS_USADAS_JUGADOR1][i]
+            armas2 = self.__tablero[const.ARMAS_USADAS_JUGADOR2][i]
+            
+            if(armas1 > armas2):
+                self.__tablero[const.FAVOR_DE_GUERRERA][i] = 1
+            elif(armas2 > armas1):
+                self.__tablero[const.FAVOR_DE_GUERRERA][i] = 2
+                
+        return self.__getGanador()
+    
+    def printTableroCompleto(self):
         print(self.__tablero)
-        return True
     
-        
-        
-        
-"""
-    #Metodos auxiliares, en el futuno deben ser borrados
-    
-    def printMazo(self):
-        print("Mazo:")
-        print(self.__mazoArmas)
-        
-    def printTablero(self):
-        print("Tablero:")
-        print(self.__tablero)
-          
-#"""
+

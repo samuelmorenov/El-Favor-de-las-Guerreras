@@ -4,6 +4,9 @@ N_CARTAS_INICIAL = 6
 
 N_ACCIONES = 4
 
+NFILA = 8 #Este numero depende de el numero de filas definidas arriba
+NCOLUMNA = 7 #Este numero depende del numero maximo de cartas en la mano
+
 JUGADOR1 = 0
 JUGADOR2 = 1
 
@@ -35,10 +38,6 @@ Si es la accion 4:
     Se guarda la opcion 2 en las posiciones 3 y 4
 """
 ACCION_PENDIENTE = 7
-
-NFILA = 8 #Este numero depende de el numero de filas definidas arriba
-NCOLUMNA = 7 #Este numero depende del numero maximo de cartas en la mano
-
 """
 Posicion 0 guarda el secreto
 Posicion 1 y 2 guarda la renuncia

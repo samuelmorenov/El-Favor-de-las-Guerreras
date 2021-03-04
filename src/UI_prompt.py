@@ -9,13 +9,13 @@ import Constantes as const
 class UI_pront:
     def __init__(self):
         self.c = Controller()
-        self.win = False
+        self.win = 0
         self.bot1 = BotTonto("Bot 1")
         self.bot2 = BotTonto("Bot 2")
-        self.__partida()
+        self.__jugarPartida()
         
-    def __partida(self):
-        while (self.win == False):
+    def __jugarPartida(self):
+        while (self.win == 0):
             self.__turno()
             
     def __turno(self):
@@ -27,7 +27,11 @@ class UI_pront:
             self.__accion(const.JUGADOR1, const.JUGADOR2, self.bot1, self.bot2)
             self.__accion(const.JUGADOR2, const.JUGADOR1, self.bot2, self.bot1)
             
-        self.win = self.c.hacerRecuento()
+        self.win = self.c.finalizarTurno()
+        
+        self.c.printTableroCompleto()
+        if(self.win != 0):
+            print("Ha ganado el jugador: "+str(self.win))
         
     def __accion(self, jugador1, jugador2, botSeleccionadoComo1, botSeleccionadoComo2):
         self.c.jugadorRobaCarta(jugador1)
