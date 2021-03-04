@@ -43,7 +43,7 @@ class Controller:
         manoList = np.append(manoList, cartaNula)
         return manoList
         
-    #Se le pasa el array de la mano y el valor de la carta a eliminar (puede ser 0)
+    #Se le pasa el array y el valor, devuelve el array eliminando el valor 1 vez
     def __eliminarCarta(self, lista, valor):
         return np.delete(lista, np.argwhere(lista == valor)[0])
     
@@ -177,12 +177,39 @@ class Controller:
         
     
     def __guardarAccionDecision3(self, jugadorIndex, accionArray):
-        self.__borrarAccionPendiente__()
-        #TODO
+
+        #Obtenemos el index de las armas del jugador y del adversario
+        armasJugadorIndex = const.ARMAS_USADAS_JUGADOR1
+        armasAdversarioIndex = const.ARMAS_USADAS_JUGADOR2
+        if(jugadorIndex == const.JUGADOR2):
+            armasJugadorIndex = const.ARMAS_USADAS_JUGADOR2
+            armasAdversarioIndex = const.ARMAS_USADAS_JUGADOR1
+        
+        #Obtenemos un array con las cartas
+        accionPendienteList = self.__tablero[const.ACCION_PENDIENTE]
+        cartasList = np.array([accionPendienteList[const.PENDIENTE_5_1],
+                              accionPendienteList[const.PENDIENTE_5_2],
+                              accionPendienteList[const.PENDIENTE_5_3]])
+        
+        #Eliminamos la carta obtenida del array y se la añadimos al jugador
+        cartaElegida = accionArray[const.PENDIENTE_5_ELEGIDA]
+        cartasList = self.__eliminarCarta(cartasList, cartaElegida)
+        self.__sumarCarta(armasJugadorIndex, cartaElegida)
+        
+        #Añadimos al adversario sus cartas
+        self.__sumarCarta(armasAdversarioIndex, cartasList[0])
+        self.__sumarCarta(armasAdversarioIndex, cartasList[1])
+        
+        #Reseteamos la accion de seleccion
+        self.__tablero[const.ACCION_PENDIENTE] = np.zeros(const.NCOLUMNA, dtype=int)
+        
         
     def __guardarAccionDecision4(self, jugadorIndex, accionArray):
         self.__borrarAccionPendiente__()
         #TODO
+        
+    def __sumarCarta(self, filaArmasIndex, carta):
+        self.__tablero[filaArmasIndex][carta-1] = self.__tablero[filaArmasIndex][carta-1]+1
 
     #Se inicializa el mazo con todas las cartas menos una y se reparten las cartas iniciales
     def initRonda(self):
