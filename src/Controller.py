@@ -205,8 +205,41 @@ class Controller:
         
         
     def __guardarAccionDecision4(self, jugadorIndex, accionArray):
-        self.__borrarAccionPendiente__()
-        #TODO
+        #Obtenemos el index de las armas del jugador y del adversario
+        armasJugadorIndex = const.ARMAS_USADAS_JUGADOR1
+        armasAdversarioIndex = const.ARMAS_USADAS_JUGADOR2
+        if(jugadorIndex == const.JUGADOR2):
+            armasJugadorIndex = const.ARMAS_USADAS_JUGADOR2
+            armasAdversarioIndex = const.ARMAS_USADAS_JUGADOR1
+        
+        #Obtenemos un array con las cartas
+        accionPendienteList = self.__tablero[const.ACCION_PENDIENTE]
+        cartasList1 = np.array([accionPendienteList[const.PENDIENTE_6_1_1],
+                              accionPendienteList[const.PENDIENTE_6_1_2]])
+        cartasList2 = np.array([accionPendienteList[const.PENDIENTE_6_2_1],
+                              accionPendienteList[const.PENDIENTE_6_2_2]])
+        
+        #Eliminamos la carta obtenida del array y se la añadimos al jugador
+        cartasElegidas = np.array([accionPendienteList[const.PENDIENTE_6_ELEGIDA_1],
+                              accionPendienteList[const.PENDIENTE_6_ELEGIDA_2]])
+    
+        #Dependiendo de que cartas se hayan elegido se dan a un jugador o a otro
+        comparison1 = cartasList1 == cartasElegidas
+        
+        if(comparison1.all()):
+            self.__sumarCarta(armasJugadorIndex, cartasList1[0])
+            self.__sumarCarta(armasJugadorIndex, cartasList1[1])
+            self.__sumarCarta(armasAdversarioIndex, cartasList2[0])
+            self.__sumarCarta(armasAdversarioIndex, cartasList2[1])
+            
+        else:
+            self.__sumarCarta(armasJugadorIndex, cartasList2[0])
+            self.__sumarCarta(armasJugadorIndex, cartasList2[1])
+            self.__sumarCarta(armasAdversarioIndex, cartasList1[0])
+            self.__sumarCarta(armasAdversarioIndex, cartasList1[1])
+            
+        #Reseteamos la accion de seleccion
+        self.__tablero[const.ACCION_PENDIENTE] = np.zeros(const.NCOLUMNA, dtype=int)
         
     def __sumarCarta(self, filaArmasIndex, carta):
         self.__tablero[filaArmasIndex][carta-1] = self.__tablero[filaArmasIndex][carta-1]+1
