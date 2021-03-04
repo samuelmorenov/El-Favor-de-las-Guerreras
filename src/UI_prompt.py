@@ -15,23 +15,29 @@ class UI_pront:
         self.__jugarPartida()
         
     def __jugarPartida(self):
+        contadorRondas = 1
         while (self.win == 0):
-            self.__turno()
+            self.__turno(contadorRondas)
+            self.win = self.c.finalizarTurno()
+            if(self.win != 0):
+                print("Ha ganado el jugador: "+str(self.win))
+            contadorRondas = contadorRondas + 1
             
-    def __turno(self):
+    def __turno(self, contadorRondas):
         self.c.initRonda()
-        print("Inicio de ronda")
+        print("Inicio de ronda "+str(contadorRondas))
+        self.c.printTableroCompleto()
         
         for i in range(const.N_ACCIONES):
             print("Inicio de turno "+str(i))
             self.__accion(const.JUGADOR1, const.JUGADOR2, self.bot1, self.bot2)
             self.__accion(const.JUGADOR2, const.JUGADOR1, self.bot2, self.bot1)
-            
-        self.win = self.c.finalizarTurno()
         
         self.c.printTableroCompleto()
-        if(self.win != 0):
-            print("Ha ganado el jugador: "+str(self.win))
+        print("Fin de ronda " +str(contadorRondas))
+            
+
+
         
     def __accion(self, jugador1, jugador2, botSeleccionadoComo1, botSeleccionadoComo2):
         self.c.jugadorRobaCarta(jugador1)

@@ -17,6 +17,10 @@ class Controller:
         self.__tablero[const.ACCIONES_USADAS_JUGADOR1] = np.zeros(const.NCOLUMNA, dtype=int)
         self.__tablero[const.ACCIONES_USADAS_JUGADOR2] = np.zeros(const.NCOLUMNA, dtype=int)
         
+    def __borrarArmas(self):
+        self.__tablero[const.ARMAS_USADAS_JUGADOR1] = np.zeros(const.NCOLUMNA, dtype=int)
+        self.__tablero[const.ARMAS_USADAS_JUGADOR2] = np.zeros(const.NCOLUMNA, dtype=int)
+        
     #Elimina del mazo de cartas una carta random y la devuelve en el return
     def __robarCarta(self):
         if(len(self.__mazoArmas) < 1):
@@ -284,6 +288,7 @@ class Controller:
         self.__robarCarta()
         self.__repartoDeCartas()
         self.__borrarAcciones()
+        self.__borrarArmas()
         
     #Se le pasa el indice del jugador
     def jugadorRobaCarta(self, jugadorIndex):
