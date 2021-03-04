@@ -44,8 +44,8 @@ class Controller:
         return manoList
         
     #Se le pasa el array de la mano y el valor de la carta a eliminar (puede ser 0)
-    def __eliminarCarta(self, manoList, cartaValue):
-        return np.delete(manoList, np.argwhere(manoList == cartaValue)[0])
+    def __eliminarCarta(self, lista, valor):
+        return np.delete(lista, np.argwhere(lista == valor)[0])
     
     #Se le pasa el indice del jugador y te devuelve el indice de sus acciones usadas
     def __getFilaAcciones(self, jugadorIndex):
@@ -66,97 +66,8 @@ class Controller:
         manoList = self.__tablero[manoIndex]
         manoList = np.sort(manoList)
         self.__tablero[manoIndex] = manoList
-
-    #Se inicializa el mazo con todas las cartas menos una y se reparten las cartas iniciales
-    def initRonda(self):
-        self.__initMazo()
-        self.__robarCarta()
-        self.__repartoDeCartas()
         
-    #Se le pasa el indice del jugador
-    def jugadorRobaCarta(self, jugadorIndex):
-        manoIndex = self.__getMano(jugadorIndex)
-        self.__conseguirCarta(manoIndex)
-        self.__ordenarMano(manoIndex)
-    
-    def getVistaTablero(self, jugadorIndex):
-        if(jugadorIndex != const.JUGADOR1 and jugadorIndex != const.JUGADOR2):
-            raise Exception("Jugador no existente")
         
-        tableroParcial = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
-        
-        """MANO"""
-        manoIndex = self.__getMano(jugadorIndex)
-        tableroParcial[const.MANO_JUGADOR1] = self.__tablero[manoIndex].copy()
-
-        """ACCIONES"""
-        accionesJugador = const.ACCIONES_USADAS_JUGADOR1
-        accionesAdversario = const.ACCIONES_USADAS_JUGADOR2
-        if(jugadorIndex == const.JUGADOR2):
-            accionesJugador = const.ACCIONES_USADAS_JUGADOR2
-            accionesAdversario = const.ACCIONES_USADAS_JUGADOR1
-        
-        tableroParcial[const.ACCIONES_USADAS_JUGADOR1] = self.__tablero[accionesJugador].copy()
-
-        accionesVistas = self.__tablero[accionesAdversario].copy()
-        accionesOcultas = np.zeros(const.NCOLUMNA, dtype=int)
-        for i in range(const.NCOLUMNA):
-            if(accionesVistas[i] != 0):
-                accionesOcultas[i] = 1
-            
-        tableroParcial[const.ACCIONES_USADAS_JUGADOR2] =  accionesOcultas
-        
-        """ARMAS USADAS"""
-        armasJugador = const.ARMAS_USADAS_JUGADOR1
-        armasAdversario = const.ARMAS_USADAS_JUGADOR2
-        if(jugadorIndex == const.JUGADOR2):
-            armasJugador = const.ARMAS_USADAS_JUGADOR2
-            armasAdversario = const.ARMAS_USADAS_JUGADOR1
-        
-        tableroParcial[const.ARMAS_USADAS_JUGADOR1] = self.__tablero[armasJugador].copy()
-        tableroParcial[const.ARMAS_USADAS_JUGADOR2] = self.__tablero[armasAdversario].copy()
-        
-        tableroParcial[const.FAVOR_DE_GUERRERA] = self.__tablero[const.FAVOR_DE_GUERRERA].copy()
-        tableroParcial[const.ACCION_PENDIENTE] = self.__tablero[const.ACCION_PENDIENTE].copy()
-        
-        return tableroParcial.copy()
-    
-    
-    def realizarAccion(self, jugadorIndex, accionArray):
-        if(jugadorIndex != const.JUGADOR1 and jugadorIndex != const.JUGADOR2):
-            raise Exception("Jugador no existente")
-            
-        filaAcciones = self.__getFilaAcciones(jugadorIndex)
-        manoIndex = self.__getMano(jugadorIndex)
-            
-        if(accionArray[const.ACCION_REALIZADA] == const.TIPO_SECRETO):
-            self.__comprobarAccion1(manoIndex, filaAcciones, accionArray)
-            self.__guardarAccion1(manoIndex, filaAcciones, accionArray)
-
-            
-        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_RENUNCIA): 
-            self.__comprobarAccion2(manoIndex, filaAcciones, accionArray)
-            self.__guardarAccion2(manoIndex, filaAcciones, accionArray)
-            
-        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_REGALO): 
-            self.__comprobarAccion3(manoIndex, filaAcciones, accionArray)
-            self.__guardarAccion3(manoIndex, filaAcciones, accionArray)
-            
-        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_COMPETICION): 
-            self.__comprobarAccion4(manoIndex, filaAcciones, accionArray)
-            self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
-            
-        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_DECISION_REGALO): 
-            self.__comprobarAccionDecision3(jugadorIndex, accionArray)
-            self.__guardarAccionDecision3(jugadorIndex, accionArray)
-        
-        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_DECISION_COMPETICION): 
-            self.__comprobarAccionDecision4(jugadorIndex, accionArray)
-            self.__guardarAccionDecision4(jugadorIndex, accionArray)
-            
-        else:
-            raise Exception("Accion no encontrada")
-            
     def __comprobarAccion1(self, manoIndex, filaAcciones, accionArray):
         if(self.__tablero[filaAcciones][const.TIPO_SECRETO] != 0):
             raise Exception("Accion 1 ya usada")
@@ -272,7 +183,97 @@ class Controller:
     def __guardarAccionDecision4(self, jugadorIndex, accionArray):
         self.__borrarAccionPendiente__()
         #TODO
+
+    #Se inicializa el mazo con todas las cartas menos una y se reparten las cartas iniciales
+    def initRonda(self):
+        self.__initMazo()
+        self.__robarCarta()
+        self.__repartoDeCartas()
         
+    #Se le pasa el indice del jugador
+    def jugadorRobaCarta(self, jugadorIndex):
+        manoIndex = self.__getMano(jugadorIndex)
+        self.__conseguirCarta(manoIndex)
+        self.__ordenarMano(manoIndex)
+    
+    def getVistaTablero(self, jugadorIndex):
+        if(jugadorIndex != const.JUGADOR1 and jugadorIndex != const.JUGADOR2):
+            raise Exception("Jugador no existente")
+        
+        tableroParcial = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
+        
+        """MANO"""
+        manoIndex = self.__getMano(jugadorIndex)
+        tableroParcial[const.MANO_JUGADOR1] = self.__tablero[manoIndex].copy()
+
+        """ACCIONES"""
+        accionesJugador = const.ACCIONES_USADAS_JUGADOR1
+        accionesAdversario = const.ACCIONES_USADAS_JUGADOR2
+        if(jugadorIndex == const.JUGADOR2):
+            accionesJugador = const.ACCIONES_USADAS_JUGADOR2
+            accionesAdversario = const.ACCIONES_USADAS_JUGADOR1
+        
+        tableroParcial[const.ACCIONES_USADAS_JUGADOR1] = self.__tablero[accionesJugador].copy()
+
+        accionesVistas = self.__tablero[accionesAdversario].copy()
+        accionesOcultas = np.zeros(const.NCOLUMNA, dtype=int)
+        for i in range(const.NCOLUMNA):
+            if(accionesVistas[i] != 0):
+                accionesOcultas[i] = 1
+            
+        tableroParcial[const.ACCIONES_USADAS_JUGADOR2] =  accionesOcultas
+        
+        """ARMAS USADAS"""
+        armasJugador = const.ARMAS_USADAS_JUGADOR1
+        armasAdversario = const.ARMAS_USADAS_JUGADOR2
+        if(jugadorIndex == const.JUGADOR2):
+            armasJugador = const.ARMAS_USADAS_JUGADOR2
+            armasAdversario = const.ARMAS_USADAS_JUGADOR1
+        
+        tableroParcial[const.ARMAS_USADAS_JUGADOR1] = self.__tablero[armasJugador].copy()
+        tableroParcial[const.ARMAS_USADAS_JUGADOR2] = self.__tablero[armasAdversario].copy()
+        
+        tableroParcial[const.FAVOR_DE_GUERRERA] = self.__tablero[const.FAVOR_DE_GUERRERA].copy()
+        tableroParcial[const.ACCION_PENDIENTE] = self.__tablero[const.ACCION_PENDIENTE].copy()
+        
+        return tableroParcial.copy()
+    
+    
+    def realizarAccion(self, jugadorIndex, accionArray):
+        if(jugadorIndex != const.JUGADOR1 and jugadorIndex != const.JUGADOR2):
+            raise Exception("Jugador no existente")
+            
+        filaAcciones = self.__getFilaAcciones(jugadorIndex)
+        manoIndex = self.__getMano(jugadorIndex)
+            
+        if(accionArray[const.ACCION_REALIZADA] == const.TIPO_SECRETO):
+            self.__comprobarAccion1(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion1(manoIndex, filaAcciones, accionArray)
+
+            
+        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_RENUNCIA): 
+            self.__comprobarAccion2(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion2(manoIndex, filaAcciones, accionArray)
+            
+        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_REGALO): 
+            self.__comprobarAccion3(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion3(manoIndex, filaAcciones, accionArray)
+            
+        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_COMPETICION): 
+            self.__comprobarAccion4(manoIndex, filaAcciones, accionArray)
+            self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
+            
+        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_DECISION_REGALO): 
+            self.__comprobarAccionDecision3(jugadorIndex, accionArray)
+            self.__guardarAccionDecision3(jugadorIndex, accionArray)
+        
+        elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_DECISION_COMPETICION): 
+            self.__comprobarAccionDecision4(jugadorIndex, accionArray)
+            self.__guardarAccionDecision4(jugadorIndex, accionArray)
+            
+        else:
+            raise Exception("Accion no encontrada")
+            
     def hayAccionPendiente(self):
         pendiente = self.__tablero[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO]
         return pendiente != 0
