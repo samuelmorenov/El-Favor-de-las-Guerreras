@@ -19,8 +19,12 @@ class UI_pront:
         while (self.win == 0):
             self.__turno(contadorRondas)
             self.win = self.c.finalizarTurno()
-            if(self.win != 0):
-                print("Ha ganado el jugador: "+str(self.win))
+            if(self.win == 1):
+                print("Ha ganado el "+str(self.bot1.yo))
+            elif(self.win == 2):
+                print("Ha ganado el "+str(self.bot2.yo))
+            else:
+                self.bot1, self.bot2 = self.bot2, self.bot1
             contadorRondas = contadorRondas + 1
             
     def __turno(self, contadorRondas):

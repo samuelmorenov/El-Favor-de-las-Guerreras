@@ -8,18 +8,18 @@ LOG = False
 
 class BotTonto:
     def __init__(self, yo):
-        self.__yo = yo
+        self.yo = yo
         
         
     def decidirAccion(self, tablero):
 
-        if(self.__yo == "Bot 1"):
+        if(self.yo == "Bot 1"):
             print("\033[;33m",end="") #Amarillo
-        if(self.__yo == "Bot 2"):
+        if(self.yo == "Bot 2"):
             print("\033[;36m",end="") #Cian
         
         
-        print("Soy "+self.__yo)
+        print("Soy "+self.yo)
         
         print("- Este es el tablero que me llega:")
         print(tablero)
@@ -120,13 +120,13 @@ class BotTonto:
     
     def decidirAccionDeSeleccion(self, tablero):
         
-        if(self.__yo == "Bot 1"):
+        if(self.yo == "Bot 1"):
             print("\033[;33m",end="") #Amarillo
-        if(self.__yo == "Bot 2"):
+        if(self.yo == "Bot 2"):
             print("\033[;36m",end="") #Cian
         
         
-        print("Soy "+self.__yo)
+        print("Soy "+self.yo)
         
         print("- Esta es la accion pendiente que me llega:")
         print(tablero[const.ACCION_PENDIENTE])
