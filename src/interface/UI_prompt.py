@@ -56,6 +56,3 @@ class UI_prompt:
             tablero = self.c.getVistaTablero(jugador2)
             accionDeSeleccion = botSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
             self.c.realizarAccion(jugador2, accionDeSeleccion)
-
-if __name__ == "__main__":
-    ui = UI_prompt()

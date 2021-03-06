@@ -28,34 +28,35 @@ GUERRERA7 = pygame.transform.scale(GUERRERA7_IMAGEN, CARTAS_SIZE)
 
 FPS = 60
 
-def draw_window():
-    WIN.fill(BACKGROUND_COLOR)
-    WIN.blit(GUERRERA1, (100, 250))
-    WIN.blit(GUERRERA2, (200, 250))
-    WIN.blit(GUERRERA3, (300, 250))
-    WIN.blit(GUERRERA4, (400, 250))
-    WIN.blit(GUERRERA5, (500, 250))
-    WIN.blit(GUERRERA6, (600, 250))
-    WIN.blit(GUERRERA7, (700, 250))
-    pygame.display.update()
+class GUI_pygame:
+    def __init__(self):
+        self.start()
 
-def start():
-    clock = pygame.time.Clock()
-    run = True
-    while run:
-        clock.tick(FPS)
-        for event in pygame.event.get():
-            #Para cerrar el juego, comprobamos si el usuario ha cerrado la ventana
-            if( event.type == pygame.QUIT):
-                run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                # Set the x, y postions of the mouse click
-                x, y = event.pos
-                print("clicked x= "+str(x)+", y = "+str(y))
-                
-        draw_window()        
-        
-    pygame.quit()
+    def draw_window(self):
+        WIN.fill(BACKGROUND_COLOR)
+        WIN.blit(GUERRERA1, (100, 250))
+        WIN.blit(GUERRERA2, (200, 250))
+        WIN.blit(GUERRERA3, (300, 250))
+        WIN.blit(GUERRERA4, (400, 250))
+        WIN.blit(GUERRERA5, (500, 250))
+        WIN.blit(GUERRERA6, (600, 250))
+        WIN.blit(GUERRERA7, (700, 250))
+        pygame.display.update()
     
-if __name__ == "__main__":
-    start()
+    def start(self):
+        clock = pygame.time.Clock()
+        run = True
+        while run:
+            clock.tick(FPS)
+            for event in pygame.event.get():
+                #Para cerrar el juego, comprobamos si el usuario ha cerrado la ventana
+                if( event.type == pygame.QUIT):
+                    run = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    # Set the x, y postions of the mouse click
+                    x, y = event.pos
+                    print("clicked x= "+str(x)+", y = "+str(y))
+                    
+            self.draw_window()        
+            
+        pygame.quit()
