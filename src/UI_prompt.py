@@ -54,4 +54,5 @@ class UI_pront:
             accionDeSeleccion = botSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
             self.c.realizarAccion(jugador2, accionDeSeleccion)
 
-ui = UI_pront()
+if __name__ == "__main__":
+    ui = UI_pront()
