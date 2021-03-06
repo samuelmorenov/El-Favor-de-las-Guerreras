@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from Controller import Controller
-from BotTonto import BotTonto
+import sys
+sys.path.append('../controller')
 
-import Constantes as const
+from controller.Controller import Controller
+from controller.BotTonto import BotTonto
+
+import controller.Constantes as const
 
 
-class UI_pront:
+class UI_prompt:
     def __init__(self):
         self.c = Controller()
         self.win = 0
@@ -55,4 +58,4 @@ class UI_pront:
             self.c.realizarAccion(jugador2, accionDeSeleccion)
 
 if __name__ == "__main__":
-    ui = UI_pront()
+    ui = UI_prompt()

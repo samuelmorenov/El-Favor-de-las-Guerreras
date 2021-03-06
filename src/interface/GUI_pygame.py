@@ -39,7 +39,7 @@ def draw_window():
     WIN.blit(GUERRERA7, (700, 250))
     pygame.display.update()
 
-def main():
+def start():
     clock = pygame.time.Clock()
     run = True
     while run:
@@ -58,4 +58,4 @@ def main():
     pygame.quit()
     
 if __name__ == "__main__":
-    main()
+    start()
