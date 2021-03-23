@@ -15,9 +15,8 @@ class UI_prompt:
         self.win = 0
         self.bot1 = BotTonto("Bot 1")
         self.bot2 = BotTonto("Bot 2")
-        self.__jugarPartida()
         
-    def __jugarPartida(self):
+    def start(self):
         contadorRondas = 1
         while (self.win == 0):
             self.__turno(contadorRondas)

@@ -5,8 +5,6 @@ import os
 
 WIDTH, HEIGHT = 900, 700
 CARTAS_SIZE =(80, 120)
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("El Favor de las Guerreras")
 
 BACKGROUND_COLOR = (196, 164, 149)
 
@@ -30,17 +28,19 @@ FPS = 60
 
 class GUI_pygame:
     def __init__(self):
-        self.start()
+        self.Window = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("El Favor de las Guerreras")
+        return
 
     def draw_window(self):
-        WIN.fill(BACKGROUND_COLOR)
-        WIN.blit(GUERRERA1, (100, 250))
-        WIN.blit(GUERRERA2, (200, 250))
-        WIN.blit(GUERRERA3, (300, 250))
-        WIN.blit(GUERRERA4, (400, 250))
-        WIN.blit(GUERRERA5, (500, 250))
-        WIN.blit(GUERRERA6, (600, 250))
-        WIN.blit(GUERRERA7, (700, 250))
+        self.Window.fill(BACKGROUND_COLOR)
+        self.Window.blit(GUERRERA1, (100, 250))
+        self.Window.blit(GUERRERA2, (200, 250))
+        self.Window.blit(GUERRERA3, (300, 250))
+        self.Window.blit(GUERRERA4, (400, 250))
+        self.Window.blit(GUERRERA5, (500, 250))
+        self.Window.blit(GUERRERA6, (600, 250))
+        self.Window.blit(GUERRERA7, (700, 250))
         pygame.display.update()
     
     def start(self):
