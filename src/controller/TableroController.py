@@ -8,7 +8,7 @@ import numpy as np
 import controller.Constantes as const
 
 
-class Controller:
+class TableroController:
     def __init__(self):
         self.__tablero = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
         self.__initMazo()

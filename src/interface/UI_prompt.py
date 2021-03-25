@@ -3,7 +3,7 @@
 import sys
 sys.path.append('../')
 
-from controller.Controller import Controller
+from controller.TableroController import TableroController
 from controller.BotTonto import BotTonto
 
 import controller.Constantes as const
@@ -11,7 +11,7 @@ import controller.Constantes as const
 
 class UI_prompt:
     def __init__(self):
-        self.c = Controller()
+        self.c = TableroController()
         self.win = 0
         self.bot1 = BotTonto("Bot 1")
         self.bot2 = BotTonto("Bot 2")
