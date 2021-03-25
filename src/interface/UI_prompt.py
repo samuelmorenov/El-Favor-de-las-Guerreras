@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-sys.path.append('../controller')
+sys.path.append('../')
 
 from controller.Controller import Controller
 from controller.BotTonto import BotTonto

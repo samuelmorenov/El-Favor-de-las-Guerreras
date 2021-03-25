@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import sys
+sys.path.append('../')
+
 from tkinter import *
 
 class GUI_Tkinter:
