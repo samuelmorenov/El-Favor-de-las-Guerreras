@@ -169,3 +169,6 @@ class BotTonto:
         print("\033[0m",end="")
         print("___________________________________") #Separador de bots
         return accionCompleta
+    
+    def finish(self):
+        return

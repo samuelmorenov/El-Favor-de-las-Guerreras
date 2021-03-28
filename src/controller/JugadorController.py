@@ -4,6 +4,7 @@ import sys
 sys.path.append('../')
 
 from controller.BotTonto import BotTonto
+from interface.GUI_Tkinter import GUI_Tkinter
 
 
 LOG = False
@@ -12,6 +13,7 @@ class JugadorController:
     def __init__(self):
         self.bot = BotTonto("Jugador automatico")
         self.yo = "Jugador automatico"
+        self.GUI = GUI_Tkinter()
         
         
     def decidirAccion(self, tablero):
@@ -19,3 +21,6 @@ class JugadorController:
     
     def decidirAccionDeSeleccion(self, tablero):
         return self.bot.decidirAccionDeSeleccion(tablero)
+    
+    def finish(self):
+        self.GUI.cerrar()

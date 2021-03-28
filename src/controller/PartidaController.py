@@ -30,6 +30,9 @@ class PartidaController:
                 self.j1, self.j2 = self.j2, self.j1
             contadorRondas = contadorRondas + 1
             
+        self.j1.finish()
+        self.j2.finish()
+        
     def __turno(self, contadorRondas):
         self.c.initRonda()
 
@@ -53,7 +56,3 @@ class PartidaController:
             tablero = self.c.getVistaTablero(jugador2)
             accionDeSeleccion = botSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
             self.c.realizarAccion(jugador2, accionDeSeleccion)
-
-if __name__ == "__main__":
-    prompt = UI_prompt()
-    prompt.start()

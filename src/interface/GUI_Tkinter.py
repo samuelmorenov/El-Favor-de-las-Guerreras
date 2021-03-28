@@ -10,22 +10,32 @@ import controller.Constantes as const
 class GUI_Tkinter:
     def __init__(self):
         self.window = Tk()
-        self.printTable()
+        self.printTabla()
+        self.printAceptar()
         self.start()
         return
     
-    def printTable(self):
+    def printTabla(self):
         for f in range(const.NFILA):
             for c in range(const.NCOLUMNA):
                 text = str(f)+","+str(c)
-                ButtonToAdd = Button(self.window, text = text)
+                ButtonToAdd = Button(self.window, text = " ", state=DISABLED)
                 ButtonToAdd.grid(row=f, column=c)
             
         
-        return
+    def printAceptar(self):
+        ButtonToAdd = Button(self.window, text = "Aceptar", command = self.pressAceptar)
+        ButtonToAdd.grid(row=const.NFILA-1, column=const.NCOLUMNA+1)
     
     def start(self):
         self.window.mainloop()
+        
+    def pressAceptar(self):
+        self.window.quit()
+        return
+    
+    def cerrar(self):
+        self.window.destroy()
         
         
         
