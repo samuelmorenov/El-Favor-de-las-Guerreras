@@ -17,7 +17,12 @@ class JugadorController:
         
         
     def decidirAccion(self, tablero):
-        return self.bot.decidirAccion(tablero)
+        accion = self.bot.decidirAccion(tablero)
+        
+        self.GUI.printTabla(tablero)
+        self.GUI.start()
+        
+        return accion
     
     def decidirAccionDeSeleccion(self, tablero):
         return self.bot.decidirAccionDeSeleccion(tablero)
