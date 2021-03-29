@@ -92,3 +92,13 @@ PENDIENTE_5_ELEGIDA = 1
 
 PENDIENTE_6_ELEGIDA_1 = 1
 PENDIENTE_6_ELEGIDA_2 = 2
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+#Constantes de la interfaz
+
+VENTANA_ALTO=600
+VENTANA_ANCHO=1000
+
+CARTA_ALTO = 200
+CARTA_ANCHO = 120

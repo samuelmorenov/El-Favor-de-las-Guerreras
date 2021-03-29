@@ -14,8 +14,8 @@ class PartidaController:
     def __init__(self):
         self.c = TableroController()
         self.win = 0
-        self.j1 = BotTonto("Bot 1")
-        self.j2 = JugadorController()
+        self.j1 = JugadorController()
+        self.j2 = BotTonto("Bot 1")
         
     def start(self):
         contadorRondas = 1
