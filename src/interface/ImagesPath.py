@@ -20,5 +20,7 @@ C5 = static+"carta5.png"
 C6 = static+"carta6.png"
 C7 = static+"carta7.png"
 
+CO = static+"oculta.png"
+
 ACTIVO = static+"azul.png"
 INACTIVO = static+"azul_gris.png"

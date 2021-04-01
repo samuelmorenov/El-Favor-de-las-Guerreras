@@ -57,9 +57,14 @@ class GUI_Tkinter:
         
     def __addSusAcciones(self, fila, acciones):
         self.__addAccion(fila, 0, acciones[const.TIPO_SECRETO])
-        self.__addAccion(fila, 1, acciones[const.TIPO_RENUNCIA])
-        self.__addAccion(fila, 2, acciones[const.TIPO_REGALO])
-        self.__addAccion(fila, 3, acciones[const.TIPO_COMPETICION])
+        self.__addCartaOculta(fila, 1, acciones[const.TIPO_SECRETO])
+        
+        self.__addAccion(fila, 2, acciones[const.TIPO_RENUNCIA])
+        self.__addCartaOculta(fila, 3, acciones[const.TIPO_RENUNCIA_1])
+        self.__addCartaOculta(fila, 4, acciones[const.TIPO_RENUNCIA_2])
+        
+        self.__addAccion(fila, 5, acciones[const.TIPO_REGALO])
+        self.__addAccion(fila, 6, acciones[const.TIPO_COMPETICION])
         
     def __addMisAcciones(self, fila, acciones):
         self.__addAccion(fila, 0, acciones[const.TIPO_SECRETO])
@@ -106,6 +111,13 @@ class GUI_Tkinter:
                 7: ip.C7,
             }
             path = switcher.get(valor)
+            self.__addLabelConImagen(fila, columna, path, const.CARTA_PEQUE_ALTO, const.CARTA_PEQUE_ANCHO)
+            
+    def __addCartaOculta(self, fila, columna, valor):
+        if(valor == 0):
+            self.__addHueco(fila, columna)
+        else:
+            path = ip.CO
             self.__addLabelConImagen(fila, columna, path, const.CARTA_PEQUE_ALTO, const.CARTA_PEQUE_ANCHO)
         
     def __addLabelConImagen(self, fila, columna, image_path, alto, ancho):
