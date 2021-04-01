@@ -97,8 +97,8 @@ PENDIENTE_6_ELEGIDA_2 = 2
 """""""""""""""""""""""""""""""""""""""""""""""""""
 #Constantes de la interfaz
 
-VENTANA_ALTO=600
-VENTANA_ANCHO=1000
+VENTANA_ALTO=650
+VENTANA_ANCHO=1150
 
-CARTA_ALTO = 200
-CARTA_ANCHO = 120
+CARTA_ALTO = 220
+CARTA_ANCHO = 150

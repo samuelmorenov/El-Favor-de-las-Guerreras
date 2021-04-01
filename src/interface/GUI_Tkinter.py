@@ -9,14 +9,14 @@ from PIL import Image, ImageTk
 import controller.Constantes as const
 
 static = "static/"
-
+bgcolor = '#c4a495'
 
 class GUI_Tkinter:
     def __init__(self):
         self.__window = Tk()
         self.__window.title('El Favor de las Guerreras')
         self.__window.geometry(str(const.VENTANA_ANCHO)+"x"+str(const.VENTANA_ALTO))
-        #self.__window.configure(background='black')
+        self.__window.configure(background=bgcolor)
         #self.__window.iconbitmap('url/ico.ico')
         
         self.__printTableroLimpio()
@@ -96,7 +96,7 @@ class GUI_Tkinter:
         image = Image.open(image_path)
         image = image.resize((ancho, alto), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
-        label = Label(self.__window, image = photo, width=ancho, height=alto)
+        label = Label(self.__window, image = photo, width=ancho, height=alto, borderwidth=0, bg=bgcolor)
         label.image = photo
         label.grid(row=fila, column=columna)
         
@@ -105,11 +105,11 @@ class GUI_Tkinter:
         return
     
     def __addHueco(self, fila, columna):
-        label = Label(self.__window, text = " ")
+        label = Label(self.__window, text = " ", borderwidth=0, bg=bgcolor)
         label.grid(row=fila, column=columna)
         
     def __addButton(self, fila, columna, text):
-        ButtonToAdd = Button(self.__window, text = text, state=DISABLED)
+        ButtonToAdd = Button(self.__window, text = text, state=DISABLED, borderwidth=0, bg=bgcolor)
         ButtonToAdd.grid(row=fila, column=columna)
         
     '''
