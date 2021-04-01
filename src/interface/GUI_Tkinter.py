@@ -9,18 +9,17 @@ from PIL import Image, ImageTk
 import controller.Constantes as const
 
 static = "static/"
-activo = 'azul.png'
-inactivo = 'azul_gris.png'
+
 
 class GUI_Tkinter:
     def __init__(self):
         self.__window = Tk()
         self.__window.title('El Favor de las Guerreras')
         self.__window.geometry(str(const.VENTANA_ANCHO)+"x"+str(const.VENTANA_ALTO))
+        #self.__window.configure(background='black')
         #self.__window.iconbitmap('url/ico.ico')
         
-        
-        self.__printTablaInicial()
+        self.__printTableroLimpio()
         self.__printAceptar()
         
     def printTabla(self, tablero):
@@ -31,18 +30,23 @@ class GUI_Tkinter:
         misAcciones = tablero[const.ACCIONES_USADAS_JUGADOR1]
         miMano = tablero[const.MANO_JUGADOR1]
         
-        self.__addSusAcciones(susAcciones, 0)
-        self.__addFila(susArmas, 1)
+        self.__addSusAcciones(0, susAcciones)
+        self.__addFila(1, susArmas)
         self.__addGuerreras(2)
-        self.__addFila(misArmas, 3)
-        self.__addFila(misAcciones, 4)
-        self.__addFila(miMano, 5)
-    
+        self.__addFila(3, misArmas)
+        self.__addMisAcciones(4, misAcciones)
+        self.__addFila(5, miMano)
+        
+    def __printTableroLimpio(self):
+        for f in range(const.NFILA):
+            for c in range(const.NCOLUMNA):
+                self.__addHueco(f, c)
+                
     '''
     Metodos para añadir filas completas
     '''
     
-    def __addFila(self, filaTablero, finaIndice):
+    def __addFila(self, finaIndice, filaTablero):
         for c in range(const.NCOLUMNA):
             self.__addButton(finaIndice, c, filaTablero[c])
             
@@ -55,21 +59,34 @@ class GUI_Tkinter:
         self.__addCarta(fila, 5, 'guerrera6.png')
         self.__addCarta(fila, 6, 'guerrera7.png')
         
-    def __addSusAcciones(self, susAcciones, fila):
-        self.__addAccion(susAcciones[const.TIPO_SECRETO], fila, 0)
-        self.__addAccion(susAcciones[const.TIPO_RENUNCIA], fila, 1)
-        self.__addAccion(susAcciones[const.TIPO_REGALO], fila, 2)
-        self.__addAccion(susAcciones[const.TIPO_COMPETICION], fila, 3)
+    def __addSusAcciones(self, fila, acciones):
+        self.__addAccion(fila, 0, acciones[const.TIPO_SECRETO])
+        self.__addAccion(fila, 1, acciones[const.TIPO_RENUNCIA])
+        self.__addAccion(fila, 2, acciones[const.TIPO_REGALO])
+        self.__addAccion(fila, 3, acciones[const.TIPO_COMPETICION])
+        
+    def __addMisAcciones(self, fila, acciones):
+        self.__addAccion(fila, 0, acciones[const.TIPO_SECRETO])
+        self.__addButton(fila, 1, acciones[const.TIPO_SECRETO])
+        self.__addAccion(fila, 2, acciones[const.TIPO_RENUNCIA])
+        self.__addButton(fila, 3, acciones[const.TIPO_RENUNCIA_1])
+        self.__addButton(fila, 4, acciones[const.TIPO_RENUNCIA_2])
+        self.__addAccion(fila, 5, acciones[const.TIPO_REGALO])
+        self.__addAccion(fila, 6, acciones[const.TIPO_COMPETICION])
+        
+    def __addArmas(self, fila, armas):
+        return
     '''
     Metodos para añadir objetos a las filas
     '''
-    def __addAccion(self, valor, fila, columna):
+    def __addAccion(self, fila, columna, valor):
+        activo = 'azul.png'
+        inactivo = 'azul_gris.png'
         if(valor == 0):
             self.__addLabelConImagen(fila, columna, inactivo, const.CARTA_ANCHO, const.CARTA_ANCHO)
         else:
             self.__addLabelConImagen(fila, columna, activo, const.CARTA_ANCHO, const.CARTA_ANCHO)
-        
-    
+            
     def __addCarta(self, fila, columna, path):
         self.__addLabelConImagen(fila, columna, path, const.CARTA_ALTO, const.CARTA_ANCHO)
         
@@ -94,17 +111,11 @@ class GUI_Tkinter:
     def __addButton(self, fila, columna, text):
         ButtonToAdd = Button(self.__window, text = text, state=DISABLED)
         ButtonToAdd.grid(row=fila, column=columna)
-    
-    def __printTablaInicial(self):
-        for f in range(const.NFILA):
-            for c in range(const.NCOLUMNA):
-                ButtonToAdd = Button(self.__window, text = " ", state=DISABLED)
-                ButtonToAdd.grid(row=f, column=c)
-                
+        
     '''
     Metodos de control de loop
     '''
-                
+    
     def __printAceptar(self):
         ButtonToAdd = Button(self.__window, text = "Aceptar", command = self.__pressAceptar)
         ButtonToAdd.grid(row=const.NFILA-1, column=const.NCOLUMNA+1)
