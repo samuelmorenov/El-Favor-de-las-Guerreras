@@ -35,7 +35,7 @@ class GUI_Tkinter:
         self.__addGuerreras(2)
         self.__addFila(3, misArmas)
         self.__addMisAcciones(4, misAcciones)
-        self.__addFila(5, miMano)
+        self.__addMiMano(5, miMano)
         
     def __printTableroLimpio(self):
         for f in range(const.NFILA):
@@ -67,30 +67,50 @@ class GUI_Tkinter:
         
     def __addMisAcciones(self, fila, acciones):
         self.__addAccion(fila, 0, acciones[const.TIPO_SECRETO])
-        self.__addBasicButton(fila, 1, acciones[const.TIPO_SECRETO])
+        self.__addCartaPeque(fila, 1, acciones[const.TIPO_SECRETO])
         
         self.__addAccion(fila, 2, acciones[const.TIPO_RENUNCIA])
-        self.__addBasicButton(fila, 3, acciones[const.TIPO_RENUNCIA_1])
-        self.__addBasicButton(fila, 4, acciones[const.TIPO_RENUNCIA_2])
+        self.__addCartaPeque(fila, 3, acciones[const.TIPO_RENUNCIA_1])
+        self.__addCartaPeque(fila, 4, acciones[const.TIPO_RENUNCIA_2])
+        
         self.__addAccion(fila, 5, acciones[const.TIPO_REGALO])
+        
         self.__addAccion(fila, 6, acciones[const.TIPO_COMPETICION])
         
+    def __addMiMano(self, finaIndice, cartas):
+        for c in range(const.NCOLUMNA):
+            self.__addCartaPeque(finaIndice, c, cartas[c])
+                
     def __addArmas(self, fila, armas):
         return
     '''
     Metodos para añadir objetos a las filas
     '''
     def __addAccion(self, fila, columna, valor):
+        ancho = const.CARTA_PEQUE_ANCHO
         if(valor == 0):
-            self.__addLabelConImagen(fila, columna, ip.INACTIVO, const.CARTA_ANCHO, const.CARTA_ANCHO)
+            self.__addLabelConImagen(fila, columna, ip.INACTIVO, ancho, ancho)
         else:
-            self.__addLabelConImagen(fila, columna, ip.ACTIVO, const.CARTA_ANCHO, const.CARTA_ANCHO)
+            self.__addLabelConImagen(fila, columna, ip.ACTIVO, ancho, ancho)
             
     def __addCartaGrande(self, fila, columna, path):
-        self.__addLabelConImagen(fila, columna, path, const.CARTA_ALTO, const.CARTA_ANCHO)
+        self.__addLabelConImagen(fila, columna, path, const.CARTA_GRANDE_ALTO, const.CARTA_GRANDE_ANCHO)
         
-        
-        
+    def __addCartaPeque(self, fila, columna, valor):
+        if(valor == 0):
+            self.__addHueco(fila, columna)
+        else:
+            switcher = {
+                1: ip.C1,
+                2: ip.C2,
+                3: ip.C3,
+                4: ip.C4,
+                5: ip.C5,
+                6: ip.C6,
+                7: ip.C7,
+            }
+            path = switcher.get(valor)
+            self.__addLabelConImagen(fila, columna, path, const.CARTA_PEQUE_ALTO, const.CARTA_PEQUE_ANCHO)
         
     def __addLabelConImagen(self, fila, columna, image_path, alto, ancho):
         
