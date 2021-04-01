@@ -17,7 +17,7 @@ class GUI_Tkinter:
         self.__window.title('El Favor de las Guerreras')
         self.__window.geometry(str(const.VENTANA_ANCHO)+"x"+str(const.VENTANA_ALTO))
         self.__window.configure(background=bgcolor)
-        #self.__window.iconbitmap('url/ico.ico')
+        self.__window.iconbitmap(ip.ICO)
         
         self.__printTableroLimpio()
         self.__printAceptar()

@@ -2,6 +2,8 @@
 
 static = "static/"
 
+ICO = static+"ico.ico"
+
 G1 = static+"guerrera1.png"
 G2 = static+"guerrera2.png"
 G3 = static+"guerrera3.png"
