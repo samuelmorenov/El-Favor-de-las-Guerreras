@@ -19,10 +19,10 @@ class GUI_Tkinter:
         self.__window.configure(background=bgcolor)
         self.__window.iconbitmap(ip.ICO)
         
-        self.__printTableroLimpio()
-        self.__printAceptar()
-        
     def printTabla(self, tablero):
+        for label in self.__window.grid_slaves():
+           label.grid_forget()
+        
         susAcciones = tablero[const.ACCIONES_USADAS_JUGADOR2]
         susArmas = tablero[const.ARMAS_USADAS_JUGADOR2]
         
@@ -36,11 +36,7 @@ class GUI_Tkinter:
         self.__addFila(3, misArmas)
         self.__addMisAcciones(4, misAcciones)
         self.__addMiMano(5, miMano)
-        
-    def __printTableroLimpio(self):
-        for f in range(const.NFILA):
-            for c in range(const.NCOLUMNA):
-                self.__addHueco(f, c)
+        self.__printAceptar()
                 
     '''
     Metodos para añadir filas completas
@@ -87,7 +83,7 @@ class GUI_Tkinter:
     Metodos para añadir objetos a las filas
     '''
     def __addAccion(self, fila, columna, valor):
-        ancho = const.CARTA_PEQUE_ANCHO
+        ancho = const.CARTA_ACCION
         if(valor == 0):
             self.__addLabelConImagen(fila, columna, ip.INACTIVO, ancho, ancho)
         else:
