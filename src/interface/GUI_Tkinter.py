@@ -11,6 +11,8 @@ import interface.ImagesPath as ip
 import numpy as np
 
 bgcolor = '#c4a495'
+desactivado = "disabled"
+activado = "normal"
 
 class GUI_Tkinter:
     def __init__(self):
@@ -89,27 +91,36 @@ class GUI_Tkinter:
     '''
     #Metodo para añadir una imagen de carta grande
     def __addCartaGrande(self, fila, columna, path):
-        self.__addLabelConImagen(fila, columna, path, const.CARTA_GRANDE_ALTO, const.CARTA_GRANDE_ANCHO)
+        alto = const.CARTA_GRANDE_ALTO
+        ancho = const.CARTA_GRANDE_ANCHO
+        borde = const.BORDE_NULO
+        self.__addLabelConImagen(fila, columna, alto, ancho, borde, desactivado, path)
         
     #Metodo para añadir marcadores
-    def __addMarcador(self, fila, columna, text):
-        self.__addButtonConTexto(fila, columna, const.BOTON_ALTO, const.BOTON_ANCHO, DISABLED, text)
+    def __addMarcador(self, fila, columna, texto):
+        alto = const.BOTON_ALTO
+        ancho = const.BOTON_ANCHO
+        borde = const.BORDE_MARCADO
+        self.__addButtonConTexto(fila, columna, alto, ancho, borde, desactivado, texto)
         
     #Metodo para añadir un boton de accion activa/inactiva dependiendo del valor
     def __addAccion(self, fila, columna, valor):
-        ancho = const.CARTA_ACCION
+        lado = const.CARTA_ACCION_LADO
         if(valor == 0):
-            self.__addBotonConImagen(fila, columna, ip.INACTIVO, ancho, ancho)
+            borde = const.BORDE_NULO
+            self.__addBotonConImagen(fila, columna, lado, lado, borde, desactivado, ip.INACTIVO)
         else:
-            self.__addBotonConImagen(fila, columna, ip.ACTIVO, ancho, ancho)
+            borde = const.BORDE_CLICKABLE
+            self.__addBotonConImagen(fila, columna, lado, lado, borde, activado, ip.ACTIVO)
             
     #Metodo para añadir una imagen de accion realizada/norealizada
     def __addAccionEnemiga(self, fila, columna, valor):
-        ancho = const.CARTA_ACCION
+        lado = const.CARTA_ACCION_LADO
+        borde = const.BORDE_NULO
         if(valor == 0):
-            self.__addLabelConImagen(fila, columna, ip.INACTIVO, ancho, ancho)
+            self.__addLabelConImagen(fila, columna, lado, lado, borde, desactivado, ip.INACTIVO)
         else:
-            self.__addLabelConImagen(fila, columna, ip.ACTIVO, ancho, ancho)
+            self.__addLabelConImagen(fila, columna, lado, lado, borde, desactivado, ip.ACTIVO)
             
     #Metodo para añadir un boton con una carta pequeña
     def __addCartaPeque(self, fila, columna, valor):
@@ -124,19 +135,25 @@ class GUI_Tkinter:
                 7: ip.C7,
             }
             path = switcher.get(valor)
-            self.__addBotonConImagen(fila, columna, path, const.CARTA_PEQUE_ALTO, const.CARTA_PEQUE_ANCHO)
+            
+            alto = const.CARTA_PEQUE_ALTO
+            ancho = const.CARTA_PEQUE_ANCHO
+            borde = const.BORDE_CLICKABLE
+            self.__addBotonConImagen(fila, columna, alto, ancho, borde, desactivado, path)
             
     #Metodo para añadir un boton con una carta pequeña oculta
     def __addCartaOculta(self, fila, columna, valor):
         if(valor != 0):
             path = ip.CO
-            self.__addBotonConImagen(fila, columna, path, const.CARTA_PEQUE_ALTO, const.CARTA_PEQUE_ANCHO)
+            alto = const.CARTA_PEQUE_ALTO
+            ancho = const.CARTA_PEQUE_ANCHO
+            borde = const.BORDE_NULO
+            self.__addBotonConImagen(fila, columna, alto, ancho, borde, desactivado, path)
             
     '''
-    Metodos de creacion de witgets
+    Metodos de creacion de witgets (self, fila, columna, alto, ancho, borde, activo, texto/path)
     '''
-    def __addLabelConImagen(self, fila, columna, image_path, alto, ancho):
-        
+    def __addLabelConImagen(self, fila, columna, alto, ancho, borde, activo, image_path):
         image = Image.open(image_path)
         image = image.resize((ancho, alto), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
@@ -145,30 +162,31 @@ class GUI_Tkinter:
                       image = photo,
                       width=ancho,
                       height=alto,
-                      bg=bgcolor)
+                      bg=bgcolor,
+                      borderwidth=borde)
         label.image = photo
         label.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
         
-    def __addBotonConImagen(self, fila, columna, image_path, alto, ancho):
-        
+    def __addBotonConImagen(self, fila, columna, alto, ancho, borde, activo, image_path):
         image = Image.open(image_path)
         image = image.resize((ancho, alto), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
+        
         label = Button(self.__window,
                       image = photo,
                       width=ancho,
                       height=alto,
                       bg=bgcolor,
-                      borderwidth=const.BOTON_BORDE)
+                      borderwidth=borde)
         label.image = photo
         label.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
         
-    def __addButtonConTexto(self, fila, columna, alto, ancho, estado, text):
+    def __addButtonConTexto(self, fila, columna, alto, ancho, borde, activo, text):
         boton = Button(
                 self.__window,
                 text = text,
-                state=estado,
-                borderwidth=const.BOTON_BORDE, 
+                state=activo,
+                borderwidth=borde, 
                 bg=bgcolor,
                 #activebackground='#00ff00'
                 )
