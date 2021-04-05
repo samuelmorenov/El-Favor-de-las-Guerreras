@@ -17,12 +17,14 @@ class JugadorController:
         
         
     def decidirAccion(self, tablero):
-        accion = self.bot.decidirAccion(tablero)
+        #accion = self.bot.decidirAccion(tablero)
         
 
         
         self.GUI.printTabla(tablero)
         self.GUI.start()
+        
+        accion = self.GUI.obtenerAccion()
         
         #self.GUI.getAccion()
         

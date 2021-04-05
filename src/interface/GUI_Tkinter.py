@@ -271,3 +271,6 @@ class GUI_Tkinter:
         
     def cerrar(self):
         self.__window.destroy()
+        
+    def obtenerAccion(self):
+        return self.__accionGuardada
