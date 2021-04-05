@@ -17,6 +17,7 @@ activado = NORMAL
 class GUI_Tkinter:
     def __init__(self):
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
+        self.__cartasRestantes = 0
         self.__window = Tk()
         self.__window.title('El Favor de las Guerreras')
         self.__window.geometry(str(const.VENTANA_ANCHO)+"x"+str(const.VENTANA_ALTO))
@@ -36,7 +37,6 @@ class GUI_Tkinter:
         self.__addMarcadores(3, tablero[const.ARMAS_USADAS_JUGADOR1])
         self.__addMisAcciones(4, tablero[const.ACCIONES_USADAS_JUGADOR1])
         self.__addMiMano(5, tablero[const.MANO_JUGADOR1])
-        self.__printAceptar()
     
     def __limpiarAccion(self):
         #Borrado de la accion anterior si existiera
@@ -219,14 +219,38 @@ class GUI_Tkinter:
     def __seleccionarAccion(self, accionesLista, tipo):
         self.__limpiarAccion()
         
+        switcher = {
+                0: 1,
+                1: 2,
+                3: 3,
+                4: 4,
+            }
+        self.__cartasRestantes = switcher.get(tipo)
+        
+        
         print("Seleccionada accion "+str(tipo))
-        self.__accionGuardada[0] = str(tipo)
+        self.__accionGuardada[0] = tipo
         self.__addAccionSeleccionada(6)
         
         
     def __seleccionarCarta(self, valor):
         print("Seleccionada carta "+str(valor))
+        if(self.__cartasRestantes > 0):
+            encontrada = 0
+            pos = 1
+            while (encontrada == 0):
+                if(self.__accionGuardada[pos] == 0):
+                    encontrada = 1
+                    self.__accionGuardada[pos] = valor
+                    self.__addCartaPeque(6, pos, valor, 'inactivo')  
+                    
+                    self.__cartasRestantes = self.__cartasRestantes - 1
+                    if(self.__cartasRestantes == 0):
+                        self.__printAceptar()
+                else:
+                    pos = pos + 1
         
+                    
     def __noAccion(self):
         return
         
