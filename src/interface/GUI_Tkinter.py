@@ -62,23 +62,23 @@ class GUI_Tkinter:
             self.__addMarcador(fila, c, listaNumeros[c])
             
     def __addSusAcciones(self, fila, acciones):
-        self.__addAccionEnemiga(fila, 0, acciones[const.TIPO_SECRETO])
+        self.__addAccionEnemiga(fila, 0, acciones[const.TIPO_SECRETO], const.TIPO_SECRETO)
         self.__addCartaOculta(fila, 1, acciones[const.TIPO_SECRETO])
         
-        self.__addAccionEnemiga(fila, 2, acciones[const.TIPO_RENUNCIA])
+        self.__addAccionEnemiga(fila, 2, acciones[const.TIPO_RENUNCIA], const.TIPO_RENUNCIA)
         self.__addCartaOculta(fila, 3, acciones[const.TIPO_RENUNCIA_1])
         self.__addCartaOculta(fila, 4, acciones[const.TIPO_RENUNCIA_2])
         
-        self.__addAccionEnemiga(fila, 5, acciones[const.TIPO_REGALO])
-        self.__addAccionEnemiga(fila, 6, acciones[const.TIPO_COMPETICION])
+        self.__addAccionEnemiga(fila, 5, acciones[const.TIPO_REGALO], const.TIPO_REGALO)
+        self.__addAccionEnemiga(fila, 6, acciones[const.TIPO_COMPETICION], const.TIPO_COMPETICION)
         
     def __addMisAcciones(self, fila, acciones):
         self.__addAccionPropia(fila, 0, acciones, const.TIPO_SECRETO)
-        self.__addCartaPeque(fila, 1, acciones[const.TIPO_SECRETO])
+        self.__addCartaPeque(fila, 1, acciones[const.TIPO_SECRETO], 'inactivo')
         
         self.__addAccionPropia(fila, 2, acciones, const.TIPO_RENUNCIA)
-        self.__addCartaPeque(fila, 3, acciones[const.TIPO_RENUNCIA_1])
-        self.__addCartaPeque(fila, 4, acciones[const.TIPO_RENUNCIA_2])
+        self.__addCartaPeque(fila, 3, acciones[const.TIPO_RENUNCIA_1], 'inactivo')
+        self.__addCartaPeque(fila, 4, acciones[const.TIPO_RENUNCIA_2], 'inactivo')
         
         self.__addAccionPropia(fila, 5, acciones, const.TIPO_REGALO)
         
@@ -86,7 +86,7 @@ class GUI_Tkinter:
         
     def __addMiMano(self, finaIndice, cartas):
         for c in range(const.NCOLUMNA):
-            self.__addCartaPeque(finaIndice, c, cartas[c])
+            self.__addCartaPeque(finaIndice, c, cartas[c], 'activo')
             
     def __addAccionSeleccionada(self, fila):
         accion = self.__accionARealizar[0]
@@ -100,39 +100,39 @@ class GUI_Tkinter:
         alto = const.CARTA_GRANDE_ALTO
         ancho = const.CARTA_GRANDE_ANCHO
         borde = const.BORDE_NULO
-        self.__addLabelConImagen(fila, columna, alto, ancho, borde, desactivado, path)
+        self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
         
     #Metodo para añadir marcadores
     def __addMarcador(self, fila, columna, texto):
-        alto = const.BOTON_ALTO
-        ancho = const.BOTON_ANCHO
         borde = const.BORDE_MARCADO
-        self.__addButtonConTexto(fila, columna, alto, ancho, borde, desactivado, texto)
+        self.__addButtonConTexto(fila, columna, borde, texto)
         
     #Metodo para añadir un boton de accion activa/inactiva dependiendo del valor
     def __addAccionPropia(self, fila, columna, accionesLista, tipo):
         lado = const.CARTA_ACCION_LADO
         #accionSeleccionada = self.__accionARealizar[0]
+        texto = str(tipo) #TODO: Cambiar
         if(accionesLista[tipo] != 0):
             borde = const.BORDE_NULO
             accion = lambda: self.__noAccion()
-            self.__addBotonConImagen(fila, columna, lado, lado, borde, desactivado, ip.ACCION_PROPIA_USADA, accion)
+            self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_USADA)
         else:
             borde = const.BORDE_CLICKABLE
             accion = lambda: self.__seleccionarAccion(accionesLista, tipo)
-            self.__addBotonConImagen(fila, columna, lado, lado, borde, activado, ip.ACCION_PROPIA_NO_USADA, accion)
+            self.__addBotonConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_NO_USADA, accion)
             
     #Metodo para añadir una imagen de accion realizada/norealizada
-    def __addAccionEnemiga(self, fila, columna, valor):
+    def __addAccionEnemiga(self, fila, columna, valor, tipo):
         lado = const.CARTA_ACCION_LADO
         borde = const.BORDE_NULO
+        texto = str(tipo) #TODO: Cambiar
         if(valor == 0):
-            self.__addLabelConImagen(fila, columna, lado, lado, borde, desactivado, ip.ACCION_ENEMIGA_USADA)
+            self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_ENEMIGA_USADA)
         else:
-            self.__addLabelConImagen(fila, columna, lado, lado, borde, desactivado, ip.ACCION_ENEMIGA_NO_USADA)
+            self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_ENEMIGA_NO_USADA)
             
     #Metodo para añadir un boton con una carta pequeña
-    def __addCartaPeque(self, fila, columna, valor):
+    def __addCartaPeque(self, fila, columna, valor, activo):
         if(valor != 0):
             switcher = {
                 1: ip.C1,
@@ -148,8 +148,11 @@ class GUI_Tkinter:
             alto = const.CARTA_PEQUE_ALTO
             ancho = const.CARTA_PEQUE_ANCHO
             borde = const.BORDE_CLICKABLE
-            accion = lambda: self.__seleccionarCarta(valor)
-            self.__addBotonConImagen(fila, columna, alto, ancho, borde, activado, path, accion)
+            if(activo == 'activo'):
+                accion = lambda: self.__seleccionarCarta(valor)
+                self.__addBotonConImagen(fila, columna, alto, ancho, borde, '', path, accion)
+            else:
+                self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
             
     #Metodo para añadir un boton con una carta pequeña oculta
     def __addCartaOculta(self, fila, columna, valor):
@@ -158,13 +161,12 @@ class GUI_Tkinter:
             alto = const.CARTA_PEQUE_ALTO
             ancho = const.CARTA_PEQUE_ANCHO
             borde = const.BORDE_NULO
-            accion = lambda: self.__noAccion()
-            self.__addBotonConImagen(fila, columna, alto, ancho, borde, desactivado, path, accion)
+            self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
             
     '''
     Metodos de creacion de witgets (self, fila, columna, alto, ancho, borde, activo, texto/path)
     '''
-    def __addLabelConImagen(self, fila, columna, alto, ancho, borde, activo, image_path):
+    def __addLabelConImagen(self, fila, columna, alto, ancho, borde, texto, image_path):
         image = Image.open(image_path)
         image = image.resize((ancho, alto), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
@@ -174,11 +176,14 @@ class GUI_Tkinter:
                       width=ancho,
                       height=alto,
                       bg=bgcolor,
+                      text = texto,
+                      compound='center',
+                      fg='black',
                       borderwidth=borde)
         label.image = photo
         label.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
         
-    def __addBotonConImagen(self, fila, columna, alto, ancho, borde, activo, image_path, accion):
+    def __addBotonConImagen(self, fila, columna, alto, ancho, borde, texto, image_path, accion):
         image = Image.open(image_path)
         image = image.resize((ancho, alto), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
@@ -187,18 +192,20 @@ class GUI_Tkinter:
                       image = photo,
                       width=ancho,
                       height=alto,
-                      state=activo,
                       bg=bgcolor,
                       borderwidth=borde,
+                      text = texto,
+                      compound='center',
+                      fg='black',
                       command = accion)
         boton.image = photo
         boton.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
         
-    def __addButtonConTexto(self, fila, columna, alto, ancho, borde, activo, text):
+    def __addButtonConTexto(self, fila, columna, borde, text):
         boton = Button(
                 self.__window,
                 text = text,
-                state=activo,
+                state=desactivado,
                 borderwidth=borde, 
                 bg=bgcolor,
                 #activebackground='#00ff00'
