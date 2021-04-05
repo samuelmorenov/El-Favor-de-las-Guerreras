@@ -24,8 +24,6 @@ class GUI_Tkinter:
         self.__window.iconbitmap(ip.ICO)
         
     def printTabla(self, tablero):
-        #Borrado de la accion anterior si existiera
-        self.__accionARealizar = np.zeros(const.NCOLUMNA, dtype=int)
         
         #Limpieza de elementos del tablero
         for label in self.__window.grid_slaves():
@@ -39,6 +37,10 @@ class GUI_Tkinter:
         self.__addMisAcciones(4, tablero[const.ACCIONES_USADAS_JUGADOR1])
         self.__addMiMano(5, tablero[const.MANO_JUGADOR1])
         self.__printAceptar()
+    
+    def __limpiarAccion(self):
+        #Borrado de la accion anterior si existiera
+        self.__accionARealizar = np.zeros(const.NCOLUMNA, dtype=int)
         
     '''
     Metodos para añadir filas completas
@@ -71,20 +73,24 @@ class GUI_Tkinter:
         self.__addAccionEnemiga(fila, 6, acciones[const.TIPO_COMPETICION])
         
     def __addMisAcciones(self, fila, acciones):
-        self.__addAccion(fila, 0, acciones[const.TIPO_SECRETO])
+        self.__addAccionPropia(fila, 0, acciones, const.TIPO_SECRETO)
         self.__addCartaPeque(fila, 1, acciones[const.TIPO_SECRETO])
         
-        self.__addAccion(fila, 2, acciones[const.TIPO_RENUNCIA])
+        self.__addAccionPropia(fila, 2, acciones, const.TIPO_RENUNCIA)
         self.__addCartaPeque(fila, 3, acciones[const.TIPO_RENUNCIA_1])
         self.__addCartaPeque(fila, 4, acciones[const.TIPO_RENUNCIA_2])
         
-        self.__addAccion(fila, 5, acciones[const.TIPO_REGALO])
+        self.__addAccionPropia(fila, 5, acciones, const.TIPO_REGALO)
         
-        self.__addAccion(fila, 6, acciones[const.TIPO_COMPETICION])
+        self.__addAccionPropia(fila, 6, acciones, const.TIPO_COMPETICION)
         
     def __addMiMano(self, finaIndice, cartas):
         for c in range(const.NCOLUMNA):
             self.__addCartaPeque(finaIndice, c, cartas[c])
+            
+    def __addAccionSeleccionada(self, fila):
+        accion = self.__accionARealizar[0]
+        self.__addAccionEnemiga(fila, 0, accion)
             
     '''
     Metodos para añadir objetos a las filas
@@ -104,23 +110,26 @@ class GUI_Tkinter:
         self.__addButtonConTexto(fila, columna, alto, ancho, borde, desactivado, texto)
         
     #Metodo para añadir un boton de accion activa/inactiva dependiendo del valor
-    def __addAccion(self, fila, columna, valor):
+    def __addAccionPropia(self, fila, columna, accionesLista, tipo):
         lado = const.CARTA_ACCION_LADO
-        if(valor != 0):
+        #accionSeleccionada = self.__accionARealizar[0]
+        if(accionesLista[tipo] != 0):
             borde = const.BORDE_NULO
-            self.__addBotonConImagen(fila, columna, lado, lado, borde, desactivado, ip.INACTIVO)
+            accion = lambda: self.__noAccion()
+            self.__addBotonConImagen(fila, columna, lado, lado, borde, desactivado, ip.ACCION_PROPIA_USADA, accion)
         else:
             borde = const.BORDE_CLICKABLE
-            self.__addBotonConImagen(fila, columna, lado, lado, borde, activado, ip.ACTIVO)
+            accion = lambda: self.__seleccionarAccion(accionesLista, tipo)
+            self.__addBotonConImagen(fila, columna, lado, lado, borde, activado, ip.ACCION_PROPIA_NO_USADA, accion)
             
     #Metodo para añadir una imagen de accion realizada/norealizada
     def __addAccionEnemiga(self, fila, columna, valor):
         lado = const.CARTA_ACCION_LADO
         borde = const.BORDE_NULO
         if(valor == 0):
-            self.__addLabelConImagen(fila, columna, lado, lado, borde, desactivado, ip.INACTIVO)
+            self.__addLabelConImagen(fila, columna, lado, lado, borde, desactivado, ip.ACCION_ENEMIGA_USADA)
         else:
-            self.__addLabelConImagen(fila, columna, lado, lado, borde, desactivado, ip.ACTIVO)
+            self.__addLabelConImagen(fila, columna, lado, lado, borde, desactivado, ip.ACCION_ENEMIGA_NO_USADA)
             
     #Metodo para añadir un boton con una carta pequeña
     def __addCartaPeque(self, fila, columna, valor):
@@ -139,7 +148,8 @@ class GUI_Tkinter:
             alto = const.CARTA_PEQUE_ALTO
             ancho = const.CARTA_PEQUE_ANCHO
             borde = const.BORDE_CLICKABLE
-            self.__addBotonConImagen(fila, columna, alto, ancho, borde, activado, path)
+            accion = lambda: self.__seleccionarCarta(valor)
+            self.__addBotonConImagen(fila, columna, alto, ancho, borde, activado, path, accion)
             
     #Metodo para añadir un boton con una carta pequeña oculta
     def __addCartaOculta(self, fila, columna, valor):
@@ -148,7 +158,8 @@ class GUI_Tkinter:
             alto = const.CARTA_PEQUE_ALTO
             ancho = const.CARTA_PEQUE_ANCHO
             borde = const.BORDE_NULO
-            self.__addBotonConImagen(fila, columna, alto, ancho, borde, desactivado, path)
+            accion = lambda: self.__noAccion()
+            self.__addBotonConImagen(fila, columna, alto, ancho, borde, desactivado, path, accion)
             
     '''
     Metodos de creacion de witgets (self, fila, columna, alto, ancho, borde, activo, texto/path)
@@ -167,20 +178,21 @@ class GUI_Tkinter:
         label.image = photo
         label.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
         
-    def __addBotonConImagen(self, fila, columna, alto, ancho, borde, activo, image_path): #TODO in progress action
+    def __addBotonConImagen(self, fila, columna, alto, ancho, borde, activo, image_path, accion):
         image = Image.open(image_path)
         image = image.resize((ancho, alto), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
         
-        label = Button(self.__window,
+        boton = Button(self.__window,
                       image = photo,
                       width=ancho,
                       height=alto,
                       state=activo,
                       bg=bgcolor,
-                      borderwidth=borde)
-        label.image = photo
-        label.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
+                      borderwidth=borde,
+                      command = accion)
+        boton.image = photo
+        boton.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
         
     def __addButtonConTexto(self, fila, columna, alto, ancho, borde, activo, text):
         boton = Button(
@@ -192,6 +204,21 @@ class GUI_Tkinter:
                 #activebackground='#00ff00'
                 )
         boton.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
+    '''
+    Metodos de accion de botones
+    '''
+    def __seleccionarAccion(self, accionesLista, tipo):
+        print("Seleccionada accion "+str(tipo))
+        #self.__accionARealizar[0] = valor
+        #self.__limpiarAccion()
+        #self.__addAccionSeleccionada(6)
+        
+    def __seleccionarCarta(self, valor):
+        print("Seleccionada carta "+str(valor))
+        
+    def __noAccion(self):
+        return
+        
         
     '''
     Metodos de control de loop

@@ -22,5 +22,9 @@ C7 = static+"carta7.png"
 
 CO = static+"oculta.png"
 
-ACTIVO = static+"azul.png"
-INACTIVO = static+"azul_gris.png"
+ACCION_ENEMIGA_USADA = static+"azul_gris.png"
+ACCION_ENEMIGA_NO_USADA = static+"azul.png"
+
+ACCION_PROPIA_USADA = static+"azul.png"
+ACCION_PROPIA_NO_USADA = static+"azul_gris.png"
+ACCION_PROPIA_MARCADA = static+"verde.png"
