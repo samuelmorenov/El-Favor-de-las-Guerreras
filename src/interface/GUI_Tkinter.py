@@ -3,7 +3,7 @@
 import sys
 sys.path.append('../')
 
-from tkinter import Tk, Button, Label, DISABLED
+from tkinter import Tk, Button, Label, DISABLED, NORMAL
 from PIL import Image, ImageTk
 
 import controller.Constantes as const
@@ -11,8 +11,8 @@ import interface.ImagesPath as ip
 import numpy as np
 
 bgcolor = '#c4a495'
-desactivado = "disabled"
-activado = "normal"
+desactivado = DISABLED
+activado = NORMAL
 
 class GUI_Tkinter:
     def __init__(self):
@@ -106,7 +106,7 @@ class GUI_Tkinter:
     #Metodo para añadir un boton de accion activa/inactiva dependiendo del valor
     def __addAccion(self, fila, columna, valor):
         lado = const.CARTA_ACCION_LADO
-        if(valor == 0):
+        if(valor != 0):
             borde = const.BORDE_NULO
             self.__addBotonConImagen(fila, columna, lado, lado, borde, desactivado, ip.INACTIVO)
         else:
@@ -139,7 +139,7 @@ class GUI_Tkinter:
             alto = const.CARTA_PEQUE_ALTO
             ancho = const.CARTA_PEQUE_ANCHO
             borde = const.BORDE_CLICKABLE
-            self.__addBotonConImagen(fila, columna, alto, ancho, borde, desactivado, path)
+            self.__addBotonConImagen(fila, columna, alto, ancho, borde, activado, path)
             
     #Metodo para añadir un boton con una carta pequeña oculta
     def __addCartaOculta(self, fila, columna, valor):
@@ -167,7 +167,7 @@ class GUI_Tkinter:
         label.image = photo
         label.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
         
-    def __addBotonConImagen(self, fila, columna, alto, ancho, borde, activo, image_path):
+    def __addBotonConImagen(self, fila, columna, alto, ancho, borde, activo, image_path): #TODO in progress action
         image = Image.open(image_path)
         image = image.resize((ancho, alto), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
@@ -176,6 +176,7 @@ class GUI_Tkinter:
                       image = photo,
                       width=ancho,
                       height=alto,
+                      state=activo,
                       bg=bgcolor,
                       borderwidth=borde)
         label.image = photo
