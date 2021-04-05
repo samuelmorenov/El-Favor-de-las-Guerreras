@@ -16,7 +16,7 @@ activado = NORMAL
 
 class GUI_Tkinter:
     def __init__(self):
-        self.__accionARealizar = np.zeros(const.NCOLUMNA, dtype=int)
+        self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
         self.__window = Tk()
         self.__window.title('El Favor de las Guerreras')
         self.__window.geometry(str(const.VENTANA_ANCHO)+"x"+str(const.VENTANA_ALTO))
@@ -40,7 +40,7 @@ class GUI_Tkinter:
     
     def __limpiarAccion(self):
         #Borrado de la accion anterior si existiera
-        self.__accionARealizar = np.zeros(const.NCOLUMNA, dtype=int)
+        self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
         
     '''
     Metodos para añadir filas completas
@@ -89,8 +89,11 @@ class GUI_Tkinter:
             self.__addCartaPeque(finaIndice, c, cartas[c], 'activo')
             
     def __addAccionSeleccionada(self, fila):
-        accion = self.__accionARealizar[0]
-        self.__addAccionEnemiga(fila, 0, accion)
+        lado = const.CARTA_ACCION_LADO
+        borde = const.BORDE_NULO
+        texto = str(self.__accionGuardada[0]) #TODO: Cambiar
+        columna = 0
+        self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_MARCADA)
             
     '''
     Metodos para añadir objetos a las filas
@@ -110,7 +113,6 @@ class GUI_Tkinter:
     #Metodo para añadir un boton de accion activa/inactiva dependiendo del valor
     def __addAccionPropia(self, fila, columna, accionesLista, tipo):
         lado = const.CARTA_ACCION_LADO
-        #accionSeleccionada = self.__accionARealizar[0]
         texto = str(tipo) #TODO: Cambiar
         if(accionesLista[tipo] != 0):
             borde = const.BORDE_NULO
@@ -215,10 +217,12 @@ class GUI_Tkinter:
     Metodos de accion de botones
     '''
     def __seleccionarAccion(self, accionesLista, tipo):
+        self.__limpiarAccion()
+        
         print("Seleccionada accion "+str(tipo))
-        #self.__accionARealizar[0] = valor
-        #self.__limpiarAccion()
-        #self.__addAccionSeleccionada(6)
+        self.__accionGuardada[0] = str(tipo)
+        self.__addAccionSeleccionada(6)
+        
         
     def __seleccionarCarta(self, valor):
         print("Seleccionada carta "+str(valor))
