@@ -13,6 +13,7 @@ import numpy as np
 bgcolor = '#c4a495'
 desactivado = DISABLED
 activado = NORMAL
+filaAccion = 6
 
 class GUI_Tkinter:
     def __init__(self):
@@ -41,6 +42,9 @@ class GUI_Tkinter:
     def __limpiarAccion(self):
         #Borrado de la accion anterior si existiera
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
+        for label in self.__window.grid_slaves(filaAccion):
+           label.grid_forget()
+
         
     '''
     Metodos para añadir filas completas
@@ -218,7 +222,6 @@ class GUI_Tkinter:
     '''
     def __seleccionarAccion(self, accionesLista, tipo):
         self.__limpiarAccion()
-        
         switcher = {
                 0: 1,
                 1: 2,
@@ -230,7 +233,7 @@ class GUI_Tkinter:
         
         print("Seleccionada accion "+str(tipo))
         self.__accionGuardada[0] = tipo
-        self.__addAccionSeleccionada(6)
+        self.__addAccionSeleccionada(filaAccion)
         
         
     def __seleccionarCarta(self, valor):
@@ -242,7 +245,7 @@ class GUI_Tkinter:
                 if(self.__accionGuardada[pos] == 0):
                     encontrada = 1
                     self.__accionGuardada[pos] = valor
-                    self.__addCartaPeque(6, pos, valor, 'inactivo')  
+                    self.__addCartaPeque(filaAccion, pos, valor, 'inactivo')  
                     
                     self.__cartasRestantes = self.__cartasRestantes - 1
                     if(self.__cartasRestantes == 0):
