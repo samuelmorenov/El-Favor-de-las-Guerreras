@@ -16,6 +16,7 @@ class GUI_Tkinter:
     def __init__(self):
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
         self.__cartasRestantes = 0
+        self.__accionPendiente = 0
         self.__window = Tk()
         self.__window.title('El Favor de las Guerreras')
         self.__window.geometry(str(const.VENTANA_ANCHO)+"x"+str(const.VENTANA_ALTO))
@@ -35,13 +36,31 @@ class GUI_Tkinter:
         self.__addMarcadores(const.POSICION_MIS_MARCADORES, tablero[const.ARMAS_USADAS_JUGADOR1])
         self.__addMisAcciones(const.POSICION_MIS_ACCIONES, tablero[const.ACCIONES_USADAS_JUGADOR1])
         self.__addMiMano(const.POSICION_MI_MANO, tablero[const.MANO_JUGADOR1])
+        
+        #Si hay accion pendiente cambiar el tablero para seleccionarla
+        self.__comprobarAccionPendiente(tablero)
+            
     
     def __limpiarAccion(self):
         #Borrado de la accion anterior si existiera
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
         for label in self.__window.grid_slaves(const.POSICION_ACCION):
            label.grid_forget()
+           
+    def __comprobarAccionPendiente(self, tablero):
+        self.__accionPendiente = tablero[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO]
+        if(self.__accionPendiente != 0):
+            self.__accionPendiente = 1
+            self.__addAccionPendiente(const.POSICION_ACCION, tablero[const.ACCION_PENDIENTE])
+            self.__bloquearAccionesNormalesYMano()
 
+    
+    def __bloquearAccionesNormalesYMano(self):
+        for label in self.__window.grid_slaves(const.POSICION_MIS_ACCIONES):
+            label.config(state=DISABLED)
+        for label in self.__window.grid_slaves(const.POSICION_MI_MANO):
+            label.config(state=DISABLED)
+        
         
     '''
     Metodos para añadir filas completas
@@ -95,6 +114,21 @@ class GUI_Tkinter:
         texto = str(self.__accionGuardada[const.PENDIENTE_TIPO])
         columna = const.PENDIENTE_TIPO
         self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_MARCADA)
+        
+    def __addAccionPendiente(self, fila, cartas):
+        
+        if(cartas[const.PENDIENTE_TIPO] == const.TIPO_DECISION_REGALO):
+                texto = "Elija una carta entre\nlas siguientes 3"
+        if(cartas[const.PENDIENTE_TIPO] == const.TIPO_DECISION_COMPETICION):
+                texto = "Elija entre\nlas 2 primeras cartas\no las 2 ultimas"
+            
+        lado = const.CARTA_ACCION_LADO
+        borde = const.BORDE_NULO
+        columna = const.POSICION_SUS_ACCIONES
+        self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_MARCADA)
+        
+        for c in range(1, const.NCOLUMNA):
+            self.__addCartaPeque(fila, c, cartas[c], 'activo')
             
     '''
     Metodos para añadir objetos a las filas
@@ -184,6 +218,17 @@ class GUI_Tkinter:
                       fg='black',
                       borderwidth=borde)
         label.image = photo
+        label.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
+    
+    def __addLabelConSoloTexto(self, fila, columna, alto, ancho, borde, texto):
+        label = Label(self.__window,
+                      width=ancho,
+                      height=alto,
+                      bg=bgcolor,
+                      text = texto,
+                      compound='center',
+                      fg='black',
+                      borderwidth=borde)
         label.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
         
     def __addBotonConImagen(self, fila, columna, alto, ancho, borde, texto, image_path, accion):
