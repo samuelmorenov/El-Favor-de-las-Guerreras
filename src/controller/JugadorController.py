@@ -17,21 +17,17 @@ class JugadorController:
         
         
     def decidirAccion(self, tablero):
-        #accion = self.bot.decidirAccion(tablero)
-        
-
-        
-        self.GUI.printTabla(tablero)
-        self.GUI.start()
-        
-        accion = self.GUI.obtenerAccion()
-        
-        #self.GUI.getAccion()
-        
-        return accion
+        #return self.bot.decidirAccion(tablero)
+        return self.__pedirAccion(tablero)
     
     def decidirAccionDeSeleccion(self, tablero):
         return self.bot.decidirAccionDeSeleccion(tablero)
+        #return self.__pedirAccion(tablero)
+    
+    def __pedirAccion(self, tablero):
+        self.GUI.printTabla(tablero)
+        self.GUI.start()
+        return self.GUI.obtenerAccion()
     
     def finish(self):
         self.GUI.cerrar()

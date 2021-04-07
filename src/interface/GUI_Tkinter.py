@@ -11,10 +11,6 @@ import interface.ImagesPath as ip
 import numpy as np
 
 bgcolor = '#c4a495'
-desactivado = DISABLED
-activado = NORMAL
-filaAccion = 6
-filaMano = 5
 
 class GUI_Tkinter:
     def __init__(self):
@@ -33,17 +29,17 @@ class GUI_Tkinter:
            label.grid_forget()
         
         #Creacion de elementos del tablero        
-        self.__addSusAcciones(0, tablero[const.ACCIONES_USADAS_JUGADOR2])
-        self.__addMarcadores(1, tablero[const.ARMAS_USADAS_JUGADOR2])
-        self.__addGuerreras(2)
-        self.__addMarcadores(3, tablero[const.ARMAS_USADAS_JUGADOR1])
-        self.__addMisAcciones(4, tablero[const.ACCIONES_USADAS_JUGADOR1])
-        self.__addMiMano(filaMano, tablero[const.MANO_JUGADOR1])
+        self.__addSusAcciones(const.POSICION_SUS_ACCIONES, tablero[const.ACCIONES_USADAS_JUGADOR2])
+        self.__addMarcadores(const.POSICION_SUS_MARCADORES, tablero[const.ARMAS_USADAS_JUGADOR2])
+        self.__addGuerreras(const.POSICION_GUERRERAS)
+        self.__addMarcadores(const.POSICION_MIS_MARCADORES, tablero[const.ARMAS_USADAS_JUGADOR1])
+        self.__addMisAcciones(const.POSICION_MIS_ACCIONES, tablero[const.ACCIONES_USADAS_JUGADOR1])
+        self.__addMiMano(const.POSICION_MI_MANO, tablero[const.MANO_JUGADOR1])
     
     def __limpiarAccion(self):
         #Borrado de la accion anterior si existiera
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
-        for label in self.__window.grid_slaves(filaAccion):
+        for label in self.__window.grid_slaves(const.POSICION_ACCION):
            label.grid_forget()
 
         
@@ -96,8 +92,8 @@ class GUI_Tkinter:
     def __addAccionSeleccionada(self, fila):
         lado = const.CARTA_ACCION_LADO
         borde = const.BORDE_NULO
-        texto = str(self.__accionGuardada[0]) #TODO: Cambiar
-        columna = 0
+        texto = str(self.__accionGuardada[const.PENDIENTE_TIPO])
+        columna = const.PENDIENTE_TIPO
         self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_MARCADA)
             
     '''
@@ -212,7 +208,7 @@ class GUI_Tkinter:
         boton = Button(
                 self.__window,
                 text = text,
-                state=desactivado,
+                state=DISABLED,
                 borderwidth=borde, 
                 bg=bgcolor,
                 #activebackground='#00ff00'
@@ -228,8 +224,8 @@ class GUI_Tkinter:
         #que se seleccionen las cartas
         self.__borrarAceptar()
         #Habilitamos todas las cartas de la mano para poder ser seleccionadas
-        for label in self.__window.grid_slaves(filaMano):
-            label.config(state=activado)
+        for label in self.__window.grid_slaves(const.POSICION_MI_MANO):
+            label.config(state=NORMAL)
         
         switcher = {
                 0: 1,
@@ -241,8 +237,8 @@ class GUI_Tkinter:
         
         
         print("Seleccionada accion "+str(tipo))
-        self.__accionGuardada[0] = tipo
-        self.__addAccionSeleccionada(filaAccion)
+        self.__accionGuardada[const.PENDIENTE_TIPO] = tipo
+        self.__addAccionSeleccionada(const.POSICION_ACCION)
         
         
     def __seleccionarCarta(self, valor, fila, columna):
@@ -255,7 +251,7 @@ class GUI_Tkinter:
                 if(self.__accionGuardada[pos] == 0):
                     encontrada = 1
                     self.__accionGuardada[pos] = valor
-                    self.__addCartaPeque(filaAccion, pos, valor, 'inactivo')  
+                    self.__addCartaPeque(const.POSICION_ACCION, pos, valor, 'inactivo')  
                     
                     self.__cartasRestantes = self.__cartasRestantes - 1
                     if(self.__cartasRestantes == 0):
@@ -266,7 +262,7 @@ class GUI_Tkinter:
                     
             #Bloqueamos la carta marcada
             for label in self.__window.grid_slaves(fila, columna):
-                label.config(state=desactivado)
+                label.config(state=DISABLED)
                 
     def __noAccion(self):
         return
