@@ -14,6 +14,7 @@ bgcolor = '#c4a495'
 desactivado = DISABLED
 activado = NORMAL
 filaAccion = 6
+filaMano = 5
 
 class GUI_Tkinter:
     def __init__(self):
@@ -37,7 +38,7 @@ class GUI_Tkinter:
         self.__addGuerreras(2)
         self.__addMarcadores(3, tablero[const.ARMAS_USADAS_JUGADOR1])
         self.__addMisAcciones(4, tablero[const.ACCIONES_USADAS_JUGADOR1])
-        self.__addMiMano(5, tablero[const.MANO_JUGADOR1])
+        self.__addMiMano(filaMano, tablero[const.MANO_JUGADOR1])
     
     def __limpiarAccion(self):
         #Borrado de la accion anterior si existiera
@@ -155,7 +156,7 @@ class GUI_Tkinter:
             ancho = const.CARTA_PEQUE_ANCHO
             borde = const.BORDE_CLICKABLE
             if(activo == 'activo'):
-                accion = lambda: self.__seleccionarCarta(valor)
+                accion = lambda: self.__seleccionarCarta(valor, fila, columna)
                 self.__addBotonConImagen(fila, columna, alto, ancho, borde, '', path, accion)
             else:
                 self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
@@ -221,7 +222,15 @@ class GUI_Tkinter:
     Metodos de accion de botones
     '''
     def __seleccionarAccion(self, accionesLista, tipo):
+        #Eliminamos la informacion de la accion seleccionada anteriormente
         self.__limpiarAccion()
+        #Borramos el boton de aceptar para que no este disponible hasta 
+        #que se seleccionen las cartas
+        self.__borrarAceptar()
+        #Habilitamos todas las cartas de la mano para poder ser seleccionadas
+        for label in self.__window.grid_slaves(filaMano):
+            label.config(state=activado)
+        
         switcher = {
                 0: 1,
                 1: 2,
@@ -236,11 +245,12 @@ class GUI_Tkinter:
         self.__addAccionSeleccionada(filaAccion)
         
         
-    def __seleccionarCarta(self, valor):
+    def __seleccionarCarta(self, valor, fila, columna):
         print("Seleccionada carta "+str(valor))
         if(self.__cartasRestantes > 0):
             encontrada = 0
             pos = 1
+            #Buscamos un hueco libre en la accion a realizar y añadimos la carta
             while (encontrada == 0):
                 if(self.__accionGuardada[pos] == 0):
                     encontrada = 1
@@ -254,6 +264,10 @@ class GUI_Tkinter:
                     pos = pos + 1
         
                     
+            #Bloqueamos la carta marcada
+            for label in self.__window.grid_slaves(fila, columna):
+                label.config(state=desactivado)
+                
     def __noAccion(self):
         return
         
@@ -265,6 +279,10 @@ class GUI_Tkinter:
     def __printAceptar(self):
         ButtonToAdd = Button(self.__window, text = "Aceptar", command = self.__pressAceptar)
         ButtonToAdd.grid(row=const.NFILA-1, column=int(const.NCOLUMNA/2))
+        
+    def __borrarAceptar(self):
+        for label in self.__window.grid_slaves(const.NFILA-1, int(const.NCOLUMNA/2)):
+           label.grid_forget()
         
     def start(self):
         self.__window.mainloop()
