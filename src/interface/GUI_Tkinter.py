@@ -118,22 +118,53 @@ class GUI_Tkinter:
     def __addAccionPendiente(self, fila, cartas):
         
         if(cartas[const.PENDIENTE_TIPO] == const.TIPO_DECISION_REGALO):
-            self.__addAccionPendiente4(fila, cartas)
-        if(cartas[const.PENDIENTE_TIPO] == const.TIPO_DECISION_COMPETICION):
             self.__addAccionPendiente5(fila, cartas)
+        if(cartas[const.PENDIENTE_TIPO] == const.TIPO_DECISION_COMPETICION):
+            self.__addAccionPendiente6(fila, cartas)
                 
             
-    def __addAccionPendiente4(self, fila, cartas):
+    def __addAccionPendiente5(self, fila, cartas):
         texto = "Elija una carta entre\nlas siguientes 3"
         self.__addMarcoExplicativo(fila, const.POSICION_SUS_ACCIONES, texto)
-        for c in range(1, const.NCOLUMNA):
-            self.__addCartaAccionPendiente(fila, c, cartas[c], 'activo')
         
-    def __addAccionPendiente5(self, fila, cartas):
+        columna1 = const.PENDIENTE_5_1
+        accion = lambda: self.__seleccionarCartaPendiente5(fila, columna1, cartas[columna1])
+        self.__addCartaAccionPendiente(fila, columna1, cartas[columna1], accion)
+        
+        columna2 = const.PENDIENTE_5_2
+        accion = lambda: self.__seleccionarCartaPendiente5(fila, columna2, cartas[columna2])
+        self.__addCartaAccionPendiente(fila, columna2, cartas[columna2], accion)
+        
+        columna3 = const.PENDIENTE_5_3
+        accion = lambda: self.__seleccionarCartaPendiente5(fila, columna3, cartas[columna3])
+        self.__addCartaAccionPendiente(fila, columna3, cartas[columna3], accion)
+
+        
+    def __addAccionPendiente6(self, fila, cartas):
         texto = "Elija entre\nlas 2 primeras cartas\no las 2 ultimas"
         self.__addMarcoExplicativo(fila, const.POSICION_SUS_ACCIONES, texto)
-        for c in range(1, const.NCOLUMNA):
-            self.__addCartaAccionPendiente(fila, c, cartas[c], 'activo')
+        
+        columna11 = const.PENDIENTE_6_1_1
+        columna12 = const.PENDIENTE_6_1_2
+        accion = lambda: self.__seleccionarCartaPendiente6(fila, columna11, columna12, cartas[columna11], cartas[columna12])
+        self.__addCartaAccionPendiente(fila, columna11, cartas[columna11], accion)
+        
+        columna21 = const.PENDIENTE_6_1_2
+        columna22 = const.PENDIENTE_6_1_1
+        accion = lambda: self.__seleccionarCartaPendiente6(fila, columna21, columna22, cartas[columna21], cartas[columna22])
+        self.__addCartaAccionPendiente(fila, columna21, cartas[columna21], accion)
+        
+        columna31 = const.PENDIENTE_6_2_1
+        columna32 = const.PENDIENTE_6_2_2
+        accion = lambda: self.__seleccionarCartaPendiente6(fila, columna31, columna32, cartas[columna31], cartas[columna32])
+        self.__addCartaAccionPendiente(fila, columna31, cartas[columna31], accion)
+        
+        columna41 = const.PENDIENTE_6_2_2
+        columna42 = const.PENDIENTE_6_2_1
+        accion = lambda: self.__seleccionarCartaPendiente6(fila, columna41, columna42, cartas[columna41], cartas[columna42])
+        self.__addCartaAccionPendiente(fila, columna41, cartas[columna41], accion)
+        
+        
             
     '''
     Metodos para añadir objetos a las filas
@@ -338,7 +369,48 @@ class GUI_Tkinter:
             #Bloqueamos la carta marcada
             for label in self.__window.grid_slaves(fila, columna):
                 label.config(state=DISABLED)
-                
+            
+    def __seleccionarCartaPendiente5(self, fila, columna, valor):
+        print("Seleccionada carta para accion pendiente "+str(valor))
+        #Eliminamos la informacion de la accion seleccionada anteriormente
+        self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
+        self.__accionGuardada[const.PENDIENTE_TIPO] = const.TIPO_DECISION_REGALO
+        self.__accionGuardada[const.PENDIENTE_5_ELEGIDA] = valor
+        
+        #Desbloqueamos todas las cartas de accion pendiente
+        for label in self.__window.grid_slaves(fila):
+            label.config(state=NORMAL)
+            
+        #Bloqueamos la carta seleccionada
+        for label in self.__window.grid_slaves(fila, columna):
+            label.config(state=DISABLED)
+            
+        #Volvemos a pintar el boton de aceptar
+        self.__borrarAceptar()
+        self.__printAceptar()
+        
+    def __seleccionarCartaPendiente6(self, fila, columna1, columna2, valor1, valor2):
+        print("Seleccionada cartas para accion pendiente "+str(valor1)+" y "+str(valor2))
+        #Eliminamos la informacion de la accion seleccionada anteriormente
+        self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
+        self.__accionGuardada[const.PENDIENTE_TIPO] = const.TIPO_DECISION_COMPETICION
+        self.__accionGuardada[const.PENDIENTE_6_ELEGIDA_1] = valor1
+        self.__accionGuardada[const.PENDIENTE_6_ELEGIDA_2] = valor2
+        
+        #Desbloqueamos todas las cartas de accion pendiente
+        for label in self.__window.grid_slaves(fila):
+            label.config(state=NORMAL)
+            
+        #Bloqueamos las cartas seleccionadas
+        for label in self.__window.grid_slaves(fila, columna1):
+            label.config(state=DISABLED)
+        for label in self.__window.grid_slaves(fila, columna2):
+            label.config(state=DISABLED)
+            
+        #Volvemos a pintar el boton de aceptar
+        self.__borrarAceptar()
+        self.__printAceptar()
+        
     def __noAccion(self):
         return
         
