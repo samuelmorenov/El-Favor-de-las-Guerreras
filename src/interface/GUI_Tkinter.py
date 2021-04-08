@@ -118,17 +118,22 @@ class GUI_Tkinter:
     def __addAccionPendiente(self, fila, cartas):
         
         if(cartas[const.PENDIENTE_TIPO] == const.TIPO_DECISION_REGALO):
-                texto = "Elija una carta entre\nlas siguientes 3"
+            self.__addAccionPendiente4(fila, cartas)
         if(cartas[const.PENDIENTE_TIPO] == const.TIPO_DECISION_COMPETICION):
-                texto = "Elija entre\nlas 2 primeras cartas\no las 2 ultimas"
+            self.__addAccionPendiente5(fila, cartas)
+                
             
-        lado = const.CARTA_ACCION_LADO
-        borde = const.BORDE_NULO
-        columna = const.POSICION_SUS_ACCIONES
-        self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_MARCADA)
-        
+    def __addAccionPendiente4(self, fila, cartas):
+        texto = "Elija una carta entre\nlas siguientes 3"
+        self.__addMarcoExplicativo(fila, const.POSICION_SUS_ACCIONES, texto)
         for c in range(1, const.NCOLUMNA):
-            self.__addCartaPeque(fila, c, cartas[c], 'activo')
+            self.__addCartaAccionPendiente(fila, c, cartas[c], 'activo')
+        
+    def __addAccionPendiente5(self, fila, cartas):
+        texto = "Elija entre\nlas 2 primeras cartas\no las 2 ultimas"
+        self.__addMarcoExplicativo(fila, const.POSICION_SUS_ACCIONES, texto)
+        for c in range(1, const.NCOLUMNA):
+            self.__addCartaAccionPendiente(fila, c, cartas[c], 'activo')
             
     '''
     Metodos para añadir objetos a las filas
@@ -191,6 +196,25 @@ class GUI_Tkinter:
             else:
                 self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
             
+    def __addCartaAccionPendiente(self, fila, columna, valor, accion):
+        if(valor != 0):
+            switcher = {
+                1: ip.C1,
+                2: ip.C2,
+                3: ip.C3,
+                4: ip.C4,
+                5: ip.C5,
+                6: ip.C6,
+                7: ip.C7,
+            }
+            path = switcher.get(valor)
+            
+            alto = const.CARTA_PEQUE_ALTO
+            ancho = const.CARTA_PEQUE_ANCHO
+            borde = const.BORDE_CLICKABLE
+            self.__addBotonConImagen(fila, columna, alto, ancho, borde, '', path, accion)
+        
+            
     #Metodo para añadir un boton con una carta pequeña oculta
     def __addCartaOculta(self, fila, columna, valor):
         if(valor != 0):
@@ -199,6 +223,12 @@ class GUI_Tkinter:
             ancho = const.CARTA_PEQUE_ANCHO
             borde = const.BORDE_NULO
             self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
+            
+    def __addMarcoExplicativo(self, fila, columna, texto):
+        lado = const.CARTA_ACCION_LADO
+        borde = const.BORDE_NULO
+        self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.MARCO_TEXTO_EXPLICATIVO)
+        
             
     '''
     Metodos de creacion de witgets (self, fila, columna, alto, ancho, borde, activo, texto/path)
