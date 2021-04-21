@@ -1,5 +1,19 @@
 # -*- coding: utf-8 -*-
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+#Parametros del juego
+PRINT_TRACE = False
+PRINT_BOT_COMPLETO = False
+MODO = 1
+MODO_JUGAR = 0
+MODO_GENERAR_DATOS = 1
+NUM_SIMULACIONES = 500
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+#Constantes del tablero
+
 N_CARTAS_INICIAL = 6
 
 N_ACCIONES = 4

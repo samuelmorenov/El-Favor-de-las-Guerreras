@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import os
 sys.path.append('../')
 
 from controller.TableroController import TableroController
@@ -12,12 +11,15 @@ import controller.Constantes as const
 
 
 class PartidaController:
-    def __init__(self):
+    def __init__(self, modo):
         self.c = TableroController()
         self.win = 0
-        #self.j1 = BotTonto("Bot 2")#JugadorController()
-        self.j1 = JugadorController()
-        self.j2 = BotTonto("Bot 1")
+        self.winner = False
+        if(const.MODO == const.MODO_GENERAR_DATOS):
+            self.j1 = BotTonto("Bot tonto 1", const.JUGADOR1)
+        if(const.MODO == const.MODO_JUGAR):
+            self.j1 = JugadorController("Jugador", const.JUGADOR1)
+        self.j2 = BotTonto("Bot tonto 2", const.JUGADOR2)
         self.accionesj1 = ''
         self.accionesj2 = ''
         
@@ -29,9 +31,9 @@ class PartidaController:
             self.__turno(contadorRondas)
             self.win = self.c.finalizarTurno()
             if(self.win == 1):
-                self.__guardarGanador(self.j1.yo)
+                self.__guardarGanador(self.j1)
             elif(self.win == 2):
-                self.__guardarGanador(self.j2.yo)
+                self.__guardarGanador(self.j2)
             else:
                 self.j1, self.j2 = self.j2, self.j1
             contadorRondas = contadorRondas + 1
@@ -45,7 +47,8 @@ class PartidaController:
         self.c.printTableroCompleto()
         
         for i in range(const.N_ACCIONES):
-            print("Inicio de turno "+str(i))
+            if(const.PRINT_TRACE):
+                print("Inicio de turno "+str(i))
             self.__accion(const.JUGADOR1, const.JUGADOR2, self.j1, self.j2)
             self.__accion(const.JUGADOR2, const.JUGADOR1, self.j2, self.j1)
               
@@ -56,13 +59,13 @@ class PartidaController:
         self.c.jugadorRobaCarta(jugador1)
         tablero = self.c.getVistaTablero(jugador1)
         accion = botSeleccionadoComo1.decidirAccion(tablero)
-        self.__guardarAccion(tablero, accion, jugador1)
+        self.__guardarAccion(tablero, accion, botSeleccionadoComo1)
         self.c.realizarAccion(jugador1, accion)
         
         if(self.c.hayAccionPendiente()):
             tablero = self.c.getVistaTablero(jugador2)
             accionDeSeleccion = botSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
-            self.__guardarAccion(tablero, accion, jugador2)
+            self.__guardarAccion(tablero, accion, botSeleccionadoComo2)
             self.c.realizarAccion(jugador2, accionDeSeleccion)
             
     def __guardarAccion(self, tablero, accion, jugador):
@@ -79,24 +82,25 @@ class PartidaController:
             casilla = str(casilla)
             linea = linea + casilla
             
-        if(jugador == const.JUGADOR1):
+        if(jugador.miNumero) == const.JUGADOR1:
             self.accionesj1 = self.accionesj1 + linea + "\n"
         else:
             self.accionesj2 = self.accionesj2 + linea + "\n"
             
     def __guardarGanador(self, jugador):
-        print("Ha ganado el "+str(jugador))
+        if(const.PRINT_TRACE):
+            print("Ha ganado el "+str(jugador.miNombre))
         jugadas = ''
-        if(jugador == const.JUGADOR1):
+        if(jugador.miNumero == const.JUGADOR1):
             jugadas = self.accionesj1
+            self.winner = const.JUGADOR1
         else:
             jugadas = self.accionesj2
+            self.winner = const.JUGADOR2
+            
         self.__guardarEnArchivo(jugadas)
         
     def __guardarEnArchivo(self, jugadas):
-        dir='./../data'
-        if not os.path.exists(dir):
-            os.mkdir(dir)
-        path = dir + "/jugadasGanadoras.csv"
+        path = "./../data/jugadasGanadoras.csv"
         with open(path, 'a') as f:
             f.write(jugadas)

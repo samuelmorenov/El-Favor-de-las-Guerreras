@@ -397,6 +397,7 @@ class TableroController:
         return self.__getGanador()
     
     def printTableroCompleto(self):
-        print(self.__tablero)
+        if(const.PRINT_TRACE):
+            print(self.__tablero)
     
 

@@ -7,25 +7,24 @@ import numpy as np
 
 import controller.Constantes as const
 
-LOG = False
-
 class BotTonto:
-    def __init__(self, yo):
-        self.yo = yo
+    def __init__(self, miNombre, miNumero):
+        self.miNombre = miNombre
+        self.miNumero = miNumero
         
         
     def decidirAccion(self, tablero):
 
-        if(self.yo == "Bot 1"):
-            print("\033[;33m",end="") #Amarillo
-        if(self.yo == "Bot 2"):
-            print("\033[;36m",end="") #Cian
-        
-        
-        print("Soy "+self.yo)
-        
-        print("- Este es el tablero que me llega:")
-        print(tablero)
+        if(const.PRINT_TRACE):
+            if(self.miNumero == const.JUGADOR1):
+                print("\033[;33m",end="") #Amarillo
+            if(self.miNumero == const.JUGADOR2):
+                print("\033[;36m",end="") #Cian
+            
+            print("Soy "+self.miNombre)
+            
+            print("- Este es el tablero que me llega:")
+            print(tablero)
     
         listaDeCartasEnMano = []
         
@@ -33,14 +32,14 @@ class BotTonto:
             if(tablero[const.MANO_JUGADOR1][i] != 0):
                 listaDeCartasEnMano.append(tablero[const.MANO_JUGADOR1][i])
         
-        if(LOG):
+        if(const.PRINT_BOT_COMPLETO):
             print("- Estas son las cartas de mi mano:")
             print(listaDeCartasEnMano)
         
         listaAccionesPosibles = []
         accionesRealizadas = tablero[const.ACCIONES_USADAS_JUGADOR1]
         
-        if(LOG):
+        if(const.PRINT_BOT_COMPLETO):
             print("- Estas son las acciones realizadas:")
             print(accionesRealizadas)
         
@@ -53,13 +52,13 @@ class BotTonto:
         if(accionesRealizadas[const.TIPO_COMPETICION] == 0):
             listaAccionesPosibles.append(const.TIPO_COMPETICION)
            
-        if(LOG):
+        if(const.PRINT_BOT_COMPLETO):
             print("- Estas son las acciones que puedo hacer:")
             print(listaAccionesPosibles)
         
         accionARealizar = listaAccionesPosibles.pop(np.random.randint(len(listaAccionesPosibles)))
         
-        if(LOG):
+        if(const.PRINT_BOT_COMPLETO):
             print("- He decidido realizar la accion: ")
             print(accionARealizar)        
         
@@ -82,7 +81,7 @@ class BotTonto:
             carta = listaDeCartasEnMano.pop(posicion)
             cartasSeleccionadas.append(carta)
             
-        if(LOG):
+        if(const.PRINT_BOT_COMPLETO):
             print("- He seleccionado estas cartas para hacer la accion:")
             print(cartasSeleccionadas)
             print("- Estas son las cartas que quedan en mi mano:")
@@ -115,24 +114,26 @@ class BotTonto:
         else:
             raise Exception("Error al encontrar accion en bot")
             
-        print("- Esta es la accion completa que realizo:")
-        print(accionCompleta)
-        print("\033[0m",end="")
-        print("___________________________________") #Separador de bots
+        if(const.PRINT_TRACE):
+            print("- Esta es la accion completa que realizo:")
+            print(accionCompleta)
+            print("\033[0m",end="")
+            print("___________________________________") #Separador de bots
         return accionCompleta
     
     def decidirAccionDeSeleccion(self, tablero):
         
-        if(self.yo == "Bot 1"):
-            print("\033[;33m",end="") #Amarillo
-        if(self.yo == "Bot 2"):
-            print("\033[;36m",end="") #Cian
-        
-        
-        print("Soy "+self.yo)
-        
-        print("- Esta es la accion pendiente que me llega:")
-        print(tablero[const.ACCION_PENDIENTE])
+        if(const.PRINT_TRACE):
+            if(self.miNumero == const.JUGADOR1):
+                print("\033[;33m",end="") #Amarillo
+            if(self.miNumero == const.JUGADOR2):
+                print("\033[;36m",end="") #Cian
+            
+            
+            print("Soy "+self.miNombre)
+            
+            print("- Esta es la accion pendiente que me llega:")
+            print(tablero[const.ACCION_PENDIENTE])
         
         accionPendienteList = tablero[const.ACCION_PENDIENTE]
         accionPendienteTipo = accionPendienteList[const.PENDIENTE_TIPO]
@@ -164,10 +165,11 @@ class BotTonto:
         else:
             raise Exception("Error al encontrar accion en bot")
         
-        print("- Esta es la accion completa que realizo:")
-        print(accionCompleta)
-        print("\033[0m",end="")
-        print("___________________________________") #Separador de bots
+        if(const.PRINT_TRACE):
+            print("- Esta es la accion completa que realizo:")
+            print(accionCompleta)
+            print("\033[0m",end="")
+            print("___________________________________") #Separador de bots
         return accionCompleta
     
     def finish(self):
