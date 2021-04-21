@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import os
 sys.path.append('../')
 
 from controller.TableroController import TableroController
@@ -14,18 +15,23 @@ class PartidaController:
     def __init__(self):
         self.c = TableroController()
         self.win = 0
+        #self.j1 = BotTonto("Bot 2")#JugadorController()
         self.j1 = JugadorController()
         self.j2 = BotTonto("Bot 1")
+        self.accionesj1 = ''
+        self.accionesj2 = ''
         
     def start(self):
+        self.accionesj1 = ''
+        self.accionesj2 = ''
         contadorRondas = 1
         while (self.win == 0):
             self.__turno(contadorRondas)
             self.win = self.c.finalizarTurno()
             if(self.win == 1):
-                print("Ha ganado el "+str(self.j1.yo))
+                self.__guardarGanador(self.j1.yo)
             elif(self.win == 2):
-                print("Ha ganado el "+str(self.j2.yo))
+                self.__guardarGanador(self.j2.yo)
             else:
                 self.j1, self.j2 = self.j2, self.j1
             contadorRondas = contadorRondas + 1
@@ -50,9 +56,47 @@ class PartidaController:
         self.c.jugadorRobaCarta(jugador1)
         tablero = self.c.getVistaTablero(jugador1)
         accion = botSeleccionadoComo1.decidirAccion(tablero)
+        self.__guardarAccion(tablero, accion, jugador1)
         self.c.realizarAccion(jugador1, accion)
         
         if(self.c.hayAccionPendiente()):
             tablero = self.c.getVistaTablero(jugador2)
             accionDeSeleccion = botSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
+            self.__guardarAccion(tablero, accion, jugador2)
             self.c.realizarAccion(jugador2, accionDeSeleccion)
+            
+    def __guardarAccion(self, tablero, accion, jugador):
+        linea = ''
+        for f in range(const.NFILA):
+            for c in range(const.NCOLUMNA):
+                casilla = tablero[f][c]
+                casilla = str(casilla)
+                linea = linea + casilla
+                
+        linea = linea + ';'
+        for c2 in range(const.NCOLUMNA - 2):
+            casilla = accion[c2]
+            casilla = str(casilla)
+            linea = linea + casilla
+            
+        if(jugador == const.JUGADOR1):
+            self.accionesj1 = self.accionesj1 + linea + "\n"
+        else:
+            self.accionesj2 = self.accionesj2 + linea + "\n"
+            
+    def __guardarGanador(self, jugador):
+        print("Ha ganado el "+str(jugador))
+        jugadas = ''
+        if(jugador == const.JUGADOR1):
+            jugadas = self.accionesj1
+        else:
+            jugadas = self.accionesj2
+        self.__guardarEnArchivo(jugadas)
+        
+    def __guardarEnArchivo(self, jugadas):
+        dir='./../data'
+        if not os.path.exists(dir):
+            os.mkdir(dir)
+        path = dir + "/jugadasGanadoras.csv"
+        with open(path, 'a') as f:
+            f.write(jugadas)
