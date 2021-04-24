@@ -22,55 +22,22 @@ from tensorflow.keras.layers.experimental import preprocessing
 
 from tensorflow.python.framework.ops import disable_eager_execution
 
-
-'''
-disable_eager_execution() #Se deshabilita eager execution para poder usar Adam
-
-#Eliminamos sesiones de keras abiertas
-K.clear_session()
-'''
-#path de datos de entrenamiento
-data_entrenamiento = './../../data/jugadasGanadoras.csv'
-#path de datos de validacion
-data_validacion = './../../data/jugadasGanadorasValidacion.csv'
-
-separador = const.SEPARADOR
-cabecera = ['entrada', 'salida']
-tipos = {'entrada': 'str', 'salida': 'str'}
-
-#Parametros de la red neuronal
-
-#Numero de veces de iteracion sobre el set de datos completo
-epocas=20
-#Numero de datos a procesar en cada paso
-batch_size=32
-#Numero de veces que se va a procesar la informacion en cada epoca
-pasos=1000
-pasos_validacion=200
-
-#Numero de filtros que se van a aplicar en cada convolucion 
-#(profundidad de los datos al aplicar el filtro)
-filtrosConv1=32
-filtrosConv2=64
-
-#Altura y longitud de los filtros que se van a aplicar
-tamanio_filtro1=(3,3)
-tamanio_filtro2=(2,2)
-#Tamaño del filtro para el max pooling
-tamanio_pool=(2,2)
-
-#Learning Rate 
-lr=0.0005
-
-
-
 class Entrenamiento:
 ##Pre procesado de datos
     
     def __init__(self):
+        #Se deshabilita eager execution para poder usar Adam
+        #disable_eager_execution()
+        #Eliminamos sesiones de keras abiertas
+        #K.clear_session()
+        
         self.preProcesadoDeDatos()
         
     def preProcesadoDeDatos(self):
+        data_entrenamiento = './../../data/jugadasGanadoras.csv'
+        separador = const.SEPARADOR
+        cabecera = ['entrada', 'salida']
+        tipos = {'entrada': 'str', 'salida': 'str'}
         
         training_data = pd.read_csv(
             data_entrenamiento,
@@ -100,8 +67,32 @@ class Entrenamiento:
         return datos
     
     def creacionRedNeuronal(self):
-        #Crear la red neuronal convolucional
+        #Parametros de la red neuronal
+
+        #Numero de veces de iteracion sobre el set de datos completo
+        epocas=20
+        #Numero de datos a procesar en cada paso
+        batch_size=32
+        #Numero de veces que se va a procesar la informacion en cada epoca
+        pasos=1000
+        pasos_validacion=200
         
+        #Numero de filtros que se van a aplicar en cada convolucion 
+        #(profundidad de los datos al aplicar el filtro)
+        filtrosConv1=32
+        filtrosConv2=64
+        
+        #Altura y longitud de los filtros que se van a aplicar
+        tamanio_filtro1=(3,3)
+        tamanio_filtro2=(2,2)
+        #Tamaño del filtro para el max pooling
+        tamanio_pool=(2,2)
+        
+        #Learning Rate 
+        lr=0.0005
+        
+        
+        #Crear la red neuronal convolucional
         cnn=Sequential() #varias capas secuenciales
         
         #Primera capa de convolucion
