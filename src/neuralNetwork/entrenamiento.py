@@ -63,107 +63,117 @@ tamanio_pool=(2,2)
 lr=0.0005
 
 
+
+class Entrenamiento:
 ##Pre procesado de datos
-
-training_data = pd.read_csv(
-    data_entrenamiento,
-    sep=separador,
-    names=cabecera,
-    dtype=tipos)
-
-
-training_entrada = training_data.pop('entrada')
-training_entrada = np.array(training_entrada)
-
-training_salida = training_data.pop('salida')
-training_salida = np.array(training_salida)
-
-for i in range(training_entrada.size):
-    x = training_entrada[i]
-    training_entrada[i] = [int(x) for x in str(x)]
-
-for i in range(training_salida.size):
-    x = training_salida[i]
-    training_salida[i] = [int(x) for x in str(x)]
     
-training_entrada = np.array(training_entrada)
-training_salida = np.array(training_salida)
+    def __init__(self):
+        self.preProcesadoDeDatos()
+        
+    def preProcesadoDeDatos(self):
+        
+        training_data = pd.read_csv(
+            data_entrenamiento,
+            sep=separador,
+            names=cabecera,
+            dtype=tipos)
+        
+        
+        training_entrada = training_data.pop('entrada')
+        training_entrada = np.array(training_entrada)
+        
+        training_salida = training_data.pop('salida')
+        training_salida = np.array(training_salida)
+        
+        for i in range(training_entrada.size):
+            x = training_entrada[i]
+            training_entrada[i] = [int(x) for x in str(x)]
+        
+        for i in range(training_salida.size):
+            x = training_salida[i]
+            training_salida[i] = [int(x) for x in str(x)]
+            
+        training_entrada = np.array(training_entrada)
+        training_salida = np.array(training_salida)
+        
+        print(training_entrada)
+        print(training_salida)
 
-print(training_entrada)
-print(training_salida)
+
+    def creacionRedNeuronal(self):
+        #Crear la red neuronal convolucional
+        
+        cnn=Sequential() #varias capas secuenciales
+        
+        #Primera capa de convolucion
+        cnn.add(Convolution2D( 
+                filtrosConv1, 
+                tamanio_filtro1, 
+                padding='same', #lo que va a hacer el filtro en las esquinas
+                input_shape=(altura, longitud, 1), #altura, longitud y rgb
+                activation='relu'
+                ))
+        
+        #Primera capa de pooling
+        cnn.add(MaxPooling2D(
+                pool_size=tamanio_pool
+                ))
+        
+        #Siguiente capa de convolucion
+        cnn.add(Convolution2D( 
+                filtrosConv2, 
+                tamanio_filtro2, 
+                padding='same', #lo que va a hacer el filtro en las esquinas
+                activation='relu'
+                ))
+        
+        #Siguiente capa de pooling
+        cnn.add(MaxPooling2D(
+                pool_size=tamanio_pool
+                ))
+        
+        #Transformacion de la red en una dimension
+        cnn.add(Flatten())
+        
+        #Capa densa
+        cnn.add(Dense(
+                256, #numero de neuronas
+                activation='relu'
+                ))
+        
+        #Se apagaran el 50% de las neuronas para no atrofiar caminos
+        cnn.add(Dropout(0.5)) 
+        
+        #Ultima capa
+        cnn.add(Dense(
+                clases, #numero de neuronas
+                activation='softmax' #% de cada opcion
+                ))
+        
+        #parametros para optimizar el algoritmo
+        cnn.compile(
+                loss='categorical_crossentropy', #la funcion de perdida
+                optimizer=optimizers.Adam(lr=lr), #optimizador Adam
+                metrics=['accuracy'] #metrica de optimizacion, % de aprendizaje
+                )
+        
+        cnn.fit_generator(
+                imagen_entrenamiento, #imagenes con las que va a entrenar
+                steps_per_epoch=pasos, #numero de pasos por epoca
+                epochs=epocas, #numero de epocas
+                validation_data=imagen_validacion, #imagenes de validacion
+                validation_steps=pasos_validacion #cuantos pasos va a dar despues de cada epoca
+                )
+        
+        dir='./modelo'
+        
+        if not os.path.exists(dir):
+            os.mkdir(dir)
+            
+        cnn.save(dir+'/modelo.h5') #guardado del modelo
+        cnn.save_weights(dir+'/pesos.h5') #guardado de los pesos del modelo
 
 
-'''
-#Crear la red neuronal convolucional
 
-cnn=Sequential() #varias capas secuenciales
 
-#Primera capa de convolucion
-cnn.add(Convolution2D( 
-        filtrosConv1, 
-        tamanio_filtro1, 
-        padding='same', #lo que va a hacer el filtro en las esquinas
-        input_shape=(altura, longitud, 3), #altura, longitud y rgb
-        activation='relu'
-        ))
-
-#Primera capa de pooling
-cnn.add(MaxPooling2D(
-        pool_size=tamanio_pool
-        ))
-
-#Siguiente capa de convolucion
-cnn.add(Convolution2D( 
-        filtrosConv2, 
-        tamanio_filtro2, 
-        padding='same', #lo que va a hacer el filtro en las esquinas
-        activation='relu'
-        ))
-
-#Siguiente capa de pooling
-cnn.add(MaxPooling2D(
-        pool_size=tamanio_pool
-        ))
-
-#Transformacion de la red en una dimension
-cnn.add(Flatten())
-
-#Capa densa
-cnn.add(Dense(
-        256, #numero de neuronas
-        activation='relu'
-        ))
-
-#Se apagaran el 50% de las neuronas para no atrofiar caminos
-cnn.add(Dropout(0.5)) 
-
-#Ultima capa
-cnn.add(Dense(
-        clases, #numero de neuronas
-        activation='softmax' #% de cada opcion
-        ))
-
-#parametros para optimizar el algoritmo
-cnn.compile(
-        loss='categorical_crossentropy', #la funcion de perdida
-        optimizer=optimizers.Adam(lr=lr), #optimizador Adam
-        metrics=['accuracy'] #metrica de optimizacion, % de aprendizaje
-        )
-
-cnn.fit_generator(
-        imagen_entrenamiento, #imagenes con las que va a entrenar
-        steps_per_epoch=pasos, #numero de pasos por epoca
-        epochs=epocas, #numero de epocas
-        validation_data=imagen_validacion, #imagenes de validacion
-        validation_steps=pasos_validacion #cuantos pasos va a dar despues de cada epoca
-        )
-
-dir='./modelo'
-
-if not os.path.exists(dir):
-    os.mkdir(dir)
-    
-cnn.save(dir+'/modelo.h5') #guardado del modelo
-cnn.save_weights(dir+'/pesos.h5') #guardado de los pesos del modelo
-
-'''
+entrenamiento = Entrenamiento()
