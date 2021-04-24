@@ -2,39 +2,45 @@
 
 import sys
 import os
+import pandas as pd
+import numpy as np
+import tensorflow as tf
+#sys.path.append('../')
+
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.keras import optimizers
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dropout, Flatten, Dense, Activation
 from tensorflow.python.keras.layers import  Convolution2D, MaxPooling2D
 from tensorflow.python.keras import backend as K
+from tensorflow.keras import layers
+from tensorflow.keras.layers.experimental import preprocessing
 
 from tensorflow.python.framework.ops import disable_eager_execution
+
 
 disable_eager_execution() #Se deshabilita eager execution para poder usar Adam
 
 #Eliminamos sesiones de keras abiertas
 K.clear_session()
 
-#path de imagenes de entrenamiento
-data_entrenamiento = './data/entrenamiento'
-#path de imagenes de validacion
-data_validacion = './data/validacion'
+#path de datos de entrenamiento
+data_entrenamiento = './../../data/jugadasGanadoras.csv'
+#path de datos de validacion
+data_validacion = './../../data/jugadasGanadorasValidacion.csv'
 
 #Parametros de la red neuronal
 
 #Numero de veces de iteracion sobre el set de datos completo
 epocas=20
-#Tamaño de las imagenes
-altura, longitud = 100, 100
-#Numero de imagenes a procesar en cada paso
+#Numero de datos a procesar en cada paso
 batch_size=32
 #Numero de veces que se va a procesar la informacion en cada epoca
 pasos=1000
 pasos_validacion=200
 
 #Numero de filtros que se van a aplicar en cada convolucion 
-#(profundidad de la imagen al aplicar el filtro)
+#(profundidad de los datos al aplicar el filtro)
 filtrosConv1=32
 filtrosConv2=64
 
@@ -44,39 +50,36 @@ tamanio_filtro2=(2,2)
 #Tamaño del filtro para el max pooling
 tamanio_pool=(2,2)
 
-#Numero de clases (gato, perro y gorila)
-clases = 3
-
 #Learning Rate 
 lr=0.0005
 
-##Pre procesado de imagenes
 
-entrenamiento_datagen = ImageDataGenerator(
-        rescale=1./255, #para pasar de un rango de 0-255 a 0-1
-        shear_range=0.3, #inclinacion de las imagenes
-        zoom_range=0.3, #zoom de las imagenes
-        horizontal_flip=True #inversion horizontal
-        )
+##Pre procesado de datos
 
-validation_datagen = ImageDataGenerator(
-        rescale=1./255, #para pasar de un rango de 0-255 a 0-1
-        )
+training_data = pd.read_csv(
+    data_entrenamiento,
+    names=["entrada", "salida"])
 
-imagen_entrenamiento = entrenamiento_datagen.flow_from_directory( #Imagenes de entrenamiento ya cargadas
-        data_entrenamiento, #directorio
-        target_size = (altura, longitud), #reescalado
-        batch_size = batch_size, #numero de imagenes
-        class_mode='categorical' #perro, gato y gorila
-        )
+training_entrada = training_data.pop('entrada')
+training_entrada = np.array(training_entrada)
 
+training_salida = training_data.pop('salida')
+training_salida = np.array(training_salida)
 
-imagen_validacion = validation_datagen.flow_from_directory( #Imagenes de validacion ya cargadas
-        data_validacion, #directorio
-        target_size = (altura, longitud), #reescalado
-        batch_size = batch_size, #numero de imagenes
-        class_mode='categorical' #perro, gato y gorila
-        )
+for i in range(training_entrada.size):
+    x = training_entrada[i]
+    training_entrada[i] = [int(x) for x in str(x)]
+    
+#for i in range(training_salida.size):
+#    x = training_salida[i]
+#    training_salida[i] = [int(x) for x in str(x)]
+
+training_entrada = np.array(training_entrada)
+#training_salida = np.array(training_salida)
+print(training_entrada)
+#print(training_salida)
+
+'''
 
 #Crear la red neuronal convolucional
 
@@ -149,3 +152,5 @@ if not os.path.exists(dir):
     
 cnn.save(dir+'/modelo.h5') #guardado del modelo
 cnn.save_weights(dir+'/pesos.h5') #guardado de los pesos del modelo
+
+'''
