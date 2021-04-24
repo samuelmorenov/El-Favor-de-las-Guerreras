@@ -31,7 +31,11 @@ class Entrenamiento:
         #Eliminamos sesiones de keras abiertas
         #K.clear_session()
         
-        self.preProcesadoDeDatos()
+        
+        training_entrada, training_salida = self.preProcesadoDeDatos()
+        
+        print(training_entrada)
+        print(training_salida)
         
     def preProcesadoDeDatos(self):
         data_entrenamiento = './../../data/jugadasGanadoras.csv'
@@ -52,8 +56,9 @@ class Entrenamiento:
         training_salida = training_data.pop('salida')
         training_salida = self.transformarDatosEnArray(training_salida)
         
-        print(training_entrada)
-        print(training_salida)
+        return training_entrada, training_salida
+        
+
         
     def transformarDatosEnArray(self, datos):
         datos = np.array(datos)
@@ -66,16 +71,17 @@ class Entrenamiento:
         
         return datos
     
-    def creacionRedNeuronal(self):
+    def creacionRedNeuronal(self, datos_entrenamiento, datos_validacion):
         #Parametros de la red neuronal
 
         #Numero de veces de iteracion sobre el set de datos completo
         epocas=20
-        #Numero de datos a procesar en cada paso
-        batch_size=32
         #Numero de veces que se va a procesar la informacion en cada epoca
         pasos=1000
         pasos_validacion=200
+        
+        #Tamaño de los datos
+        altura, longitud = const.NFILA, const.NCOLUMNA
         
         #Numero de filtros que se van a aplicar en cada convolucion 
         #(profundidad de los datos al aplicar el filtro)
@@ -136,7 +142,7 @@ class Entrenamiento:
         
         #Ultima capa
         cnn.add(Dense(
-                clases, #numero de neuronas
+                5, #numero de neuronas de salida
                 activation='softmax' #% de cada opcion
                 ))
         
@@ -148,10 +154,10 @@ class Entrenamiento:
                 )
         
         cnn.fit_generator(
-                imagen_entrenamiento, #imagenes con las que va a entrenar
+                datos_entrenamiento, #imagenes con las que va a entrenar
                 steps_per_epoch=pasos, #numero de pasos por epoca
                 epochs=epocas, #numero de epocas
-                validation_data=imagen_validacion, #imagenes de validacion
+                validation_data=datos_validacion, #imagenes de validacion
                 validation_steps=pasos_validacion #cuantos pasos va a dar despues de cada epoca
                 )
         
