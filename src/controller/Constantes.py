@@ -8,13 +8,12 @@ PRINT_BOT_COMPLETO = False
 MODO = 1
 MODO_JUGAR = 0
 MODO_GENERAR_DATOS = 1
-NUM_SIMULACIONES = 1
+NUM_SIMULACIONES = 2
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""
 #Constantes de datos
-SEPARADOR_ENTRADASALIDA = ','
-SEPARADOR_FILAS = ''
+SEPARADOR = ','
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""

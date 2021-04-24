@@ -2,10 +2,14 @@
 
 import sys
 import os
+# Add the ptdraft folder path to the sys.path list
+sys.path.append('../')
+
+import controller.Constantes as const
+
 import pandas as pd
 import numpy as np
 import tensorflow as tf
-#sys.path.append('../')
 
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.keras import optimizers
@@ -19,15 +23,20 @@ from tensorflow.keras.layers.experimental import preprocessing
 from tensorflow.python.framework.ops import disable_eager_execution
 
 
+'''
 disable_eager_execution() #Se deshabilita eager execution para poder usar Adam
 
 #Eliminamos sesiones de keras abiertas
 K.clear_session()
-
+'''
 #path de datos de entrenamiento
 data_entrenamiento = './../../data/jugadasGanadoras.csv'
 #path de datos de validacion
 data_validacion = './../../data/jugadasGanadorasValidacion.csv'
+
+separador = const.SEPARADOR
+cabecera = ['entrada', 'salida']
+tipos = {'entrada': 'str', 'salida': 'str'}
 
 #Parametros de la red neuronal
 
@@ -58,7 +67,10 @@ lr=0.0005
 
 training_data = pd.read_csv(
     data_entrenamiento,
-    names=["entrada", "salida"])
+    sep=separador,
+    names=cabecera,
+    dtype=tipos)
+
 
 training_entrada = training_data.pop('entrada')
 training_entrada = np.array(training_entrada)
@@ -69,18 +81,19 @@ training_salida = np.array(training_salida)
 for i in range(training_entrada.size):
     x = training_entrada[i]
     training_entrada[i] = [int(x) for x in str(x)]
-    
-#for i in range(training_salida.size):
-#    x = training_salida[i]
-#    training_salida[i] = [int(x) for x in str(x)]
 
+for i in range(training_salida.size):
+    x = training_salida[i]
+    training_salida[i] = [int(x) for x in str(x)]
+    
 training_entrada = np.array(training_entrada)
-#training_salida = np.array(training_salida)
+training_salida = np.array(training_salida)
+
 print(training_entrada)
-#print(training_salida)
+print(training_salida)
+
 
 '''
-
 #Crear la red neuronal convolucional
 
 cnn=Sequential() #varias capas secuenciales
