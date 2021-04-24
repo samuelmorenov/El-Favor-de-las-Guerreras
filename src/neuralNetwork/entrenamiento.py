@@ -80,26 +80,25 @@ class Entrenamiento:
         
         
         training_entrada = training_data.pop('entrada')
-        training_entrada = np.array(training_entrada)
+        training_entrada = self.transformarDatosEnArray(training_entrada)
         
         training_salida = training_data.pop('salida')
-        training_salida = np.array(training_salida)
-        
-        for i in range(training_entrada.size):
-            x = training_entrada[i]
-            training_entrada[i] = [int(x) for x in str(x)]
-        
-        for i in range(training_salida.size):
-            x = training_salida[i]
-            training_salida[i] = [int(x) for x in str(x)]
-            
-        training_entrada = np.array(training_entrada)
-        training_salida = np.array(training_salida)
+        training_salida = self.transformarDatosEnArray(training_salida)
         
         print(training_entrada)
         print(training_salida)
-
-
+        
+    def transformarDatosEnArray(self, datos):
+        datos = np.array(datos)
+        
+        for i in range(datos.size):
+            x = datos[i]
+            datos[i] = [int(x) for x in str(x)]
+            
+        datos = np.array(datos)
+        
+        return datos
+    
     def creacionRedNeuronal(self):
         #Crear la red neuronal convolucional
         
