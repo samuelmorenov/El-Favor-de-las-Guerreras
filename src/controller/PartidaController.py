@@ -75,8 +75,10 @@ class PartidaController:
                 casilla = tablero[f][c]
                 casilla = str(casilla)
                 linea = linea + casilla
+            if(f != const.NFILA-1):
+                linea = linea + const.SEPARADOR_FILAS
                 
-        linea = linea + ';'
+        linea = linea + const.SEPARADOR_ENTRADASALIDA
         for c2 in range(const.NCOLUMNA - 2):
             casilla = accion[c2]
             casilla = str(casilla)
