@@ -1,0 +1,14 @@
+4.	Estrategia de Solución
+Al ser la base del trabajo el conseguir entrenar a una inteligencia artificial para que logre aprender a jugar a un juego, la primera decisión fue el juego base al que tendría que aprender. Se eligió el juego de cartas Hanamikoji por ser un juego con unas reglas relativamente sencillas, para dos jugadores y con un árbol de decisión no trivial.
+
+4.1.	Tecnología
+Para la decisión de qué tecnologias se iban a utilizar se realizo un estudio de cuales eran las tecnologias mas utilizadas  en aprendizaje automático. Como resultado de dicho estudio se concluyó que lo mas utilizado son librerias de python: PyTorch y TensorFlow. Por lo tanto se decidió que el proyecto sería realizado en python, y puesto que durante el estudio de las librerías habia encontrado mas información que me podría resultar util para la realizaacion del trabajo con TensorFlow sería esta la librería con la que programar la red neuronal.
+
+Lo primero que se programó fué el controlador del tablero
+
+4.2.	Descomposición del sistema
+TODO
+4.3.	Cómo alcanzar los atributos de calidad
+TODO
+4.4.	Decisiones de organización
+TODO
