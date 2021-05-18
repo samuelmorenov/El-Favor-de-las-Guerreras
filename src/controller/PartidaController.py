@@ -65,7 +65,7 @@ class PartidaController:
         if(self.c.hayAccionPendiente()):
             tablero = self.c.getVistaTablero(jugador2)
             accionDeSeleccion = botSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
-            self.__guardarAccion(tablero, accion, botSeleccionadoComo2)
+            self.__guardarAccion(tablero, accionDeSeleccion, botSeleccionadoComo2)
             self.c.realizarAccion(jugador2, accionDeSeleccion)
             
     def __guardarAccion(self, tablero, accion, jugador):
