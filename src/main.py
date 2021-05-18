@@ -6,6 +6,7 @@ sys.path.append('../')
 
 
 from controller.PartidaController import PartidaController
+from neuralNetwork.Entrenamiento import Entrenamiento
 
 import controller.Constantes as const
 
@@ -40,4 +41,7 @@ if __name__ == "__main__":
     if(const.MODO == const.MODO_JUGAR):
         mainController = PartidaController('jugar')
         mainController.start()
+        
+    if(const.MODO == const.MODO_ENTRENAR_RED):
+        entrenamiento = Entrenamiento()
 

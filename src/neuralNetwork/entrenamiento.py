@@ -38,7 +38,7 @@ class Entrenamiento:
         print(training_salida)
         
     def preProcesadoDeDatos(self):
-        data_entrenamiento = './../../data/jugadasGanadoras.csv'
+        data_entrenamiento = './../data/jugadasGanadoras.csv'
         separador = const.SEPARADOR
         cabecera = ['entrada', 'salida']
         tipos = {'entrada': 'str', 'salida': 'str'}
@@ -168,8 +168,3 @@ class Entrenamiento:
             
         cnn.save(dir+'/modelo.h5') #guardado del modelo
         cnn.save_weights(dir+'/pesos.h5') #guardado de los pesos del modelo
-
-
-
-
-entrenamiento = Entrenamiento()
