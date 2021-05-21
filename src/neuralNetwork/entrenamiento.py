@@ -5,8 +5,8 @@ import os
 # Add the ptdraft folder path to the sys.path list
 sys.path.append('../')
 
-import parameterization.ParametrosTablero as const
 import parameterization.ParametrosDatos as data
+import parameterization.ParametrosCNN as PNN
 
 
 import pandas as pd
@@ -75,60 +75,35 @@ class Entrenamiento:
         return datos
     
     def creacionRedNeuronal(self, datos_entrenamiento, datos_validacion):
-        #Parametros de la red neuronal
 
-        #Numero de veces de iteracion sobre el set de datos completo
-        epocas=20
-        #Numero de veces que se va a procesar la informacion en cada epoca
-        pasos=1000
-        pasos_validacion=200
-        
-        #Tamaño de los datos
-        altura, longitud = const.NFILA, const.NCOLUMNA
-        
-        #Numero de filtros que se van a aplicar en cada convolucion 
-        #(profundidad de los datos al aplicar el filtro)
-        filtrosConv1=32
-        filtrosConv2=64
-        
-        #Altura y longitud de los filtros que se van a aplicar
-        tamanio_filtro1=(3,3)
-        tamanio_filtro2=(2,2)
-        #Tamaño del filtro para el max pooling
-        tamanio_pool=(2,2)
-        
-        #Learning Rate 
-        lr=0.0005
-        
-        
         #Crear la red neuronal convolucional
         cnn=Sequential() #varias capas secuenciales
         
         #Primera capa de convolucion
         cnn.add(Convolution2D( 
-                filtrosConv1, 
-                tamanio_filtro1, 
+                PNN.filtrosConv1, 
+                PNN.tamanio_filtro1, 
                 padding='same', #lo que va a hacer el filtro en las esquinas
-                input_shape=(altura, longitud, 1), #altura, longitud y rgb
+                input_shape=(PNN.altura, PNN.longitud, 1), #altura, longitud y rgb
                 activation='relu'
                 ))
         
         #Primera capa de pooling
         cnn.add(MaxPooling2D(
-                pool_size=tamanio_pool
+                pool_size=PNN.tamanio_pool
                 ))
         
         #Siguiente capa de convolucion
         cnn.add(Convolution2D( 
-                filtrosConv2, 
-                tamanio_filtro2, 
+                PNN.filtrosConv2, 
+                PNN.tamanio_filtro2, 
                 padding='same', #lo que va a hacer el filtro en las esquinas
                 activation='relu'
                 ))
         
         #Siguiente capa de pooling
         cnn.add(MaxPooling2D(
-                pool_size=tamanio_pool
+                pool_size=PNN.tamanio_pool
                 ))
         
         #Transformacion de la red en una dimension
@@ -152,16 +127,16 @@ class Entrenamiento:
         #parametros para optimizar el algoritmo
         cnn.compile(
                 loss='categorical_crossentropy', #la funcion de perdida
-                optimizer=optimizers.Adam(lr=lr), #optimizador Adam
+                optimizer=optimizers.Adam(lr=PNN.lr), #optimizador Adam
                 metrics=['accuracy'] #metrica de optimizacion, % de aprendizaje
                 )
         
         cnn.fit_generator(
                 datos_entrenamiento, #imagenes con las que va a entrenar
-                steps_per_epoch=pasos, #numero de pasos por epoca
-                epochs=epocas, #numero de epocas
+                steps_per_epoch=PNN.pasos, #numero de pasos por epoca
+                epochs=PNN.epocas, #numero de epocas
                 validation_data=datos_validacion, #imagenes de validacion
-                validation_steps=pasos_validacion #cuantos pasos va a dar despues de cada epoca
+                validation_steps=PNN.pasos_validacion #cuantos pasos va a dar despues de cada epoca
                 )
         
         dir='./modelo'
