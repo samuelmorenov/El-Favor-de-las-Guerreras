@@ -28,18 +28,20 @@ class Entrenamiento:
 ##Pre procesado de datos
     
     def __init__(self):
+        
         #Se deshabilita eager execution para poder usar Adam
         disable_eager_execution()
         #Eliminamos sesiones de keras abiertas
         K.clear_session()
         
-        
         training_entrada, training_salida = self.preProcesadoDeDatos()
-        
-        #self.creacionRedNeuronal(training_entrada, training_entrada)
-        
         print(training_entrada)
         print(training_salida)
+        
+        #Crear la red neuronal convolucional
+        self.cnn=Sequential() #varias capas secuenciales    
+        self.establecerCapas()
+        self.creacionRedNeuronal(training_entrada, training_entrada)
         
     def preProcesadoDeDatos(self):
         data_entrenamiento = data.PARTIDAS_GANADAS
@@ -52,7 +54,6 @@ class Entrenamiento:
             names=cabecera,
             dtype=tipos)
         
-        
         training_entrada = training_data.pop('entrada')
         training_entrada = self.transformarDatosEnArray(training_entrada)
         
@@ -60,9 +61,7 @@ class Entrenamiento:
         training_salida = self.transformarDatosEnArray(training_salida)
         
         return training_entrada, training_salida
-        
-
-        
+    
     def transformarDatosEnArray(self, datos):
         datos = np.array(datos)
         
@@ -74,13 +73,9 @@ class Entrenamiento:
         
         return datos
     
-    def creacionRedNeuronal(self, datos_entrenamiento, datos_validacion):
-
-        #Crear la red neuronal convolucional
-        cnn=Sequential() #varias capas secuenciales
-        
+    def establecerCapas(self):
         #Primera capa de convolucion
-        cnn.add(Convolution2D( 
+        self.cnn.add(Convolution2D( 
                 PNN.filtrosConv1, 
                 PNN.tamanio_filtro1, 
                 padding='same', #lo que va a hacer el filtro en las esquinas
@@ -89,12 +84,12 @@ class Entrenamiento:
                 ))
         
         #Primera capa de pooling
-        cnn.add(MaxPooling2D(
+        self.cnn.add(MaxPooling2D(
                 pool_size=PNN.tamanio_pool
                 ))
         
         #Siguiente capa de convolucion
-        cnn.add(Convolution2D( 
+        self.cnn.add(Convolution2D( 
                 PNN.filtrosConv2, 
                 PNN.tamanio_filtro2, 
                 padding='same', #lo que va a hacer el filtro en las esquinas
@@ -102,36 +97,38 @@ class Entrenamiento:
                 ))
         
         #Siguiente capa de pooling
-        cnn.add(MaxPooling2D(
+        self.cnn.add(MaxPooling2D(
                 pool_size=PNN.tamanio_pool
                 ))
         
         #Transformacion de la red en una dimension
-        cnn.add(Flatten())
+        self.cnn.add(Flatten())
         
         #Capa densa
-        cnn.add(Dense(
+        self.cnn.add(Dense(
                 256, #numero de neuronas
                 activation='relu'
                 ))
         
         #Se apagaran el 50% de las neuronas para no atrofiar caminos
-        cnn.add(Dropout(0.5)) 
+        self.cnn.add(Dropout(0.5)) 
         
         #Ultima capa
-        cnn.add(Dense(
+        self.cnn.add(Dense(
                 5, #numero de neuronas de salida
                 activation='softmax' #% de cada opcion
                 ))
         
+    def creacionRedNeuronal(self, datos_entrenamiento, datos_validacion):
+
         #parametros para optimizar el algoritmo
-        cnn.compile(
+        self.cnn.compile(
                 loss='categorical_crossentropy', #la funcion de perdida
                 optimizer=optimizers.Adam(lr=PNN.lr), #optimizador Adam
                 metrics=['accuracy'] #metrica de optimizacion, % de aprendizaje
                 )
         
-        cnn.fit_generator(
+        self.cnn.fit_generator(
                 datos_entrenamiento, #imagenes con las que va a entrenar
                 steps_per_epoch=PNN.pasos, #numero de pasos por epoca
                 epochs=PNN.epocas, #numero de epocas
@@ -144,5 +141,5 @@ class Entrenamiento:
         if not os.path.exists(dir):
             os.mkdir(dir)
             
-        cnn.save(dir+'/modelo.h5') #guardado del modelo
-        cnn.save_weights(dir+'/pesos.h5') #guardado de los pesos del modelo
+        self.cnn.save(dir+'/modelo.h5') #guardado del modelo
+        self.cnn.save_weights(dir+'/pesos.h5') #guardado de los pesos del modelo
