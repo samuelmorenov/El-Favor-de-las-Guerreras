@@ -8,7 +8,8 @@ sys.path.append('../')
 from controller.PartidaController import PartidaController
 from neuralNetwork.Entrenamiento import Entrenamiento
 
-import controller.Constantes as const
+import parameterization.ParametrosMenu as menu
+import parameterization.ParametrosTablero as const
 
 def modo_generar_datos():
     partidasGanadas1 = 0
@@ -21,7 +22,7 @@ def modo_generar_datos():
     with open(path, 'w') as f:
         f.write('')
     
-    for i in range(const.NUM_SIMULACIONES):
+    for i in range(menu.NUM_SIMULACIONES):
         mainController = PartidaController('generacion')
         mainController.start()
         if(mainController.winner == const.JUGADOR1):
@@ -35,13 +36,13 @@ def modo_generar_datos():
 
 
 if __name__ == "__main__":
-    if(const.MODO == const.MODO_GENERAR_DATOS):
+    if(menu.MODO == menu.MODO_GENERAR_DATOS):
         modo_generar_datos()
     
-    if(const.MODO == const.MODO_JUGAR):
+    if(menu.MODO == menu.MODO_JUGAR):
         mainController = PartidaController('jugar')
         mainController.start()
         
-    if(const.MODO == const.MODO_ENTRENAR_RED):
+    if(menu.MODO == menu.MODO_ENTRENAR_RED):
         entrenamiento = Entrenamiento()
 

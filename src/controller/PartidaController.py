@@ -7,7 +7,8 @@ from controller.TableroController import TableroController
 from controller.BotTonto import BotTonto
 from controller.JugadorController import JugadorController
 
-import controller.Constantes as const
+import parameterization.ParametrosTablero as const
+import parameterization.ParametrosMenu as menu
 
 
 class PartidaController:
@@ -15,9 +16,9 @@ class PartidaController:
         self.c = TableroController()
         self.win = 0
         self.winner = False
-        if(const.MODO == const.MODO_GENERAR_DATOS):
+        if(menu.MODO == menu.MODO_GENERAR_DATOS):
             self.j1 = BotTonto("Bot tonto 1", const.JUGADOR1)
-        if(const.MODO == const.MODO_JUGAR):
+        if(menu.MODO == menu.MODO_JUGAR):
             self.j1 = JugadorController("Jugador", const.JUGADOR1)
         self.j2 = BotTonto("Bot tonto 2", const.JUGADOR2)
         self.accionesj1 = ''
@@ -47,7 +48,7 @@ class PartidaController:
         self.c.printTableroCompleto()
         
         for i in range(const.N_ACCIONES):
-            if(const.PRINT_TRACE):
+            if(menu.PRINT_TRACE):
                 print("Inicio de turno "+str(i))
             self.__accion(const.JUGADOR1, const.JUGADOR2, self.j1, self.j2)
             self.__accion(const.JUGADOR2, const.JUGADOR1, self.j2, self.j1)
@@ -76,7 +77,7 @@ class PartidaController:
                 casilla = str(casilla)
                 linea = linea + casilla
                 
-        linea = linea + const.SEPARADOR
+        linea = linea + menu.SEPARADOR
         for c2 in range(const.NCOLUMNA - 2):
             casilla = accion[c2]
             casilla = str(casilla)
@@ -88,7 +89,7 @@ class PartidaController:
             self.accionesj2 = self.accionesj2 + linea + "\n"
             
     def __guardarGanador(self, jugador):
-        if(const.PRINT_TRACE):
+        if(menu.PRINT_TRACE):
             print("Ha ganado el "+str(jugador.miNombre))
         jugadas = ''
         if(jugador.miNumero == const.JUGADOR1):

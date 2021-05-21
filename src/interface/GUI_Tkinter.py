@@ -6,8 +6,9 @@ sys.path.append('../')
 from tkinter import Tk, Button, Label, DISABLED, NORMAL
 from PIL import Image, ImageTk
 
-import controller.Constantes as const
-import interface.ImagesPath as ip
+import parameterization.ParametrosTablero as const
+import parameterization.ParametrosPath as ip
+import parameterization.ParametrosGUI as gui
 import numpy as np
 
 bgcolor = '#c4a495'
@@ -19,7 +20,7 @@ class GUI_Tkinter:
         self.__accionPendiente = 0
         self.__window = Tk()
         self.__window.title('El Favor de las Guerreras')
-        self.__window.geometry(str(const.VENTANA_ANCHO)+"x"+str(const.VENTANA_ALTO))
+        self.__window.geometry(str(gui.VENTANA_ANCHO)+"x"+str(gui.VENTANA_ALTO))
         self.__window.configure(background=bgcolor)
         self.__window.iconbitmap(ip.ICO)
         
@@ -30,12 +31,12 @@ class GUI_Tkinter:
            label.grid_forget()
         
         #Creacion de elementos del tablero        
-        self.__addSusAcciones(const.POSICION_SUS_ACCIONES, tablero[const.ACCIONES_USADAS_JUGADOR2])
-        self.__addMarcadores(const.POSICION_SUS_MARCADORES, tablero[const.ARMAS_USADAS_JUGADOR2])
-        self.__addGuerreras(const.POSICION_GUERRERAS)
-        self.__addMarcadores(const.POSICION_MIS_MARCADORES, tablero[const.ARMAS_USADAS_JUGADOR1])
-        self.__addMisAcciones(const.POSICION_MIS_ACCIONES, tablero[const.ACCIONES_USADAS_JUGADOR1])
-        self.__addMiMano(const.POSICION_MI_MANO, tablero[const.MANO_JUGADOR1])
+        self.__addSusAcciones(gui.POSICION_SUS_ACCIONES, tablero[const.ACCIONES_USADAS_JUGADOR2])
+        self.__addMarcadores(gui.POSICION_SUS_MARCADORES, tablero[const.ARMAS_USADAS_JUGADOR2])
+        self.__addGuerreras(gui.POSICION_GUERRERAS)
+        self.__addMarcadores(gui.POSICION_MIS_MARCADORES, tablero[const.ARMAS_USADAS_JUGADOR1])
+        self.__addMisAcciones(gui.POSICION_MIS_ACCIONES, tablero[const.ACCIONES_USADAS_JUGADOR1])
+        self.__addMiMano(gui.POSICION_MI_MANO, tablero[const.MANO_JUGADOR1])
         
         #Si hay accion pendiente cambiar el tablero para seleccionarla
         self.__comprobarAccionPendiente(tablero)
@@ -44,21 +45,21 @@ class GUI_Tkinter:
     def __limpiarAccion(self):
         #Borrado de la accion anterior si existiera
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
-        for label in self.__window.grid_slaves(const.POSICION_ACCION):
+        for label in self.__window.grid_slaves(gui.POSICION_ACCION):
            label.grid_forget()
            
     def __comprobarAccionPendiente(self, tablero):
         self.__accionPendiente = tablero[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO]
         if(self.__accionPendiente != 0):
             self.__accionPendiente = 1
-            self.__addAccionPendiente(const.POSICION_ACCION, tablero[const.ACCION_PENDIENTE])
+            self.__addAccionPendiente(gui.POSICION_ACCION, tablero[const.ACCION_PENDIENTE])
             self.__bloquearAccionesNormalesYMano()
 
     
     def __bloquearAccionesNormalesYMano(self):
-        for label in self.__window.grid_slaves(const.POSICION_MIS_ACCIONES):
+        for label in self.__window.grid_slaves(gui.POSICION_MIS_ACCIONES):
             label.config(state=DISABLED)
-        for label in self.__window.grid_slaves(const.POSICION_MI_MANO):
+        for label in self.__window.grid_slaves(gui.POSICION_MI_MANO):
             label.config(state=DISABLED)
         
         
@@ -109,8 +110,8 @@ class GUI_Tkinter:
             self.__addCartaPeque(finaIndice, c, cartas[c], 'activo')
             
     def __addAccionSeleccionada(self, fila):
-        lado = const.CARTA_ACCION_LADO
-        borde = const.BORDE_NULO
+        lado = gui.CARTA_ACCION_LADO
+        borde = gui.BORDE_NULO
         texto = str(self.__accionGuardada[const.PENDIENTE_TIPO])
         columna = const.PENDIENTE_TIPO
         self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_MARCADA)
@@ -125,7 +126,7 @@ class GUI_Tkinter:
             
     def __addAccionPendiente5(self, fila, cartas):
         texto = "Elija una carta entre\nlas siguientes 3"
-        self.__addMarcoExplicativo(fila, const.POSICION_SUS_ACCIONES, texto)
+        self.__addMarcoExplicativo(fila, gui.POSICION_SUS_ACCIONES, texto)
         
         columna1 = const.PENDIENTE_5_1
         accion = lambda: self.__seleccionarCartaPendiente5(fila, columna1, cartas[columna1])
@@ -142,7 +143,7 @@ class GUI_Tkinter:
         
     def __addAccionPendiente6(self, fila, cartas):
         texto = "Elija entre\nlas 2 primeras cartas\no las 2 ultimas"
-        self.__addMarcoExplicativo(fila, const.POSICION_SUS_ACCIONES, texto)
+        self.__addMarcoExplicativo(fila, gui.POSICION_SUS_ACCIONES, texto)
         
         columna11 = const.PENDIENTE_6_1_1
         columna12 = const.PENDIENTE_6_1_2
@@ -171,33 +172,33 @@ class GUI_Tkinter:
     '''
     #Metodo para añadir una imagen de carta grande
     def __addCartaGrande(self, fila, columna, path):
-        alto = const.CARTA_GRANDE_ALTO
-        ancho = const.CARTA_GRANDE_ANCHO
-        borde = const.BORDE_NULO
+        alto = gui.CARTA_GRANDE_ALTO
+        ancho = gui.CARTA_GRANDE_ANCHO
+        borde = gui.BORDE_NULO
         self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
         
     #Metodo para añadir marcadores
     def __addMarcador(self, fila, columna, texto):
-        borde = const.BORDE_MARCADO
+        borde = gui.BORDE_MARCADO
         self.__addButtonConTexto(fila, columna, borde, texto)
         
     #Metodo para añadir un boton de accion activa/inactiva dependiendo del valor
     def __addAccionPropia(self, fila, columna, accionesLista, tipo):
-        lado = const.CARTA_ACCION_LADO
+        lado = gui.CARTA_ACCION_LADO
         texto = str(tipo) #TODO: Cambiar
         if(accionesLista[tipo] != 0):
-            borde = const.BORDE_NULO
+            borde = gui.BORDE_NULO
             accion = lambda: self.__noAccion()
             self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_USADA)
         else:
-            borde = const.BORDE_CLICKABLE
+            borde = gui.BORDE_CLICKABLE
             accion = lambda: self.__seleccionarAccion(accionesLista, tipo)
             self.__addBotonConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_NO_USADA, accion)
             
     #Metodo para añadir una imagen de accion realizada/norealizada
     def __addAccionEnemiga(self, fila, columna, valor, tipo):
-        lado = const.CARTA_ACCION_LADO
-        borde = const.BORDE_NULO
+        lado = gui.CARTA_ACCION_LADO
+        borde = gui.BORDE_NULO
         texto = str(tipo) #TODO: Cambiar
         if(valor == 0):
             self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_ENEMIGA_USADA)
@@ -218,9 +219,9 @@ class GUI_Tkinter:
             }
             path = switcher.get(valor)
             
-            alto = const.CARTA_PEQUE_ALTO
-            ancho = const.CARTA_PEQUE_ANCHO
-            borde = const.BORDE_CLICKABLE
+            alto = gui.CARTA_PEQUE_ALTO
+            ancho = gui.CARTA_PEQUE_ANCHO
+            borde = gui.BORDE_CLICKABLE
             if(activo == 'activo'):
                 accion = lambda: self.__seleccionarCarta(valor, fila, columna)
                 self.__addBotonConImagen(fila, columna, alto, ancho, borde, '', path, accion)
@@ -240,9 +241,9 @@ class GUI_Tkinter:
             }
             path = switcher.get(valor)
             
-            alto = const.CARTA_PEQUE_ALTO
-            ancho = const.CARTA_PEQUE_ANCHO
-            borde = const.BORDE_CLICKABLE
+            alto = gui.CARTA_PEQUE_ALTO
+            ancho = gui.CARTA_PEQUE_ANCHO
+            borde = gui.BORDE_CLICKABLE
             self.__addBotonConImagen(fila, columna, alto, ancho, borde, '', path, accion)
         
             
@@ -250,14 +251,14 @@ class GUI_Tkinter:
     def __addCartaOculta(self, fila, columna, valor):
         if(valor != 0):
             path = ip.CO
-            alto = const.CARTA_PEQUE_ALTO
-            ancho = const.CARTA_PEQUE_ANCHO
-            borde = const.BORDE_NULO
+            alto = gui.CARTA_PEQUE_ALTO
+            ancho = gui.CARTA_PEQUE_ANCHO
+            borde = gui.BORDE_NULO
             self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
             
     def __addMarcoExplicativo(self, fila, columna, texto):
-        lado = const.CARTA_ACCION_LADO
-        borde = const.BORDE_NULO
+        lado = gui.CARTA_ACCION_LADO
+        borde = gui.BORDE_NULO
         self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.MARCO_TEXTO_EXPLICATIVO)
         
             
@@ -279,7 +280,7 @@ class GUI_Tkinter:
                       fg='black',
                       borderwidth=borde)
         label.image = photo
-        label.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
+        label.grid(row=fila, column=columna, padx=gui.PADDING, pady=gui.PADDING)
     
     def __addLabelConSoloTexto(self, fila, columna, alto, ancho, borde, texto):
         label = Label(self.__window,
@@ -290,7 +291,7 @@ class GUI_Tkinter:
                       compound='center',
                       fg='black',
                       borderwidth=borde)
-        label.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
+        label.grid(row=fila, column=columna, padx=gui.PADDING, pady=gui.PADDING)
         
     def __addBotonConImagen(self, fila, columna, alto, ancho, borde, texto, image_path, accion):
         image = Image.open(image_path)
@@ -308,7 +309,7 @@ class GUI_Tkinter:
                       fg='black',
                       command = accion)
         boton.image = photo
-        boton.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
+        boton.grid(row=fila, column=columna, padx=gui.PADDING, pady=gui.PADDING)
         
     def __addButtonConTexto(self, fila, columna, borde, text):
         boton = Button(
@@ -319,7 +320,7 @@ class GUI_Tkinter:
                 bg=bgcolor,
                 #activebackground='#00ff00'
                 )
-        boton.grid(row=fila, column=columna, padx=const.PADDING, pady=const.PADDING)
+        boton.grid(row=fila, column=columna, padx=gui.PADDING, pady=gui.PADDING)
     '''
     Metodos de accion de botones
     '''
@@ -330,7 +331,7 @@ class GUI_Tkinter:
         #que se seleccionen las cartas
         self.__borrarAceptar()
         #Habilitamos todas las cartas de la mano para poder ser seleccionadas
-        for label in self.__window.grid_slaves(const.POSICION_MI_MANO):
+        for label in self.__window.grid_slaves(gui.POSICION_MI_MANO):
             label.config(state=NORMAL)
         
         switcher = {
@@ -344,7 +345,7 @@ class GUI_Tkinter:
         
         print("Seleccionada accion "+str(tipo))
         self.__accionGuardada[const.PENDIENTE_TIPO] = tipo
-        self.__addAccionSeleccionada(const.POSICION_ACCION)
+        self.__addAccionSeleccionada(gui.POSICION_ACCION)
         
         
     def __seleccionarCarta(self, valor, fila, columna):
@@ -357,7 +358,7 @@ class GUI_Tkinter:
                 if(self.__accionGuardada[pos] == 0):
                     encontrada = 1
                     self.__accionGuardada[pos] = valor
-                    self.__addCartaPeque(const.POSICION_ACCION, pos, valor, 'inactivo')  
+                    self.__addCartaPeque(gui.POSICION_ACCION, pos, valor, 'inactivo')  
                     
                     self.__cartasRestantes = self.__cartasRestantes - 1
                     if(self.__cartasRestantes == 0):

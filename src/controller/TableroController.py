@@ -5,7 +5,8 @@ sys.path.append('../')
 
 import numpy as np
 
-import controller.Constantes as const
+import parameterization.ParametrosTablero as const
+import parameterization.ParametrosMenu as menu
 
 
 class TableroController:
@@ -397,7 +398,7 @@ class TableroController:
         return self.__getGanador()
     
     def printTableroCompleto(self):
-        if(const.PRINT_TRACE):
+        if(menu.PRINT_TRACE):
             print(self.__tablero)
     
 

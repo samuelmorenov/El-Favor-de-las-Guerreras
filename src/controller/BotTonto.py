@@ -5,7 +5,8 @@ sys.path.append('../')
 
 import numpy as np
 
-import controller.Constantes as const
+import parameterization.ParametrosTablero as const
+import parameterization.ParametrosMenu as menu
 
 class BotTonto:
     def __init__(self, miNombre, miNumero):
@@ -15,7 +16,7 @@ class BotTonto:
         
     def decidirAccion(self, tablero):
 
-        if(const.PRINT_TRACE):
+        if(menu.PRINT_TRACE):
             if(self.miNumero == const.JUGADOR1):
                 print("\033[;33m",end="") #Amarillo
             if(self.miNumero == const.JUGADOR2):
@@ -32,14 +33,14 @@ class BotTonto:
             if(tablero[const.MANO_JUGADOR1][i] != 0):
                 listaDeCartasEnMano.append(tablero[const.MANO_JUGADOR1][i])
         
-        if(const.PRINT_BOT_COMPLETO):
+        if(menu.PRINT_BOT_COMPLETO):
             print("- Estas son las cartas de mi mano:")
             print(listaDeCartasEnMano)
         
         listaAccionesPosibles = []
         accionesRealizadas = tablero[const.ACCIONES_USADAS_JUGADOR1]
         
-        if(const.PRINT_BOT_COMPLETO):
+        if(menu.PRINT_BOT_COMPLETO):
             print("- Estas son las acciones realizadas:")
             print(accionesRealizadas)
         
@@ -52,13 +53,13 @@ class BotTonto:
         if(accionesRealizadas[const.TIPO_COMPETICION] == 0):
             listaAccionesPosibles.append(const.TIPO_COMPETICION)
            
-        if(const.PRINT_BOT_COMPLETO):
+        if(menu.PRINT_BOT_COMPLETO):
             print("- Estas son las acciones que puedo hacer:")
             print(listaAccionesPosibles)
         
         accionARealizar = listaAccionesPosibles.pop(np.random.randint(len(listaAccionesPosibles)))
         
-        if(const.PRINT_BOT_COMPLETO):
+        if(menu.PRINT_BOT_COMPLETO):
             print("- He decidido realizar la accion: ")
             print(accionARealizar)        
         
@@ -81,7 +82,7 @@ class BotTonto:
             carta = listaDeCartasEnMano.pop(posicion)
             cartasSeleccionadas.append(carta)
             
-        if(const.PRINT_BOT_COMPLETO):
+        if(menu.PRINT_BOT_COMPLETO):
             print("- He seleccionado estas cartas para hacer la accion:")
             print(cartasSeleccionadas)
             print("- Estas son las cartas que quedan en mi mano:")
@@ -114,7 +115,7 @@ class BotTonto:
         else:
             raise Exception("Error al encontrar accion en bot")
             
-        if(const.PRINT_TRACE):
+        if(menu.PRINT_TRACE):
             print("- Esta es la accion completa que realizo:")
             print(accionCompleta)
             print("\033[0m",end="")
@@ -123,7 +124,7 @@ class BotTonto:
     
     def decidirAccionDeSeleccion(self, tablero):
         
-        if(const.PRINT_TRACE):
+        if(menu.PRINT_TRACE):
             if(self.miNumero == const.JUGADOR1):
                 print("\033[;33m",end="") #Amarillo
             if(self.miNumero == const.JUGADOR2):
@@ -165,7 +166,7 @@ class BotTonto:
         else:
             raise Exception("Error al encontrar accion en bot")
         
-        if(const.PRINT_TRACE):
+        if(menu.PRINT_TRACE):
             print("- Esta es la accion completa que realizo:")
             print(accionCompleta)
             print("\033[0m",end="")

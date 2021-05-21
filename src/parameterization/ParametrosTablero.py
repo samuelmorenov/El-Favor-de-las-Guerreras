@@ -2,26 +2,6 @@
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""
-#Parametros del juego
-PRINT_TRACE = False
-PRINT_BOT_COMPLETO = False
-
-MODO = 2
-
-MODO_GENERAR_DATOS = 1
-MODO_ENTRENAR_RED = 2
-MODO_JUGAR = 3
-
-NUM_SIMULACIONES = 2
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-#Constantes de datos
-SEPARADOR = ','
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""
 #Constantes del tablero
 
 N_CARTAS_INICIAL = 6
@@ -116,39 +96,3 @@ PENDIENTE_5_ELEGIDA = 1
 
 PENDIENTE_6_ELEGIDA_1 = 1
 PENDIENTE_6_ELEGIDA_2 = 2
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-#Constantes de la interfaz
-
-POSICION_SUS_ACCIONES = 0
-POSICION_SUS_MARCADORES = 1
-POSICION_GUERRERAS = 2
-POSICION_MIS_MARCADORES = 3
-POSICION_MIS_ACCIONES = 4
-POSICION_MI_MANO = 5
-POSICION_ACCION = 6
-POSICION_ACEPTAR = 7
-
-#CARTA_ENORME_ALTO = 220
-#CARTA_ENORME_ANCHO = 150
-
-CARTA_GRANDE_ALTO = 145
-CARTA_GRANDE_ANCHO = 100
-
-CARTA_PEQUE_ALTO = 110
-CARTA_PEQUE_ANCHO = 75
-
-CARTA_ACCION_LADO = 110
-
-BOTON_ALTO = 1
-BOTON_ANCHO = 2
-
-BORDE_NULO = 0
-BORDE_CLICKABLE = 1
-BORDE_MARCADO = 2
-
-PADDING = 2
-
-VENTANA_ALTO=730
-VENTANA_ANCHO= 810
