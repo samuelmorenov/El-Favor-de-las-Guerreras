@@ -9,6 +9,7 @@ from controller.JugadorController import JugadorController
 
 import parameterization.ParametrosTablero as const
 import parameterization.ParametrosMenu as menu
+import parameterization.ParametrosDatos as data
 
 
 class PartidaController:
@@ -77,7 +78,7 @@ class PartidaController:
                 casilla = str(casilla)
                 linea = linea + casilla
                 
-        linea = linea + menu.SEPARADOR
+        linea = linea + data.SEPARADOR
         for c2 in range(const.NCOLUMNA - 2):
             casilla = accion[c2]
             casilla = str(casilla)
@@ -102,6 +103,6 @@ class PartidaController:
         self.__guardarEnArchivo(jugadas)
         
     def __guardarEnArchivo(self, jugadas):
-        path = "./../data/jugadasGanadoras.csv"
+        path = data.PARTIDAS_GANADAS
         with open(path, 'a') as f:
             f.write(jugadas)

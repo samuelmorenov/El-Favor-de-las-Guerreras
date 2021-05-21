@@ -5,7 +5,9 @@ import os
 # Add the ptdraft folder path to the sys.path list
 sys.path.append('../')
 
-import controller.Constantes as const
+import parameterization.ParametrosTablero as const
+import parameterization.ParametrosDatos as data
+
 
 import pandas as pd
 import numpy as np
@@ -27,25 +29,26 @@ class Entrenamiento:
     
     def __init__(self):
         #Se deshabilita eager execution para poder usar Adam
-        #disable_eager_execution()
+        disable_eager_execution()
         #Eliminamos sesiones de keras abiertas
-        #K.clear_session()
+        K.clear_session()
         
         
         training_entrada, training_salida = self.preProcesadoDeDatos()
+        
+        #self.creacionRedNeuronal(training_entrada, training_entrada)
         
         print(training_entrada)
         print(training_salida)
         
     def preProcesadoDeDatos(self):
-        data_entrenamiento = './../data/jugadasGanadoras.csv'
-        separador = const.SEPARADOR
+        data_entrenamiento = data.PARTIDAS_GANADAS
         cabecera = ['entrada', 'salida']
         tipos = {'entrada': 'str', 'salida': 'str'}
         
         training_data = pd.read_csv(
             data_entrenamiento,
-            sep=separador,
+            sep=data.SEPARADOR,
             names=cabecera,
             dtype=tipos)
         

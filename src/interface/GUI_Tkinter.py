@@ -7,7 +7,7 @@ from tkinter import Tk, Button, Label, DISABLED, NORMAL
 from PIL import Image, ImageTk
 
 import parameterization.ParametrosTablero as const
-import parameterization.ParametrosPath as ip
+import parameterization.ParametrosImagenes as ip
 import parameterization.ParametrosGUI as gui
 import numpy as np
 

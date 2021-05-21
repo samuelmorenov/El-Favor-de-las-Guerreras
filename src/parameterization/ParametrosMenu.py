@@ -2,19 +2,15 @@
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""
-#Parametros del juego
-PRINT_TRACE = True
-PRINT_BOT_COMPLETO = True
+#Parametros del modo de ejecucion del programa
 
-MODO = 3
+PRINT_TRACE = False
+PRINT_BOT_COMPLETO = False
+
+MODO = 2
 
 MODO_GENERAR_DATOS = 1
 MODO_ENTRENAR_RED = 2
 MODO_JUGAR = 3
 
-NUM_SIMULACIONES = 3
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-#Constantes de datos
-SEPARADOR = ','
+NUM_SIMULACIONES = 2
