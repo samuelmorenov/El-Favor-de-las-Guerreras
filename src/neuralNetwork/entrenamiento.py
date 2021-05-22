@@ -46,7 +46,7 @@ class Entrenamiento:
     def preProcesadoDeDatos(self):
         tipos = str
         cabecera = None
-        separador = data.SEPARADORCASILLAS
+        separador = data.SEPARADOR
         
         data_entrenamiento = data.PARTIDAS_GANADAS_TABLERO
         training_entrada = pd.read_csv(

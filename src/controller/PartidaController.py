@@ -28,8 +28,8 @@ class PartidaController:
             self.accionesj2 = ''
             self.tablerosj1 = ''
             self.tablerosj2 = ''
-            self.tablerosYAccionesj1 = ''
-            self.tablerosYAccionesj2 = ''
+            #self.tablerosYAccionesj1 = ''
+            #self.tablerosYAccionesj2 = ''
         
     def start(self):
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
@@ -38,8 +38,8 @@ class PartidaController:
             self.accionesj2 = ''
             self.tablerosj1 = ''
             self.tablerosj2 = ''
-            self.tablerosYAccionesj1 = ''
-            self.tablerosYAccionesj2 = ''
+            #self.tablerosYAccionesj1 = ''
+            #self.tablerosYAccionesj2 = ''
         contadorRondas = 1
         while (self.win == 0):
             self.__turno(contadorRondas)
@@ -89,7 +89,7 @@ class PartidaController:
                     casilla = str(casilla)
                     linea1 = linea1 + casilla
                     if(f*c != (const.NFILA-1)*(const.NCOLUMNA-1)):
-                        linea1 = linea1 + data.SEPARADORCASILLAS
+                        linea1 = linea1 + data.SEPARADOR
                     
                     
             linea2 = ''
@@ -99,14 +99,14 @@ class PartidaController:
                 casilla = str(casilla)
                 linea2 = linea2 + casilla
                 if(c2 != camposAccionCorregido-1):
-                    linea2 = linea2 + data.SEPARADORCASILLAS
+                    linea2 = linea2 + data.SEPARADOR
                     
                 
             if(jugador.miNumero) == const.JUGADOR1:
                 self.tablerosj1 = self.tablerosj1 + linea1 + "\n"
                 self.accionesj1 = self.accionesj1 + linea2 + "\n"
-                self.tablerosYAccionesj1 = self.tablerosYAccionesj1 + linea1 + data.SEPARADOR + linea2 + "\n"
+                #self.tablerosYAccionesj1 = self.tablerosYAccionesj1 + linea1 + data.SEPARADOR + linea2 + "\n"
             else:
                 self.tablerosj2 = self.tablerosj2 + linea1 + "\n"
                 self.accionesj2 = self.accionesj2 + linea2 + "\n"
-                self.tablerosYAccionesj2 = self.tablerosYAccionesj2 + linea1 + data.SEPARADOR + linea2 + "\n"
+                #self.tablerosYAccionesj2 = self.tablerosYAccionesj2 + linea1 + data.SEPARADOR + linea2 + "\n"
