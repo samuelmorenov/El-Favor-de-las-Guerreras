@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from controller.PartidaController import PartidaController
-from neuralNetwork.Entrenamiento import Entrenamiento
+from neuralNetwork.entrenamiento import Entrenamiento
 from controller.DataGeneratorController import DataGeneratorController
 
 import parameterization.ParametrosMenu as menu

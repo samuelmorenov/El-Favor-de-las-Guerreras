@@ -39,39 +39,31 @@ class Entrenamiento:
         print(training_salida)
         
         #Crear la red neuronal convolucional
-        self.cnn=Sequential() #varias capas secuenciales    
-        self.establecerCapas()
-        self.creacionRedNeuronal(training_entrada, training_entrada)
+        #self.cnn=Sequential() #varias capas secuenciales    
+        #self.establecerCapas()
+        #self.creacionRedNeuronal(training_entrada, training_entrada)
         
     def preProcesadoDeDatos(self):
-        data_entrenamiento = data.PARTIDAS_GANADAS
-        cabecera = ['entrada', 'salida']
-        tipos = {'entrada': 'str', 'salida': 'str'}
+        tipos = str
+        cabecera = None
+        separador = data.SEPARADORCASILLAS
         
-        training_data = pd.read_csv(
+        data_entrenamiento = data.PARTIDAS_GANADAS_TABLERO
+        training_entrada = pd.read_csv(
             data_entrenamiento,
-            sep=data.SEPARADOR,
-            names=cabecera,
+            sep=separador,
+            header=cabecera,
             dtype=tipos)
         
-        training_entrada = training_data.pop('entrada')
-        training_entrada = self.transformarDatosEnArray(training_entrada)
-        
-        training_salida = training_data.pop('salida')
-        training_salida = self.transformarDatosEnArray(training_salida)
+        data_entrenamiento = data.PARTIDAS_GANADAS_JUGADAS
+        training_salida = pd.read_csv(
+            data_entrenamiento,
+            sep=separador,
+            header=cabecera,
+            dtype=tipos)
         
         return training_entrada, training_salida
     
-    def transformarDatosEnArray(self, datos):
-        datos = np.array(datos)
-        
-        for i in range(datos.size):
-            x = datos[i]
-            datos[i] = [int(x) for x in str(x)]
-            
-        datos = np.array(datos)
-        
-        return datos
     
     def establecerCapas(self):
         #Primera capa de convolucion
