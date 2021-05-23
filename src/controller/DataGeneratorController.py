@@ -23,8 +23,7 @@ class DataGeneratorController:
             #self.__resetArchivo(data.PARTIDAS_GANADAS_COMPLETO)
                 
         for i in range(menu.NUM_SIMULACIONES):
-            self.mainController = PartidaController('generacion')
-            self.mainController.start()
+            self.mainController = PartidaController()
             self.__guardarGanador(self.mainController.winner.miNumero)
                 
             print("Partidas ganadas por el 1: "+ str(self.partidasGanadas1))

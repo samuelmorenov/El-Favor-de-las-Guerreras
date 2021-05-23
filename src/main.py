@@ -8,12 +8,11 @@ import parameterization.ParametrosMenu as menu
 
 if __name__ == "__main__":
     if(menu.MODO == menu.MODO_GENERAR_DATOS):
-        DataGeneratorController()
+        main = DataGeneratorController()
     
     if(menu.MODO == menu.MODO_JUGAR):
-        mainController = PartidaController('jugar')
-        mainController.start()
+        main = PartidaController()
         
     if(menu.MODO == menu.MODO_ENTRENAR_RED):
-        entrenamiento = Entrenamiento()
+        main = Entrenamiento()
 

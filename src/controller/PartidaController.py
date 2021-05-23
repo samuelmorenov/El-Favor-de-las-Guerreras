@@ -15,7 +15,7 @@ import parameterization.ParametrosDatos as data
 
 
 class PartidaController:
-    def __init__(self, modo):
+    def __init__(self):
         self.c = TableroController()
         self.win = 0
         
@@ -30,6 +30,8 @@ class PartidaController:
             self.tablerosj2 = ''
             #self.tablerosYAccionesj1 = ''
             #self.tablerosYAccionesj2 = ''
+        
+        self.__start()
             
     def __initJugadores(self):
         #Elegir opciones para generar datos
@@ -52,7 +54,7 @@ class PartidaController:
             if(menu.MODO_DIFICULTAD == menu.MODO_DIFICIL):
                 self.j2 = NeuralNetworkController("Neuronal Network", const.JUGADOR2)
                 
-    def start(self):
+    def __start(self):
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
             self.winner = False
             self.accionesj1 = ''
