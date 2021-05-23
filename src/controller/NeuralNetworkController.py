@@ -5,7 +5,7 @@ sys.path.append('../')
 
 from training.Prediccion import Prediccion
 
-class JugadorController:
+class NeuralNetworkController:
     def __init__(self, miNombre, miNumero):
         self.miNombre = miNombre
         self.miNumero = miNumero
@@ -18,7 +18,10 @@ class JugadorController:
         return self.__pedirAccion(tablero)
     
     def __pedirAccion(self, tablero):
-        return self.Prediccion.predecir(tablero)
+        entrada = tablero.flatten()
+        salida = self.Prediccion.predecir(entrada)
+        print (salida)
+        return salida
     
     def finish(self):
         return

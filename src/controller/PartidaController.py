@@ -6,6 +6,8 @@ sys.path.append('../')
 from controller.TableroController import TableroController
 from controller.BotTonto import BotTonto
 from controller.JugadorController import JugadorController
+from controller.NeuralNetworkController import NeuralNetworkController
+
 
 import parameterization.ParametrosTablero as const
 import parameterization.ParametrosMenu as menu
@@ -16,12 +18,10 @@ class PartidaController:
     def __init__(self, modo):
         self.c = TableroController()
         self.win = 0
-        if(menu.MODO == menu.MODO_GENERAR_DATOS):
-            self.j1 = BotTonto("Bot tonto 1", const.JUGADOR1)
-        if(menu.MODO == menu.MODO_JUGAR):
-            self.j1 = JugadorController("Jugador", const.JUGADOR1)
-        self.j2 = BotTonto("Bot tonto 2", const.JUGADOR2)
         
+        self.__initJugadores()
+
+        #Si esta en modo generacion de datos hay que guardar esos datos
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
             self.winner = False
             self.accionesj1 = ''
@@ -30,7 +30,28 @@ class PartidaController:
             self.tablerosj2 = ''
             #self.tablerosYAccionesj1 = ''
             #self.tablerosYAccionesj2 = ''
-        
+            
+    def __initJugadores(self):
+        #Elegir opciones para generar datos
+        if(menu.MODO == menu.MODO_GENERAR_DATOS):
+            #Bot tonto en caso de ser facil
+            if(menu.MODO_DIFICULTAD == menu.MODO_FACIL):
+                self.j1 = BotTonto("Bot tonto 1", const.JUGADOR1)
+                self.j2 = BotTonto("Bot tonto 2", const.JUGADOR2)
+            #Neural Network en caso de ser dificil
+            if(menu.MODO_DIFICULTAD == menu.MODO_DIFICIL):
+                self.j1 = NeuralNetworkController("Neuronal Network 1", const.JUGADOR1)
+                self.j2 = NeuralNetworkController("Neuronal Network 2", const.JUGADOR2)
+                
+        if(menu.MODO == menu.MODO_JUGAR):
+            #El jugador 1 siempre sera un jugador
+            self.j1 = JugadorController("Jugador", const.JUGADOR1)
+            #Elegir al jugador 2 dependiendo de la dificultad
+            if(menu.MODO_DIFICULTAD == menu.MODO_FACIL):
+                self.j2 = BotTonto("Bot tonto 1", const.JUGADOR2)
+            if(menu.MODO_DIFICULTAD == menu.MODO_DIFICIL):
+                self.j2 = NeuralNetworkController("Neuronal Network", const.JUGADOR2)
+                
     def start(self):
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
             self.winner = False
