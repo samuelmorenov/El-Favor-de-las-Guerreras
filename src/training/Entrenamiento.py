@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import os
 # Add the ptdraft folder path to the sys.path list
 sys.path.append('../')
 
@@ -13,14 +12,15 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 
-from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.python.keras import optimizers
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dropout, Flatten, Dense, Activation
+#from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
+#from tensorflow.python.keras import optimizers
+#from tensorflow.python.keras.models import Sequential
+from tensorflow.python.keras.layers import Dropout, Flatten, Dense
+#from tensorflow.python.keras.layers import Dropout, Flatten, Dense, Activation
 from tensorflow.python.keras.layers import  Convolution2D, MaxPooling2D
 from tensorflow.python.keras import backend as K
 from tensorflow.keras import layers
-from tensorflow.keras.layers.experimental import preprocessing
+#from tensorflow.keras.layers.experimental import preprocessing
 
 from tensorflow.python.framework.ops import disable_eager_execution
 
@@ -34,11 +34,13 @@ class Entrenamiento:
         #Eliminamos sesiones de keras abiertas
         K.clear_session()
         
-        training_entrada, training_salida = self.preProcesadoDeDatos()
-        print(training_entrada)
-        print(training_salida)
+        entrada, salida = self.preProcesadoDeDatos()
+        #print(entrada)
+        #print(salida)
         
-        self.creacionRedNeuronal(training_entrada, training_entrada)
+        self.cnn = None
+        self.creacionModelo()
+        self.complileAndFit(entrada, salida)
         
     def preProcesadoDeDatos(self):
         tipos = int
@@ -111,11 +113,10 @@ class Entrenamiento:
                 ))
     
     
-    def creacionRedNeuronal(self, features, labels):
+    def creacionModelo(self):
+        self.cnn = tf.keras.Sequential([layers.Dense(64), layers.Dense(1)])
         
-        featuresArray = np.array(features)
         
-        model = tf.keras.Sequential([layers.Dense(64), layers.Dense(1)])
-        model.compile(loss = tf.losses.MeanSquaredError(),optimizer = tf.optimizers.Adam())
-        
-        model.fit(featuresArray, labels, epochs=10)
+    def complileAndFit(self, entrada, salida):
+        self.cnn.compile(loss = tf.losses.MeanSquaredError(),optimizer = tf.optimizers.Adam())
+        self.cnn.fit(entrada, salida, epochs=10)
