@@ -38,13 +38,10 @@ class Entrenamiento:
         print(training_entrada)
         print(training_salida)
         
-        #Crear la red neuronal convolucional
-        #self.cnn=Sequential() #varias capas secuenciales    
-        #self.establecerCapas()
-        #self.creacionRedNeuronal(training_entrada, training_entrada)
+        self.creacionRedNeuronal(training_entrada, training_entrada)
         
     def preProcesadoDeDatos(self):
-        tipos = str
+        tipos = int
         cabecera = None
         separador = data.SEPARADOR
         
@@ -62,8 +59,10 @@ class Entrenamiento:
             header=cabecera,
             dtype=tipos)
         
+        training_entrada = np.array(training_entrada)
+        training_salida = np.array(training_salida)
+        
         return training_entrada, training_salida
-    
     
     def establecerCapas(self):
         #Primera capa de convolucion
@@ -110,28 +109,13 @@ class Entrenamiento:
                 5, #numero de neuronas de salida
                 activation='softmax' #% de cada opcion
                 ))
+    
+    
+    def creacionRedNeuronal(self, features, labels):
         
-    def creacionRedNeuronal(self, datos_entrenamiento, datos_validacion):
-
-        #parametros para optimizar el algoritmo
-        self.cnn.compile(
-                loss='categorical_crossentropy', #la funcion de perdida
-                optimizer=optimizers.Adam(lr=PNN.lr), #optimizador Adam
-                metrics=['accuracy'] #metrica de optimizacion, % de aprendizaje
-                )
+        featuresArray = np.array(features)
         
-        self.cnn.fit_generator(
-                datos_entrenamiento, #imagenes con las que va a entrenar
-                steps_per_epoch=PNN.pasos, #numero de pasos por epoca
-                epochs=PNN.epocas, #numero de epocas
-                validation_data=datos_validacion, #imagenes de validacion
-                validation_steps=PNN.pasos_validacion #cuantos pasos va a dar despues de cada epoca
-                )
+        model = tf.keras.Sequential([layers.Dense(64), layers.Dense(1)])
+        model.compile(loss = tf.losses.MeanSquaredError(),optimizer = tf.optimizers.Adam())
         
-        dir='./modelo'
-        
-        if not os.path.exists(dir):
-            os.mkdir(dir)
-            
-        self.cnn.save(dir+'/modelo.h5') #guardado del modelo
-        self.cnn.save_weights(dir+'/pesos.h5') #guardado de los pesos del modelo
+        model.fit(featuresArray, labels, epochs=10)
