@@ -9,14 +9,15 @@ import parameterization.ParametrosDatos as data
 
 class Prediccion:
     def __init__(self):
-        self.cnn = None
+        self.__cnn = None
         self.__cargarModelo()
         
     def __cargarModelo(self):
         #cargamos el modelo
-        self.cnn = load_model(data.MODELO_NOMBRE)
+        self.__cnn = load_model(data.MODELO_NOMBRE)
         #cargamos los pesos
-        self.cnn.load_weights(data.MODELO_PESOS)
+        self.__cnn.load_weights(data.MODELO_PESOS)
         
     def predecir(self, entrada):
-        return
+        salida = self.__cnn.predict(entrada)
+        return salida
