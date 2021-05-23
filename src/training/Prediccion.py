@@ -2,6 +2,8 @@
 import sys
 sys.path.append('../')
 
+import numpy as np
+
 from tensorflow.python.keras.models import load_model
 
 import parameterization.ParametrosDatos as data
@@ -20,5 +22,6 @@ class Prediccion:
         
     def predecir(self, entrada):
         entrada = entrada.flatten()
+        entrada = np.expand_dims(entrada, axis=0)
         salida = self.__cnn.predict(entrada)
         return salida
