@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
 import sys
+import os
 # Add the ptdraft folder path to the sys.path list
 sys.path.append('../')
 
@@ -41,6 +41,7 @@ class Entrenamiento:
         self.cnn = None
         self.creacionModelo()
         self.complileAndFit(entrada, salida)
+        self.guardarModelo()
         
     def preProcesadoDeDatos(self):
         tipos = int
@@ -120,3 +121,12 @@ class Entrenamiento:
     def complileAndFit(self, entrada, salida):
         self.cnn.compile(loss = tf.losses.MeanSquaredError(),optimizer = tf.optimizers.Adam())
         self.cnn.fit(entrada, salida, epochs=10)
+        
+    def guardarModelo(self):
+        dir=data.MODELO_DIR
+
+        if not os.path.exists(dir):
+            os.mkdir(dir)
+            
+        self.cnn.save(data.MODELO_NOMBRE) #guardado del modelo
+        self.cnn.save_weights(data.MODELO_PESOS) #guardado de los pesos del modelo
