@@ -19,5 +19,6 @@ class Prediccion:
         self.__cnn.load_weights(data.MODELO_PESOS)
         
     def predecir(self, entrada):
+        entrada = entrada.flatten()
         salida = self.__cnn.predict(entrada)
         return salida

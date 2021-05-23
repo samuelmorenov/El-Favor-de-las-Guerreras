@@ -18,10 +18,7 @@ class NeuralNetworkController:
         return self.__pedirAccion(tablero)
     
     def __pedirAccion(self, tablero):
-        entrada = tablero.flatten()
-        salida = self.Prediccion.predecir(entrada)
-        print (salida)
-        return salida
+        return self.Prediccion.predecir(tablero)
     
     def finish(self):
         return
