@@ -1,9 +1,0 @@
-1.	Introducción y objetivos
-El trabajo consiste en una versión en digital del juego de mesa Hanamikoji, en el que el jugador se enfrenta a una inteligencia artificial entrenada usando una red neuronal que aprende a jugar usando aprendizaje profundo. Para ello se ha implementado la lógica del juego en Python y se le suministrará a la librería de Python TensorFlow, en la que se programará la red neuronal. De manera que llegue a tener un nivel suficiente como para llegar a ser un reto para el jugador.
-
-1.1.	Resumen de requisitos
-1.1.1.	Requisitos funcionales
-La funcionalidad de gestión de la partida estará programada en Python.
-El sistema de aprendizaje profundo será implementado utilizando la librería TensorFlow.
-1.1.2.	Requisitos no funcionales
-La complejidad del controlador del tablero debe ser lo suficientemente baja como para poder simular un gran número de partidas sin un coste alto de tiempo.
