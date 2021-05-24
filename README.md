@@ -6,20 +6,20 @@
 
 Descargar en instalar [Anaconda](https://www.anaconda.com/products/individual)
 
-Una vez instalado Anaconda, ejecutar y crear un entorno nuevo e instalar:
+Una vez instalado Anaconda, desde la aplicación de promt de anaconda "Anaconda Prompt" crear un entorno nuevo con el comando:
+
+`conda create --name <nombre del entorno>`
+
+Para activar el entorno creado ejecuntar el comando:
+
+`conda activate <nombre del entorno>`
+
+Abrir el navegador de Anaconda "Anaconda Navigator", en "Aplications on" seleccionar el entorno creado. A continuación abrir la seccion "Environments" y buscar e instalar:
 	
 	- Python 3.7.9
 	- Spyder 3.3.6
 	- Tensorflow 2.3.0
 	
-Desde Anaconda Prompt, cambiar de entorno ejecuntando el comendo:
-
-`conda activate <nombre del entorno>`
-
-Instalar la libreria Pygame
-
-`pip install pygame`
-	
-Una vez instaladas las librerias, abrir Spyder
+Una vez instaladas las librerias, abrir Spyder desde "Home" del navegador de Anaconda
 
 <img src="/documentation/images/spyder.png">
