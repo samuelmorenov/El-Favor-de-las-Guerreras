@@ -33,7 +33,9 @@ Desde *Spyder* abrir el archivo `main.py` que esta en `\src\main\python` y pulsa
 
 Para cambiar la configuración, abrir el archivo `param.properties` que esta en `\src\main\resources`. Hay 3 campos configurables:
 
-	- MODO: Para elegir entre **Generar datos** (1), **Entrenar a la red neuronal** (2) o **Jugar** (3)
-	- NUM_SIMULACIONES: En caso de haber elegido el modo de generar datos, este numero indica el numero de partidas que se van a simular
-	- DIFICULTAD: Para elegir entre **Bot de acciones aleatorias** (1) o **Red neuronal entrenada**
+- MODO: Para elegir entre **Generar datos** (1), **Entrenar a la red neuronal** (2) o **Jugar** (3)
+	
+- NUM_SIMULACIONES: En caso de haber elegido el modo de generar datos, este numero indica el numero de partidas que se van a simular
+	
+- DIFICULTAD: Para elegir entre **Bot de acciones aleatorias** (1) o **Red neuronal entrenada**
 
