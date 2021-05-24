@@ -37,5 +37,5 @@ Para cambiar la configuración, abrir el archivo `param.properties` que esta en 
 	
 - NUM_SIMULACIONES: En caso de haber elegido el modo de generar datos, este numero indica el numero de partidas que se van a simular
 	
-- DIFICULTAD: Para elegir entre **Bot de acciones aleatorias** (1) o **Red neuronal entrenada**
+- DIFICULTAD: Para elegir entre **Bot de acciones aleatorias** (1) o **Red neuronal entrenada** (2)
 
