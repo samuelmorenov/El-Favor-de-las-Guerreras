@@ -19,6 +19,7 @@ Abrir el navegador de Anaconda "Anaconda Navigator", en "Aplications on" selecci
 	- Python 3.7.9
 	- Spyder 3.3.6
 	- Tensorflow 2.3.0
+	- ConfigParser 5.0.2
 	
 Una vez instaladas las librerias, abrir Spyder desde "Home" del navegador de Anaconda
 

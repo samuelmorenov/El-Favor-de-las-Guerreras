@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import configparser
+config = configparser.RawConfigParser()
+config.read('./../resources/param.properties')
+
 """""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""
 #Parametros del modo de ejecucion del programa
@@ -7,15 +11,15 @@
 PRINT_TRACE = False
 PRINT_BOT_COMPLETO = False
 
-MODO = 2
+MODO = int(config.get('Menu', 'MODO'));
 
-MODO_GENERAR_DATOS = 1
-MODO_ENTRENAR_RED = 2
-MODO_JUGAR = 3
+MODO_GENERAR_DATOS = int(1)
+MODO_ENTRENAR_RED = int(2)
+MODO_JUGAR = int(3)
 
-NUM_SIMULACIONES = 2000
+NUM_SIMULACIONES = int(config.get('Menu', 'NUM_SIMULACIONES'));
 
-MODO_DIFICULTAD = 2
+MODO_DIFICULTAD = int(config.get('Menu', 'DIFICULTAD'));
 
-MODO_FACIL = 1
-MODO_DIFICIL = 2
+MODO_FACIL = int(1)
+MODO_DIFICIL = int(2)
