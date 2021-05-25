@@ -16,9 +16,12 @@ epocas=20
 pasos=1000
 pasos_validacion=200
 
-#Tamaño de los datos
+#Tamaño de los datos de entrada
 altura = const.NFILA
 longitud = const.NCOLUMNA
+
+#Tamaño de datos de salida
+salida = 5
 
 #Numero de filtros que se van a aplicar en cada convolucion 
 #(profundidad de los datos al aplicar el filtro)

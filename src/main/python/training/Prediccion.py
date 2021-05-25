@@ -30,8 +30,8 @@ class Prediccion:
         salida = self.__cnn.predict(entrada)
         
         #Transformacion de datos de salida
-        result = np.zeros(5, dtype=int)
-        for i in range(5):
+        result = np.zeros(PCNN.salida, dtype=int)
+        for i in range(PCNN.salida):
             result[i] = int(salida[0][i])
         
         return result

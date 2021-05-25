@@ -113,11 +113,11 @@ class Entrenamiento:
                 ))
         
         #Se apagaran el 50% de las neuronas para no atrofiar caminos
-        #self.__cnn.add(Dropout(0.5)) 
+        self.__cnn.add(Dropout(0.5)) 
         
         #Ultima capa
         self.__cnn.add(Dense(
-                5, #numero de neuronas de salida
+                PCNN.salida, #numero de neuronas de salida
                 activation='softmax' #% de cada opcion
                 ))
         
@@ -133,3 +133,5 @@ class Entrenamiento:
             
         self.__cnn.save(data.MODELO_NOMBRE) #guardado del modelo
         self.__cnn.save_weights(data.MODELO_PESOS) #guardado de los pesos del modelo
+        
+        #print(self.__cnn.summary())

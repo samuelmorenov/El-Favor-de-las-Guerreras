@@ -15,4 +15,3 @@ if __name__ == "__main__":
         
     if(menu.MODO == menu.MODO_ENTRENAR_RED):
         main = Entrenamiento()
-
