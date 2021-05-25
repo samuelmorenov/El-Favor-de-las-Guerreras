@@ -7,6 +7,7 @@ import numpy as np
 from tensorflow.python.keras.models import load_model
 
 import parameterization.ParametrosDatos as data
+import parameterization.ParametrosCNN as PCNN
 
 
 class Prediccion:
@@ -21,7 +22,16 @@ class Prediccion:
         self.__cnn.load_weights(data.MODELO_PESOS)
         
     def predecir(self, entrada):
+        #Transformación de datos de entrada
         entrada = entrada.flatten()
-        entrada = np.expand_dims(entrada, axis=0)
+        entrada = np.array(entrada)
+        entrada = np.reshape(entrada, (1, PCNN.altura,PCNN.longitud, 1)) 
+        #Prediccion
         salida = self.__cnn.predict(entrada)
-        return salida
+        
+        #Transformacion de datos de salida
+        result = np.zeros(5, dtype=int)
+        for i in range(5):
+            result[i] = int(salida[0][i])
+        
+        return result
