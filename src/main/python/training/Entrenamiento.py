@@ -17,7 +17,7 @@ import tensorflow as tf
 #from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dropout, Flatten, Dense
 #from tensorflow.python.keras.layers import Dropout, Flatten, Dense, Activation
-from tensorflow.python.keras.layers import  Convolution2D, MaxPooling2D
+from tensorflow.python.keras.layers import  Convolution2D, MaxPooling2D, Reshape
 from tensorflow.python.keras import backend as K
 #from tensorflow.keras import layers
 #from tensorflow.keras.layers.experimental import preprocessing
@@ -69,6 +69,7 @@ class Entrenamiento:
         training_entrada = np.reshape(training_entrada, (lenth,PCNN.altura,PCNN.longitud, 1))
         
         training_salida = np.array(training_salida)#.reshape(PCNN.altura,PCNN.longitud)
+        training_salida = np.reshape(training_salida, (lenth,PCNN.salida, 1))
         
         return training_entrada, training_salida
     
@@ -117,13 +118,21 @@ class Entrenamiento:
         
         #Ultima capa
         self.__cnn.add(Dense(
-                PCNN.salida, #numero de neuronas de salida
+                PCNN.salida*PCNN.n_clases, #numero de neuronas de salida
                 activation='softmax' #% de cada opcion
                 ))
         
+        
+        self.__cnn.add(Reshape((PCNN.salida, PCNN.n_clases)))
+        
     def __complileAndFit(self, entrada, salida):
-        self.__cnn.compile(loss = tf.losses.MeanSquaredError(),optimizer = tf.optimizers.Adam())
-        self.__cnn.fit(entrada, salida, epochs=10)
+        self.__cnn.compile(
+                loss='sparse_categorical_crossentropy',
+                optimizer=tf.optimizers.Adam(lr=PCNN.lr), #optimizador Adam
+                metrics=['accuracy'] #metrica de optimizacion, % de aprendizaje
+                )
+        
+        self.__cnn.fit(entrada, salida, epochs=PCNN.epocas)
         
     def __guardarModelo(self):
         dir=data.MODELO_DIR

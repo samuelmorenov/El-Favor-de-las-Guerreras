@@ -22,6 +22,7 @@ longitud = const.NCOLUMNA
 
 #Tamaño de datos de salida
 salida = 5
+n_clases = 8
 
 #Numero de filtros que se van a aplicar en cada convolucion 
 #(profundidad de los datos al aplicar el filtro)
