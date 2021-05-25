@@ -5,7 +5,7 @@ import os
 sys.path.append('../')
 
 import parameterization.ParametrosDatos as data
-import parameterization.ParametrosCNN as PNN
+import parameterization.ParametrosCNN as PCNN
 
 
 import pandas as pd
@@ -19,7 +19,7 @@ from tensorflow.python.keras.layers import Dropout, Flatten, Dense
 #from tensorflow.python.keras.layers import Dropout, Flatten, Dense, Activation
 from tensorflow.python.keras.layers import  Convolution2D, MaxPooling2D
 from tensorflow.python.keras import backend as K
-from tensorflow.keras import layers
+#from tensorflow.keras import layers
 #from tensorflow.keras.layers.experimental import preprocessing
 
 from tensorflow.python.framework.ops import disable_eager_execution
@@ -40,6 +40,7 @@ class Entrenamiento:
         
         self.__cnn = None
         self.__creacionModelo()
+        self.__establecerCapas()
         self.__complileAndFit(entrada, salida)
         self.__guardarModelo()
         
@@ -62,37 +63,44 @@ class Entrenamiento:
             header=cabecera,
             dtype=tipos)
         
+        #Transformación de array en matriz
         training_entrada = np.array(training_entrada)
-        training_salida = np.array(training_salida)
+        lenth = int((training_entrada.size) / (PCNN.altura * PCNN.longitud) )
+        training_entrada = np.reshape(training_entrada, (lenth,PCNN.altura,PCNN.longitud, 1))
+        
+        training_salida = np.array(training_salida)#.reshape(PCNN.altura,PCNN.longitud)
         
         return training_entrada, training_salida
     
+    def __creacionModelo(self):
+        self.__cnn = tf.keras.Sequential()
+        
     def __establecerCapas(self):
         #Primera capa de convolucion
         self.__cnn.add(Convolution2D( 
-                PNN.filtrosConv1, 
-                PNN.tamanio_filtro1, 
+                PCNN.filtrosConv1, 
+                PCNN.tamanio_filtro1, 
                 padding='same', #lo que va a hacer el filtro en las esquinas
-                input_shape=(PNN.altura, PNN.longitud, 1), #altura, longitud y rgb
+                input_shape=(PCNN.altura, PCNN.longitud, 1), #altura, longitud y rgb
                 activation='relu'
                 ))
         
         #Primera capa de pooling
         self.__cnn.add(MaxPooling2D(
-                pool_size=PNN.tamanio_pool
+                pool_size=PCNN.tamanio_pool
                 ))
         
         #Siguiente capa de convolucion
         self.__cnn.add(Convolution2D( 
-                PNN.filtrosConv2, 
-                PNN.tamanio_filtro2, 
+                PCNN.filtrosConv2, 
+                PCNN.tamanio_filtro2, 
                 padding='same', #lo que va a hacer el filtro en las esquinas
                 activation='relu'
                 ))
         
         #Siguiente capa de pooling
         self.__cnn.add(MaxPooling2D(
-                pool_size=PNN.tamanio_pool
+                pool_size=PCNN.tamanio_pool
                 ))
         
         #Transformacion de la red en una dimension
@@ -105,18 +113,13 @@ class Entrenamiento:
                 ))
         
         #Se apagaran el 50% de las neuronas para no atrofiar caminos
-        self.__cnn.add(Dropout(0.5)) 
+        #self.__cnn.add(Dropout(0.5)) 
         
         #Ultima capa
         self.__cnn.add(Dense(
                 5, #numero de neuronas de salida
                 activation='softmax' #% de cada opcion
                 ))
-    
-    
-    def __creacionModelo(self):
-        self.__cnn = tf.keras.Sequential([layers.Dense(64), layers.Dense(1)])
-        
         
     def __complileAndFit(self, entrada, salida):
         self.__cnn.compile(loss = tf.losses.MeanSquaredError(),optimizer = tf.optimizers.Adam())
