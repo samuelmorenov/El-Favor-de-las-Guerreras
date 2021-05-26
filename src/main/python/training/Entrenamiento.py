@@ -78,38 +78,48 @@ class Entrenamiento:
         
     def __establecerCapas(self):
         #Primera capa de convolucion
+        filtrosConv1=56
+        tamanio_filtro1=(1,7)
         self.__cnn.add(Convolution2D( 
-                PCNN.filtrosConv1, 
-                PCNN.tamanio_filtro1, 
-                padding='same', #lo que va a hacer el filtro en las esquinas
-                input_shape=(PCNN.altura, PCNN.longitud, 1), #altura, longitud y rgb
+                filtrosConv1, 
+                tamanio_filtro1, 
+                padding='valid',
+                #lo que va a hacer el filtro en las esquinas 
+                #valid(no hacer padding)/same(añadir 0 a las esquinas)
+                input_shape=(PCNN.altura, PCNN.longitud, 1), #altura, longitud y profundidad
                 activation='relu'
                 ))
-        
+        '''
         #Primera capa de pooling
+        tamanio_pool=(2,2)
         self.__cnn.add(MaxPooling2D(
-                pool_size=PCNN.tamanio_pool
+                pool_size=tamanio_pool
                 ))
         
+        
         #Siguiente capa de convolucion
+        filtrosConv2=64
+        tamanio_filtro2=(2,2)
         self.__cnn.add(Convolution2D( 
-                PCNN.filtrosConv2, 
-                PCNN.tamanio_filtro2, 
+                filtrosConv2, 
+                tamanio_filtro2, 
                 padding='same', #lo que va a hacer el filtro en las esquinas
                 activation='relu'
                 ))
         
         #Siguiente capa de pooling
+        tamanio_pool=(2,2)
         self.__cnn.add(MaxPooling2D(
-                pool_size=PCNN.tamanio_pool
+                pool_size=tamanio_pool
                 ))
+        '''
         
         #Transformacion de la red en una dimension
         self.__cnn.add(Flatten())
         
         #Capa densa
         self.__cnn.add(Dense(
-                256, #numero de neuronas
+                448*4, #numero de neuronas
                 activation='relu'
                 ))
         
