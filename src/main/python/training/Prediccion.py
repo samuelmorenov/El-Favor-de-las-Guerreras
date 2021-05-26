@@ -23,14 +23,25 @@ class Prediccion:
         
     def predecir(self, entrada):
         #Transformación de datos de entrada
+        entradaProcesada = self.__procesarEntrada(entrada)
+
+        #Prediccion
+        salida = self.__cnn.predict(entradaProcesada)
+        
+        #Transformacion de datos de salida
+        salidaProcesada = self.__procesarSalida(entrada, salida)
+
+        return salidaProcesada
+    
+    def __procesarEntrada(self, entrada):
         entrada = entrada.flatten()
         entrada = np.array(entrada)
         entrada = np.reshape(entrada, (1, PCNN.altura,PCNN.longitud, 1)) 
-        #Prediccion
-        salida = self.__cnn.predict(entrada)
-        
-        #Transformacion de datos de salida
+        return entrada
+    
+    def __procesarSalida(self, entrada, salida):
         result = np.zeros(PCNN.salida, dtype=int)
+        
         for i in range(PCNN.salida):
             result[i] = int(salida[0][i])
         
