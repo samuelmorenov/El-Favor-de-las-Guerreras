@@ -28,17 +28,17 @@ class NeuralNetworkController:
             print("- Este es el tablero que me llega:")
             print(tablero)
             
-        salida = self.Prediccion.predecir(tablero)
-        salida = self.__procesarAccion(tablero, salida)
+        self.Prediccion.predecir(tablero)
+        salida = self.__procesarAccion(tablero)
         
         if(menu.PRINT_TRACE):
             print("- Esta es la accion completa que realizo:")
             print(salida)
             print("\033[0m",end="")
-            print("___________________________________") #Separador de bots
+            print("___________________________________") #Separador
         return salida
     
-    def __procesarAccion(self, tablero, salida):
+    def __procesarAccion(self, tablero):
         listaDeCartasEnMano, listaAccionesPosibles = self.__obtenerCartasEnManoYAccionesPosibles(tablero)
         
         accionARealizar = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, listaDeCartasEnMano)
@@ -117,6 +117,83 @@ class NeuralNetworkController:
         listaDeCartasEnMano_Modificada = np.delete(listaDeCartasEnMano, posicion)
         return listaDeCartasEnMano_Modificada
     
+    def decidirAccionDeSeleccion(self, tablero):
+        if(menu.PRINT_TRACE):
+            if(self.miNumero == const.JUGADOR1):
+                print("\033[;33m",end="") #Amarillo
+            if(self.miNumero == const.JUGADOR2):
+                print("\033[;36m",end="") #Cian
+            
+            
+            print("Soy "+self.miNombre)
+            
+            print("- Esta es la accion pendiente que me llega:")
+            print(tablero[const.ACCION_PENDIENTE])
+            
+        salida =  self.Prediccion.predecir(tablero)
+        salida = self.__procesarAccionDeSeleccion(tablero, salida)
+        
+        if(menu.PRINT_TRACE):
+            print("- Esta es la accion completa que realizo:")
+            print(salida)
+            print("\033[0m",end="")
+            print("___________________________________") #Separador
+        return salida
+    
+    def __procesarAccionDeSeleccion(self, tablero):        
+        accionPendienteList = tablero[const.ACCION_PENDIENTE]
+        accionPendienteTipo = accionPendienteList[const.PENDIENTE_TIPO]
+        
+        if(accionPendienteTipo == const.TIPO_DECISION_REGALO):
+            cartasSeleccionadas = self.__seleccionarCartasAccionDeSeleccionRegalo(accionPendienteList)
+            
+        elif(accionPendienteTipo == const.TIPO_DECISION_COMPETICION):
+            cartasSeleccionadas = self.__seleccionarCartasAccionDeSeleccionCompeticion(accionPendienteList)
+            
+        else:
+            raise Exception("Error al encontrar accion en red neuronal")
+            
+        accionCompleta = self.__crearAccionCompleta(accionPendienteTipo, cartasSeleccionadas)
+        
+        return accionCompleta
+            
+    def __seleccionarCartasAccionDeSeleccionRegalo(self, accionPendienteList):   
+        cartasSeleccionadas = []
+        cartasList = []
+        cartasList.append(accionPendienteList[const.PENDIENTE_5_1]) 
+        cartasList.append(accionPendienteList[const.PENDIENTE_5_2])
+        cartasList.append(accionPendienteList[const.PENDIENTE_5_3])
+
+        carta = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
+        cartasSeleccionadas.append(carta)
+        return cartasSeleccionadas
+        
+    def __seleccionarCartasAccionDeSeleccionCompeticion(self, accionPendienteList):  
+        cartasSeleccionadas = []
+        cartasList = []
+        if(accionPendienteList[const.PENDIENTE_6_1_1] == accionPendienteList[const.PENDIENTE_6_2_1]):
+            cartasSeleccionadas.append(accionPendienteList[const.PENDIENTE_6_1_1])
+            
+            cartasList.append(accionPendienteList[const.PENDIENTE_6_1_2]) 
+            cartasList.append(accionPendienteList[const.PENDIENTE_6_2_2])
+            carta = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
+            
+            cartasSeleccionadas.append(carta)
+            
+        else:
+            cartasList.append(accionPendienteList[const.PENDIENTE_6_1_2]) 
+            cartasList.append(accionPendienteList[const.PENDIENTE_6_2_2])
+            carta = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
+            
+            if(carta == accionPendienteList[const.PENDIENTE_6_1_2]):
+                cartasSeleccionadas.append(accionPendienteList[const.PENDIENTE_6_1_1])
+                cartasSeleccionadas.append(accionPendienteList[const.PENDIENTE_6_1_2])
+            else:
+                cartasSeleccionadas.append(accionPendienteList[const.PENDIENTE_6_2_1])
+                cartasSeleccionadas.append(accionPendienteList[const.PENDIENTE_6_2_2])
+
+        return cartasSeleccionadas
+    
     def __crearAccionCompleta(accionARealizar, cartasSeleccionadas):
         accionCompleta = np.zeros(const.NCOLUMNA, dtype=int)
         
@@ -129,12 +206,10 @@ class NeuralNetworkController:
             accionCompleta[const.ACCION_2_1] = cartasSeleccionadas.pop(0)
             accionCompleta[const.ACCION_2_2] = cartasSeleccionadas.pop(0)
             
-            
         elif(accionARealizar == const.TIPO_REGALO):
             accionCompleta[const.ACCION_3_1] = cartasSeleccionadas.pop(0)
             accionCompleta[const.ACCION_3_2] = cartasSeleccionadas.pop(0)
             accionCompleta[const.ACCION_3_3] = cartasSeleccionadas.pop(0)
-            
             
         elif(accionARealizar == const.TIPO_COMPETICION):
             accionCompleta[const.ACCION_4_1_1] = cartasSeleccionadas.pop(0)
@@ -142,13 +217,17 @@ class NeuralNetworkController:
             accionCompleta[const.ACCION_4_2_1] = cartasSeleccionadas.pop(0)
             accionCompleta[const.ACCION_4_2_2] = cartasSeleccionadas.pop(0)
             
+        elif(accionARealizar == const.TIPO_DECISION_REGALO):
+            accionCompleta[const.PENDIENTE_5_ELEGIDA] = cartasSeleccionadas.pop(0)
+            
+        elif(accionARealizar == const.TIPO_DECISION_REGALO):
+            accionCompleta[const.PENDIENTE_6_ELEGIDA_1] = cartasSeleccionadas.pop(0)
+            accionCompleta[const.PENDIENTE_6_ELEGIDA_2] = cartasSeleccionadas.pop(0)
+            
         else:
-            raise Exception("Error al encontrar accion en bot")
+            raise Exception("Error al encontrar accion en red neuronal")
             
         return accionCompleta
-    
-    def decidirAccionDeSeleccion(self, tablero):
-        return #TODO
-    
+
     def finish(self):
         return
