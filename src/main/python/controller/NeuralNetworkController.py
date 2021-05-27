@@ -3,6 +3,8 @@
 import sys
 sys.path.append('../')
 
+import numpy as np
+
 import parameterization.ParametrosTablero as const
 import parameterization.ParametrosMenu as menu
 
@@ -15,32 +17,10 @@ class NeuralNetworkController:
         self.Prediccion = Prediccion()
         
     def decidirAccion(self, tablero):
-        return self.__pedirAccion(tablero)
+        return #TODO
     
     def decidirAccionDeSeleccion(self, tablero):
-        return self.__pedirAccion(tablero)
-    
-    def __pedirAccion(self, tablero):
-        if(menu.PRINT_TRACE):
-            if(self.miNumero == const.JUGADOR1):
-                print("\033[;33m",end="") #Amarillo
-            if(self.miNumero == const.JUGADOR2):
-                print("\033[;36m",end="") #Cian
-            
-            print("Soy "+self.miNombre)
-            
-            print("- Este es el tablero que me llega:")
-            print(tablero)
-            
-        accion = self.Prediccion.predecir(tablero)
-    
-        if(menu.PRINT_TRACE):
-            print("- Esta es la accion que realizo:")
-            print(accion)
-            print("\033[0m",end="")
-            print("___________________________________") #Separador de bots
-            
-        return accion
+        return #TODO
     
     def finish(self):
         return

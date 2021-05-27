@@ -10,6 +10,7 @@ config.read('./../resources/param.properties')
 
 PRINT_TRACE = False
 PRINT_BOT_COMPLETO = False
+PRINT_PREDICCION = True
 
 MODO = int(config.get('Menu', 'MODO'));
 
