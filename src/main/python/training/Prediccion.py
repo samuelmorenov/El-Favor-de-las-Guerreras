@@ -29,4 +29,14 @@ class Prediccion:
         self.__resultado = self.__cnn.predict(entrada)
     
     def obtenerPrediccionCampo(self, numeroCampo, posiblesValores):
-        return #TODO
+        copiaResultado = np.copy(self.__resultado[0][numeroCampo])
+        campo = 0
+        
+        while(campo == 0):
+            campoMayorPonderado = int(np.argmax(copiaResultado))
+            if(campoMayorPonderado in posiblesValores):
+                campo = campoMayorPonderado
+            else:
+                copiaResultado[campoMayorPonderado] = 0
+        
+        return campo
