@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import sys
 sys.path.append('../')
 
@@ -343,13 +344,13 @@ class GUI_Tkinter:
         self.__cartasRestantes = switcher.get(tipo)
         
         
-        print("Seleccionada accion "+str(tipo))
+        logging.info("GUI : Seleccionada accion "+str(tipo))
         self.__accionGuardada[const.PENDIENTE_TIPO] = tipo
         self.__addAccionSeleccionada(gui.POSICION_ACCION)
         
         
     def __seleccionarCarta(self, valor, fila, columna):
-        print("Seleccionada carta "+str(valor))
+        logging.info("GUI : Seleccionada carta "+str(valor))
         if(self.__cartasRestantes > 0):
             encontrada = 0
             pos = 1
@@ -372,7 +373,7 @@ class GUI_Tkinter:
                 label.config(state=DISABLED)
             
     def __seleccionarCartaPendiente5(self, fila, columna, valor):
-        print("Seleccionada carta para accion pendiente "+str(valor))
+        logging.info("GUI : Seleccionada carta para accion pendiente "+str(valor))
         #Eliminamos la informacion de la accion seleccionada anteriormente
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
         self.__accionGuardada[const.PENDIENTE_TIPO] = const.TIPO_DECISION_REGALO
@@ -391,7 +392,7 @@ class GUI_Tkinter:
         self.__printAceptar()
         
     def __seleccionarCartaPendiente6(self, fila, columna1, columna2, valor1, valor2):
-        print("Seleccionada cartas para accion pendiente "+str(valor1)+" y "+str(valor2))
+        logging.info("GUI : Seleccionada cartas para accion pendiente "+str(valor1)+" y "+str(valor2))
         #Eliminamos la informacion de la accion seleccionada anteriormente
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
         self.__accionGuardada[const.PENDIENTE_TIPO] = const.TIPO_DECISION_COMPETICION

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+import logging
 import sys
 import os
 # Add the ptdraft folder path to the sys.path list
@@ -26,9 +28,8 @@ class DataGeneratorController:
             self.mainController = PartidaController()
             self.__guardarGanador(self.mainController.winner)
                 
-            print("Partidas ganadas por el 1: "+ str(self.partidasGanadas1))
-            print("Partidas ganadas por el 2: "+ str(self.partidasGanadas2))
-            print()
+            logging.info("Partidas ganadas por el 1: "+ str(self.partidasGanadas1))
+            logging.info("Partidas ganadas por el 2: "+ str(self.partidasGanadas2))
             
             
     def __guardarGanador(self, jugador):
@@ -54,8 +55,8 @@ class DataGeneratorController:
         #else:
             #self.__guardarEnArchivo(tableroYAcciones, data.PARTIDAS_GANADAS_COMPLETO)
         
-        if(menu.PRINT_TRACE):
-            print("Ha ganado el "+str(jugador.miNombre))
+
+        logging.info("Ha ganado el "+str(jugador.miNombre))
             
     def __resetArchivo(self, path):
         if not os.path.exists(data.PARTIDAS_GANADAS_DIR):

@@ -8,10 +8,6 @@ config.read('./../resources/param.properties')
 """""""""""""""""""""""""""""""""""""""""""""""""""
 #Parametros del modo de ejecucion del programa
 
-PRINT_TRACE = False
-PRINT_BOT_COMPLETO = False
-PRINT_PREDICCION = True
-
 MODO = int(config.get('Menu', 'MODO'));
 
 MODO_GENERAR_DATOS = int(1)

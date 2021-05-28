@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import sys
 sys.path.append('../')
 
 import numpy as np
 
 import parameterization.ParametrosTablero as const
-import parameterization.ParametrosMenu as menu
 
 from training.Prediccion import Prediccion
 
@@ -17,31 +17,24 @@ class NeuralNetworkController:
         self.Prediccion = Prediccion()
         
     def decidirAccion(self, tablero):
-        if(menu.PRINT_TRACE):
-            if(self.miNumero == const.JUGADOR1):
-                print("\033[;33m",end="") #Amarillo
-            if(self.miNumero == const.JUGADOR2):
-                print("\033[;36m",end="") #Cian
-            
-            print("Soy "+self.miNombre)
-            
-            print("- Este es el tablero que me llega:")
-            print(tablero)
+        
+        logging.info(self.miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
             
         self.Prediccion.predecir(tablero)
         salida = self.__procesarAccion(tablero)
         
-        if(menu.PRINT_TRACE):
-            print("- Esta es la accion completa que realizo:")
-            print(salida)
-            print("\033[0m",end="")
-            print("___________________________________") #Separador
+        logging.info(self.miNombre+" : Esta es la accion completa que realizo: "+str(salida))
+        logging.info(self.miNombre+" : ___________________________________") #Separador
         return salida
     
     def __procesarAccion(self, tablero):
         listaDeCartasEnMano, listaAccionesPosibles = self.__obtenerCartasEnManoYAccionesPosibles(tablero)
         
+        logging.debug(self.miNombre+" : Estas son las acciones que puedo hacer: "+str(listaAccionesPosibles))
+        
         accionARealizar = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, listaAccionesPosibles)
+        
+        logging.debug(self.miNombre+" : He decidido realizar la accion: "+str(accionARealizar))
         
         accionCount = self.__obtenerAccionCount(accionARealizar)
         cartasSeleccionadas = []
@@ -50,15 +43,15 @@ class NeuralNetworkController:
             listaDeCartasEnMano = self.__eliminarCarta(carta, listaDeCartasEnMano)
             cartasSeleccionadas.append(carta)
             
+        logging.debug(self.miNombre+" : Estas son las cartas que puedo usar: "+str(listaDeCartasEnMano))    
+        logging.debug(self.miNombre+" : He seleccionado estas cartas para hacer la accion: "+str(cartasSeleccionadas))
+            
         accionCompleta = self.__crearAccionCompleta(accionARealizar, cartasSeleccionadas)
             
         return accionCompleta
         
     
     def __obtenerCartasEnManoYAccionesPosibles(self, tablero):
-        if(menu.PRINT_PREDICCION):        
-            print("- Este es el tablero que me llega:")
-            print(tablero)
     
         listaDeCartasEnMano = []
         
@@ -68,17 +61,12 @@ class NeuralNetworkController:
                 
         listaDeCartasEnMano = np.array(listaDeCartasEnMano)
         
-        if(menu.PRINT_PREDICCION):
-            print("- Estas son las cartas de mi mano:")
-            print(listaDeCartasEnMano)
-        
         listaAccionesPosibles = []
         accionesRealizadas = tablero[const.ACCIONES_USADAS_JUGADOR1]
-        
-        if(menu.PRINT_PREDICCION):
-            print("- Estas son las acciones realizadas:")
-            print(accionesRealizadas)
-        
+            
+        logging.debug(self.miNombre+" : Estas son las acciones realizadas: "+str(accionesRealizadas))
+         
+                
         if(accionesRealizadas[const.TIPO_SECRETO] == 0):
             listaAccionesPosibles.append(const.TIPO_SECRETO)
         if(accionesRealizadas[const.TIPO_RENUNCIA_1] == 0):
@@ -88,9 +76,7 @@ class NeuralNetworkController:
         if(accionesRealizadas[const.TIPO_COMPETICION] == 0):
             listaAccionesPosibles.append(const.TIPO_COMPETICION)
            
-        if(menu.PRINT_PREDICCION):
-            print("- Estas son las acciones que puedo hacer:")
-            print(listaAccionesPosibles)
+        logging.debug(self.miNombre+" : Estas son las acciones que puedo hacer: "+str(listaAccionesPosibles))
             
         return listaDeCartasEnMano, listaAccionesPosibles
     
@@ -118,26 +104,13 @@ class NeuralNetworkController:
         return listaDeCartasEnMano_Modificada
     
     def decidirAccionDeSeleccion(self, tablero):
-        if(menu.PRINT_TRACE):
-            if(self.miNumero == const.JUGADOR1):
-                print("\033[;33m",end="") #Amarillo
-            if(self.miNumero == const.JUGADOR2):
-                print("\033[;36m",end="") #Cian
-            
-            
-            print("Soy "+self.miNombre)
-            
-            print("- Esta es la accion pendiente que me llega:")
-            print(tablero[const.ACCION_PENDIENTE])
+        logging.info(self.miNombre+" : Esta es la accion pendiente que me llega: "+str(tablero[const.ACCION_PENDIENTE]))
             
         salida =  self.Prediccion.predecir(tablero)
         salida = self.__procesarAccionDeSeleccion(tablero)
         
-        if(menu.PRINT_TRACE):
-            print("- Esta es la accion completa que realizo:")
-            print(salida)
-            print("\033[0m",end="")
-            print("___________________________________") #Separador
+        logging.info(self.miNombre+" : Esta es la accion completa que realizo: "+str(salida))
+        logging.info(self.miNombre+" : ___________________________________") #Separador
         return salida
     
     def __procesarAccionDeSeleccion(self, tablero):        

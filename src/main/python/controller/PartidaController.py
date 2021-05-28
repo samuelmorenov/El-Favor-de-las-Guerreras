@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import sys
 sys.path.append('../')
 
@@ -50,7 +51,7 @@ class PartidaController:
             self.j1 = JugadorController("Jugador", const.JUGADOR1)
             #Elegir al jugador 2 dependiendo de la dificultad
             if(menu.MODO_DIFICULTAD == menu.MODO_FACIL):
-                self.j2 = BotTonto("Bot tonto 1", const.JUGADOR2)
+                self.j2 = BotTonto("Bot tonto", const.JUGADOR2)
             if(menu.MODO_DIFICULTAD == menu.MODO_DIFICIL):
                 self.j2 = NeuralNetworkController("Neuronal Network", const.JUGADOR2)
                 
@@ -81,12 +82,9 @@ class PartidaController:
         
     def __turno(self, contadorRondas):
         self.c.initRonda()
-
-        self.c.printTableroCompleto()
         
         for i in range(const.N_ACCIONES):
-            if(menu.PRINT_TRACE):
-                print("Inicio de turno "+str(i))
+            logging.info("Inicio de turno "+str(i))
             self.__accion(const.JUGADOR1, const.JUGADOR2, self.j1, self.j2)
             self.__accion(const.JUGADOR2, const.JUGADOR1, self.j2, self.j1)
             

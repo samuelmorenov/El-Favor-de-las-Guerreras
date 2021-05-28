@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+import logging
 import sys
 sys.path.append('../')
 
@@ -31,13 +33,13 @@ class Prediccion:
     def obtenerPrediccionCampo(self, numeroCampo, posiblesValores):
         copiaResultado = np.copy(self.__resultado[0][numeroCampo])
         campo = -1
-        print("Prediccion(): ----")
-        print("Prediccion(): numeroCampo = "+str(numeroCampo)+", posiblesValores = "+str(posiblesValores))
+        
+        logging.debug("Prediccion() : numeroCampo = "+str(numeroCampo)+", posiblesValores = "+str(posiblesValores))
         
         for i in range(PCNN.altura):
             campoMayorPonderado = int(np.argmax(copiaResultado))
-            
-            print("Prediccion(): Mayor ponderado = " + str(campoMayorPonderado))
+
+            #logging.debug("Prediccion() : Mayor ponderado = " + str(campoMayorPonderado))
             
             if(campoMayorPonderado in posiblesValores):
                 campo = campoMayorPonderado
@@ -48,6 +50,6 @@ class Prediccion:
         if(campo == -1):
             raise Exception("Campo no encontrado")
                 
-        print("Prediccion(): Resultado = " +str(campo))
+        logging.debug("Prediccion() : Resultado = " +str(campo))
         
         return campo
