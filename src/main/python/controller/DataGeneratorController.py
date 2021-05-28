@@ -24,7 +24,7 @@ class DataGeneratorController:
                 
         for i in range(menu.NUM_SIMULACIONES):
             self.mainController = PartidaController()
-            self.__guardarGanador(self.mainController.winner.miNumero)
+            self.__guardarGanador(self.mainController.winner)
                 
             print("Partidas ganadas por el 1: "+ str(self.partidasGanadas1))
             print("Partidas ganadas por el 2: "+ str(self.partidasGanadas2))
@@ -36,7 +36,7 @@ class DataGeneratorController:
         tablero = ''
         #tableroYAcciones = ''
         
-        if(jugador == const.JUGADOR1):
+        if(jugador.miNumero == const.JUGADOR1):
             acciones = self.mainController.accionesj1
             tablero = self.mainController.tablerosj1
             #tableroYAcciones = self.mainController.tablerosYAccionesj1
