@@ -41,7 +41,7 @@ class NeuralNetworkController:
     def __procesarAccion(self, tablero):
         listaDeCartasEnMano, listaAccionesPosibles = self.__obtenerCartasEnManoYAccionesPosibles(tablero)
         
-        accionARealizar = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, listaDeCartasEnMano)
+        accionARealizar = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, listaAccionesPosibles)
         
         accionCount = self.__obtenerAccionCount(accionARealizar)
         cartasSeleccionadas = []
