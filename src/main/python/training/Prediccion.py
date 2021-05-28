@@ -31,9 +31,14 @@ class Prediccion:
     def obtenerPrediccionCampo(self, numeroCampo, posiblesValores):
         copiaResultado = np.copy(self.__resultado[0][numeroCampo])
         campo = -1
+        print("Prediccion(): ----")
+        print("Prediccion(): numeroCampo = "+str(numeroCampo)+", posiblesValores = "+str(posiblesValores))
         
-        for i in range(len((self.__resultado[0]))):
+        for i in range(PCNN.altura):
             campoMayorPonderado = int(np.argmax(copiaResultado))
+            
+            print("Prediccion(): Mayor ponderado = " + str(campoMayorPonderado))
+            
             if(campoMayorPonderado in posiblesValores):
                 campo = campoMayorPonderado
                 break
@@ -43,5 +48,6 @@ class Prediccion:
         if(campo == -1):
             raise Exception("Campo no encontrado")
                 
+        print("Prediccion(): Resultado = " +str(campo))
         
         return campo
