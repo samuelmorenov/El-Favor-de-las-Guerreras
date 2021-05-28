@@ -30,13 +30,18 @@ class Prediccion:
     
     def obtenerPrediccionCampo(self, numeroCampo, posiblesValores):
         copiaResultado = np.copy(self.__resultado[0][numeroCampo])
-        campo = 0
+        campo = -1
         
-        while(campo == 0):
+        for i in range(len((self.__resultado[0]))):
             campoMayorPonderado = int(np.argmax(copiaResultado))
             if(campoMayorPonderado in posiblesValores):
                 campo = campoMayorPonderado
+                break
             else:
                 copiaResultado[campoMayorPonderado] = 0
+            
+        if(campo == -1):
+            raise Exception("Campo no encontrado")
+                
         
         return campo

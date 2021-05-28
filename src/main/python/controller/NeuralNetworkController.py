@@ -131,7 +131,7 @@ class NeuralNetworkController:
             print(tablero[const.ACCION_PENDIENTE])
             
         salida =  self.Prediccion.predecir(tablero)
-        salida = self.__procesarAccionDeSeleccion(tablero, salida)
+        salida = self.__procesarAccionDeSeleccion(tablero)
         
         if(menu.PRINT_TRACE):
             print("- Esta es la accion completa que realizo:")
@@ -194,7 +194,7 @@ class NeuralNetworkController:
 
         return cartasSeleccionadas
     
-    def __crearAccionCompleta(accionARealizar, cartasSeleccionadas):
+    def __crearAccionCompleta(self, accionARealizar, cartasSeleccionadas):
         accionCompleta = np.zeros(const.NCOLUMNA, dtype=int)
         
         accionCompleta[const.ACCION_REALIZADA] = accionARealizar
@@ -220,7 +220,7 @@ class NeuralNetworkController:
         elif(accionARealizar == const.TIPO_DECISION_REGALO):
             accionCompleta[const.PENDIENTE_5_ELEGIDA] = cartasSeleccionadas.pop(0)
             
-        elif(accionARealizar == const.TIPO_DECISION_REGALO):
+        elif(accionARealizar == const.TIPO_DECISION_COMPETICION):
             accionCompleta[const.PENDIENTE_6_ELEGIDA_1] = cartasSeleccionadas.pop(0)
             accionCompleta[const.PENDIENTE_6_ELEGIDA_2] = cartasSeleccionadas.pop(0)
             
