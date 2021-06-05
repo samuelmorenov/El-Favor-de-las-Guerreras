@@ -126,7 +126,7 @@ class GUI_Tkinter:
                 
             
     def __addAccionPendiente5(self, fila, cartas):
-        texto = "Elija una carta entre\nlas siguientes 3"
+        texto = gui.TEXTO_PENDIENTE_REGALO
         self.__addMarcoExplicativo(fila, gui.POSICION_SUS_ACCIONES, texto)
         
         columna1 = const.PENDIENTE_5_1
@@ -143,7 +143,7 @@ class GUI_Tkinter:
 
         
     def __addAccionPendiente6(self, fila, cartas):
-        texto = "Elija entre\nlas 2 primeras cartas\no las 2 ultimas"
+        texto = gui.TEXTO_PENDIENTE_COMPETICION
         self.__addMarcoExplicativo(fila, gui.POSICION_SUS_ACCIONES, texto)
         
         columna11 = const.PENDIENTE_6_1_1
@@ -186,7 +186,7 @@ class GUI_Tkinter:
     #Metodo para añadir un boton de accion activa/inactiva dependiendo del valor
     def __addAccionPropia(self, fila, columna, accionesLista, tipo):
         lado = gui.CARTA_ACCION_LADO
-        texto = str(tipo) #TODO: Cambiar
+        texto = self.__getTextoAccion(tipo)
         if(accionesLista[tipo] != 0):
             borde = gui.BORDE_NULO
             accion = lambda: self.__noAccion()
@@ -200,11 +200,31 @@ class GUI_Tkinter:
     def __addAccionEnemiga(self, fila, columna, valor, tipo):
         lado = gui.CARTA_ACCION_LADO
         borde = gui.BORDE_NULO
-        texto = str(tipo) #TODO: Cambiar
+        texto = self.__getTextoAccion(tipo)
         if(valor == 0):
             self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_ENEMIGA_USADA)
         else:
             self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_ENEMIGA_NO_USADA)
+            
+    def __getTextoAccion(self, tipo):
+        switcher = {
+            const.TIPO_SECRETO: gui.TEXTO_ACCION_SECRETO,
+            const.TIPO_RENUNCIA: gui.TEXTO_ACCION_RENUNCIA,
+            const.TIPO_REGALO: gui.TEXTO_ACCION_REGALO,
+            const.TIPO_COMPETICION: gui.TEXTO_ACCION_COMPETICION
+        }
+        texto = switcher.get(tipo)
+        return texto
+    
+    def __getTextoAccionElegida(self, tipo):
+        switcher = {
+            1: gui.TEXTO_ACCION_SECRETO,
+            2: gui.TEXTO_ACCION_RENUNCIA,
+            3: gui.TEXTO_ACCION_REGALO,
+            4: gui.TEXTO_ACCION_COMPETICION
+        }
+        texto = switcher.get(tipo)
+        return texto
             
     #Metodo para añadir un boton con una carta pequeña
     def __addCartaPeque(self, fila, columna, valor, activo):
