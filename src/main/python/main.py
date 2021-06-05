@@ -9,7 +9,10 @@ import parameterization.ParametrosMenu as menu
 
 if __name__ == "__main__":
     
-    logging.basicConfig(filename='logfile.log',level=logging.DEBUG)
+    logging.basicConfig(filename='logfile.log',level=logging.INFO)
+    logging.getLogger().addHandler(logging.StreamHandler())
+    
+    
     logging.info('Inicio del programa.')
     
     if(menu.MODO == menu.MODO_GENERAR_DATOS):
