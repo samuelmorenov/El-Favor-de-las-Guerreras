@@ -423,10 +423,10 @@ class GUI_Tkinter:
     
     def __printAceptar(self):
         ButtonToAdd = Button(self.__window, text = "Aceptar", command = self.__pressAceptar)
-        ButtonToAdd.grid(row=const.NFILA-1, column=int(const.NCOLUMNA/2))
+        ButtonToAdd.grid(row=gui.POSICION_ACEPTAR, column=int(const.NCOLUMNA/2))
         
     def __borrarAceptar(self):
-        for label in self.__window.grid_slaves(const.NFILA-1, int(const.NCOLUMNA/2)):
+        for label in self.__window.grid_slaves(gui.POSICION_ACEPTAR, int(const.NCOLUMNA/2)):
            label.grid_forget()
         
     def start(self):
