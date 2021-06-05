@@ -57,6 +57,16 @@ TIPO_COMPETICION = 4
 TIPO_DECISION_REGALO = 5
 TIPO_DECISION_COMPETICION = 6
 
+"""
+Para cada guerrera guarda quien se ha ganado su favor
+0: Nadie
+1: Jugador1
+2: Jugador2
+"""
+FAVOR_NEUTRAL = 0
+FAVOR_JUGADOR_1 = 1
+FAVOR_JUGADOR_2 = 2
+
 #Posicion de las acciones:
 ACCION_REALIZADA = 0
 

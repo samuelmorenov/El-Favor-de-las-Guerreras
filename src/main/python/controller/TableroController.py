@@ -267,10 +267,10 @@ class TableroController:
         favorJugador2 = 0
         
         for i in range(const.NCOLUMNA):
-            if(self.__tablero[const.FAVOR_DE_GUERRERA][i] == 1):
+            if(self.__tablero[const.FAVOR_DE_GUERRERA][i] == const.FAVOR_JUGADOR_1):
                 puntosJugador1 = puntosJugador1 + puntosGuerreras[i]
                 favorJugador1 = favorJugador1 + 1
-            elif(self.__tablero[const.FAVOR_DE_GUERRERA][i] == 2):
+            elif(self.__tablero[const.FAVOR_DE_GUERRERA][i] == const.FAVOR_JUGADOR_2):
                 puntosJugador2 = puntosJugador2 + puntosGuerreras[i]
                 favorJugador2 = favorJugador2 + 1
             
@@ -390,8 +390,8 @@ class TableroController:
             armas2 = self.__tablero[const.ARMAS_USADAS_JUGADOR2][i]
             
             if(armas1 > armas2):
-                self.__tablero[const.FAVOR_DE_GUERRERA][i] = 1
+                self.__tablero[const.FAVOR_DE_GUERRERA][i] = const.FAVOR_JUGADOR_1
             elif(armas2 > armas1):
-                self.__tablero[const.FAVOR_DE_GUERRERA][i] = 2
+                self.__tablero[const.FAVOR_DE_GUERRERA][i] = const.FAVOR_JUGADOR_2
                 
         return self.__getGanador()
