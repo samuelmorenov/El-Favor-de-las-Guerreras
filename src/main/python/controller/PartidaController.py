@@ -8,6 +8,7 @@ from controller.TableroController import TableroController
 from controller.BotTonto import BotTonto
 from controller.JugadorController import JugadorController
 from controller.NeuralNetworkController import NeuralNetworkController
+from interface.Popup_Tkinter import sendMensaje
 
 
 import parameterization.ParametrosTablero as const
@@ -79,6 +80,14 @@ class PartidaController:
             
         self.j1.finish()
         self.j2.finish()
+        
+        logging.info("Ha ganado: "+str(self.winner.miNombre))
+        
+        if(menu.MODO == menu.MODO_JUGAR):
+            if(self.winner.miNumero == const.JUGADOR1):
+                sendMensaje("Has ganado :)")
+            else:
+                sendMensaje("Has perdido :(")
         
     def __turno(self, contadorRondas):
         self.c.initRonda()
