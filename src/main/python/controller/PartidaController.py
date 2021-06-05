@@ -33,7 +33,16 @@ class PartidaController:
             #self.tablerosYAccionesj1 = ''
             #self.tablerosYAccionesj2 = ''
         
-        self.__start()
+        try:
+            self.__start()
+        except:
+            try:
+                self.j1.finish()
+                self.j2.finish()
+                logging.error("Ha habido un error en el turno")
+                sendMensaje("Se ha producido un error")
+            except:
+                logging.error("Ha habido un error en la interfaz o se ha cerrado la ventana")
             
     def __initJugadores(self):
         #Elegir opciones para generar datos
