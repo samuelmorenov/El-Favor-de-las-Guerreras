@@ -34,3 +34,5 @@ ACCION_PROPIA_NO_USADA = static+"azul_gris.png"
 ACCION_PROPIA_MARCADA = static+"verde.png"
 
 MARCO_TEXTO_EXPLICATIVO = static+"verde.png"
+
+MARCADOR_VALOR = static+"marcador.png"

@@ -34,7 +34,7 @@ class GUI_Tkinter:
         #Creacion de elementos del tablero        
         self.__addSusAcciones(gui.POSICION_SUS_ACCIONES, tablero[const.ACCIONES_USADAS_JUGADOR2])
         self.__addMarcadores(gui.POSICION_SUS_MARCADORES, tablero[const.ARMAS_USADAS_JUGADOR2])
-        self.__addGuerreras(gui.POSICION_GUERRERAS)
+        self.__addGuerreras(gui.POSICION_GUERRERAS, tablero[const.FAVOR_DE_GUERRERA])
         self.__addMarcadores(gui.POSICION_MIS_MARCADORES, tablero[const.ARMAS_USADAS_JUGADOR1])
         self.__addMisAcciones(gui.POSICION_MIS_ACCIONES, tablero[const.ACCIONES_USADAS_JUGADOR1])
         self.__addMiMano(gui.POSICION_MI_MANO, tablero[const.MANO_JUGADOR1])
@@ -69,7 +69,7 @@ class GUI_Tkinter:
     '''
     
     #Añade una fila de imagenes de cartas grandes
-    def __addGuerreras(self, fila):
+    def __addGuerreras(self, fila, favores):
         self.__addCartaGrande(fila, 0, ip.G1)
         self.__addCartaGrande(fila, 1, ip.G2)
         self.__addCartaGrande(fila, 2, ip.G3)
@@ -77,6 +77,16 @@ class GUI_Tkinter:
         self.__addCartaGrande(fila, 4, ip.G5)
         self.__addCartaGrande(fila, 5, ip.G6)
         self.__addCartaGrande(fila, 6, ip.G7)
+        
+        switcher = {
+                const.FAVOR_NEUTRAL: gui.POSICION_GUERRERAS_NEUTRAL,
+                const.FAVOR_JUGADOR_1: gui.POSICION_GUERRERAS_ALIADA,
+                const.FAVOR_JUGADOR_2: gui.POSICION_GUERRERAS_ENEMIGA
+            }
+        
+        for c in range(const.NCOLUMNA):
+            favor  = switcher.get(favores[c])
+            self.__addMarcadorValor(favor, c, ip.MARCADOR_VALOR)
         
     #Añade una fila de marcadores dada una lista de numeros
     def __addMarcadores(self, fila, listaNumeros):
@@ -175,6 +185,14 @@ class GUI_Tkinter:
     def __addCartaGrande(self, fila, columna, path):
         alto = gui.CARTA_GRANDE_ALTO
         ancho = gui.CARTA_GRANDE_ANCHO
+        borde = gui.BORDE_NULO
+        nfilas = gui.TAMANIO_GUERRERAS
+        self.__addLabelConImagenYTamanioFilas(fila, columna, alto, ancho, nfilas, borde, '', path)
+        
+    #Metodo para añadir el marcador del valor
+    def __addMarcadorValor(self, fila, columna, path):
+        alto = gui.MARCADOR_VALOR_LADO
+        ancho = gui.MARCADOR_VALOR_LADO
         borde = gui.BORDE_NULO
         self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
         
@@ -277,6 +295,10 @@ class GUI_Tkinter:
     Metodos de creacion de witgets (self, fila, columna, alto, ancho, borde, activo, texto/path)
     '''
     def __addLabelConImagen(self, fila, columna, alto, ancho, borde, texto, image_path):
+        nfilas = 1
+        self.__addLabelConImagenYTamanioFilas(fila, columna, alto, ancho, nfilas, borde, texto, image_path)
+    
+    def __addLabelConImagenYTamanioFilas(self, fila, columna, alto, ancho, nfilas, borde, texto, image_path):
         image = Image.open(image_path)
         image = image.resize((ancho, alto), Image.ANTIALIAS)
         photo = ImageTk.PhotoImage(image)
@@ -291,7 +313,7 @@ class GUI_Tkinter:
                       fg='black',
                       borderwidth=borde)
         label.image = photo
-        label.grid(row=fila, column=columna, padx=gui.PADDING, pady=gui.PADDING)
+        label.grid(row=fila, column=columna, padx=gui.PADDING, rowspan = nfilas, pady=gui.PADDING)
     
     def __addLabelConSoloTexto(self, fila, columna, alto, ancho, borde, texto):
         label = Label(self.__window,
