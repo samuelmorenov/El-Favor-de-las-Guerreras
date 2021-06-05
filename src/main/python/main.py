@@ -7,12 +7,17 @@ from controller.DataGeneratorController import DataGeneratorController
 
 import parameterization.ParametrosMenu as menu
 
-if __name__ == "__main__":
-    
+def initLogger():
     logging.basicConfig(filename='logfile.log',level=logging.INFO)
+    
+    logger = logging.getLogger()
+    while logger.hasHandlers():
+        logger.removeHandler(logger.handlers[0])
+    
     logging.getLogger().addHandler(logging.StreamHandler())
-    
-    
+
+if __name__ == "__main__":
+    initLogger()
     logging.info('Inicio del programa.')
     
     if(menu.MODO == menu.MODO_GENERAR_DATOS):
