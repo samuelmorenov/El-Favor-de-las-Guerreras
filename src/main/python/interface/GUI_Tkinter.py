@@ -113,7 +113,7 @@ class GUI_Tkinter:
     def __addAccionSeleccionada(self, fila):
         lado = gui.CARTA_ACCION_LADO
         borde = gui.BORDE_NULO
-        texto = str(self.__accionGuardada[const.PENDIENTE_TIPO])
+        texto = self.__getTextoAccion(self.__accionGuardada[const.PENDIENTE_TIPO])
         columna = const.PENDIENTE_TIPO
         self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_MARCADA)
         
@@ -212,16 +212,6 @@ class GUI_Tkinter:
             const.TIPO_RENUNCIA: gui.TEXTO_ACCION_RENUNCIA,
             const.TIPO_REGALO: gui.TEXTO_ACCION_REGALO,
             const.TIPO_COMPETICION: gui.TEXTO_ACCION_COMPETICION
-        }
-        texto = switcher.get(tipo)
-        return texto
-    
-    def __getTextoAccionElegida(self, tipo):
-        switcher = {
-            1: gui.TEXTO_ACCION_SECRETO,
-            2: gui.TEXTO_ACCION_RENUNCIA,
-            3: gui.TEXTO_ACCION_REGALO,
-            4: gui.TEXTO_ACCION_COMPETICION
         }
         texto = switcher.get(tipo)
         return texto
