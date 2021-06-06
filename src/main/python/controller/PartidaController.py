@@ -76,7 +76,7 @@ class PartidaController:
             #self.tablerosYAccionesj2 = ''
         contadorRondas = 1
         while (self.win == 0):
-            self.__turno(contadorRondas)
+            self.__ronda(contadorRondas)
             self.win = self.c.finalizarTurno()
             
             if(self.win == 1):
@@ -98,8 +98,9 @@ class PartidaController:
             else:
                 sendMensaje("Has perdido :(")
         
-    def __turno(self, contadorRondas):
+    def __ronda(self, contadorRondas):
         self.c.initRonda()
+        logging.info("Inicio de la ronda "+str(contadorRondas))
         
         for i in range(const.N_ACCIONES):
             logging.info("Inicio de turno "+str(i))
