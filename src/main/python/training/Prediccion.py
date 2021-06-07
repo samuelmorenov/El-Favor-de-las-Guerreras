@@ -38,8 +38,6 @@ class Prediccion:
         
         for i in range(PCNN.altura):
             campoMayorPonderado = int(np.argmax(copiaResultado))
-
-            #logging.debug("Prediccion() : Mayor ponderado = " + str(campoMayorPonderado))
             
             if(campoMayorPonderado in posiblesValores):
                 campo = campoMayorPonderado

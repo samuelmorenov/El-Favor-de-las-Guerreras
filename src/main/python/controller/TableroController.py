@@ -82,33 +82,27 @@ class TableroController:
     def __comprobarAccion1(self, manoIndex, filaAcciones, accionArray):
         if(self.__tablero[filaAcciones][const.TIPO_SECRETO] != 0):
             raise Exception("Accion 1 ya usada")
-        #TODO: Comprobar que la carta exista en la mano
         
     def __comprobarAccion2(self, manoIndex, filaAcciones, accionArray):
         if(self.__tablero[filaAcciones][const.TIPO_RENUNCIA_1] != 0 
            or self.__tablero[filaAcciones][const.TIPO_RENUNCIA_2] != 0):
             raise Exception("Accion 2 ya usada")
-        #TODO: Comprobar que las cartas existan en la mano
         
     def __comprobarAccion3(self, manoIndex, filaAcciones, accionArray):
         if(self.__tablero[filaAcciones][const.TIPO_REGALO] != 0):
             raise Exception("Accion 3 ya usada")
-        #TODO: Comprobar que las cartas existan en la mano
         
     def __comprobarAccion4(self, manoIndex, filaAcciones, accionArray):
         if(self.__tablero[filaAcciones][const.TIPO_COMPETICION] != 0):
             raise Exception("Accion 4 ya usada")
-        #TODO: Comprobar que las cartas existan en la mano
         
     def __comprobarAccionDecision3(self, manoIndex, accionArray):
         if(self.__tablero[const.ACCION_PENDIENTE][const.TIPO_SECRETO] != const.TIPO_DECISION_REGALO):
             raise Exception("Accion de decision 3 no disponible")
-        #TODO: Comprobar que la carta exista en la 
         
     def __comprobarAccionDecision4(self, manoIndex, accionArray):
         if(self.__tablero[const.ACCION_PENDIENTE][const.TIPO_SECRETO] != const.TIPO_DECISION_COMPETICION):
             raise Exception("Accion de decision 4 no disponible")
-        #TODO: Comprobar que las cartas existan en la mano
         
         
     def __guardarAccion1(self, manoIndex, filaAccionesIndex, accionArray):

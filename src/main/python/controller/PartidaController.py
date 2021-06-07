@@ -23,15 +23,12 @@ class PartidaController:
         
         self.__initJugadores()
 
-        #Si esta en modo generacion de datos hay que guardar esos datos
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
             self.winner = False
             self.accionesj1 = ''
             self.accionesj2 = ''
             self.tablerosj1 = ''
             self.tablerosj2 = ''
-            #self.tablerosYAccionesj1 = ''
-            #self.tablerosYAccionesj2 = ''
         
         try:
             self.__start()
@@ -72,8 +69,6 @@ class PartidaController:
             self.accionesj2 = ''
             self.tablerosj1 = ''
             self.tablerosj2 = ''
-            #self.tablerosYAccionesj1 = ''
-            #self.tablerosYAccionesj2 = ''
         contadorRondas = 1
         while (self.win == 0):
             self.__ronda(contadorRondas)
@@ -145,8 +140,6 @@ class PartidaController:
             if(jugador.miNumero) == const.JUGADOR1:
                 self.tablerosj1 = self.tablerosj1 + linea1 + "\n"
                 self.accionesj1 = self.accionesj1 + linea2 + "\n"
-                #self.tablerosYAccionesj1 = self.tablerosYAccionesj1 + linea1 + data.SEPARADOR + linea2 + "\n"
             else:
                 self.tablerosj2 = self.tablerosj2 + linea1 + "\n"
                 self.accionesj2 = self.accionesj2 + linea2 + "\n"
-                #self.tablerosYAccionesj2 = self.tablerosYAccionesj2 + linea1 + data.SEPARADOR + linea2 + "\n"
