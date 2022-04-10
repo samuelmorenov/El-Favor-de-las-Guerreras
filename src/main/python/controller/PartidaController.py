@@ -2,7 +2,7 @@
 
 import logging
 import sys
-sys.path.append('../')
+sys.path.append('../../../')
 
 from controller.TableroController import TableroController
 from controller.BotTonto import BotTonto

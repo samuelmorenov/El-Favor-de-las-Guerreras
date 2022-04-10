@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-sys.path.append('../')
+sys.path.append('../../../')
 
 from interface.GUI_Tkinter import GUI_Tkinter
 

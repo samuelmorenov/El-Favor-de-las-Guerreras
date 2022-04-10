@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import sys
+sys.path.append('../../')
+
 from controller.PartidaController import PartidaController
 from training.Entrenamiento import Entrenamiento
 from controller.DataGeneratorController import DataGeneratorController

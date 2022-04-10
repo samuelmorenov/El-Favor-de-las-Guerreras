@@ -2,7 +2,7 @@
 
 import logging
 import sys
-sys.path.append('../')
+sys.path.append('../../../')
 
 from tkinter import Tk, Button, Label, DISABLED, NORMAL
 from PIL import Image, ImageTk
