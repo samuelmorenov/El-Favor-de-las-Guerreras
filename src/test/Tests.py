@@ -17,7 +17,7 @@ accionesDisponiblesSecreto          = [0,2,3,1,1,0,0]
 accionesDisponiblesRenuncia         = [2,0,0,1,1,0,0]
 accionesDisponiblesRegalo           = [2,3,4,0,1,0,0]
 accionesDisponiblesCompeticion      = [2,3,4,1,0,0,0]
-accionesDisponiblesNinguna          = [2,3,4,0,1,1,0]
+accionesDisponiblesNinguna          = [2,3,4,1,1,1,0]
 
 mano7CartasDistintas = [1,2,3,4,5,6,7]
 mano4Iguales = [7,7,7,7,0,0,0]

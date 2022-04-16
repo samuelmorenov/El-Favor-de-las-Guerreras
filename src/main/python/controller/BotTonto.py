@@ -40,6 +40,9 @@ class BotTonto:
             listaAccionesPosibles.append(const.TIPO_REGALO)
         if(accionesRealizadas[const.TIPO_COMPETICION] == 0):
             listaAccionesPosibles.append(const.TIPO_COMPETICION)
+            
+        if(len(listaAccionesPosibles) == 0):
+            raise Exception("No hay acciones posibles para hacer")
            
         logging.debug(self.miNombre+" : Estas son las acciones que puedo hacer: "+str(listaAccionesPosibles))
         

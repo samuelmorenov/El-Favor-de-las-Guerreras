@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import sys
 sys.path.append('../../../')
 
@@ -12,7 +13,11 @@ class JugadorController:
         self.GUI = GUI_Tkinter()
         
     def decidirAccion(self, tablero):
-        return self.__pedirAccion(tablero)
+        logging.info(self.miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
+        salida = self.__pedirAccion(tablero)
+        logging.info(self.miNombre+" : Esta es la accion completa que realizo: "+str(salida))
+        logging.info(self.miNombre+" : ___________________________________") #Separador
+        return salida
     
     def decidirAccionDeSeleccion(self, tablero):
         return self.__pedirAccion(tablero)

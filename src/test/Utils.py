@@ -42,8 +42,8 @@ class Utils(unittest.TestCase):
         tablero[const.ACCIONES_USADAS_JUGADOR1] = accionesDisponibles
         tablero[const.MANO_JUGADOR1] = mano
         
-        
-        self.assertRaises(actor.decidirAccion(tablero))
+        with self.assertRaises(Exception):
+            actor.decidirAccion(tablero)
     
     '''
         Comprueba que la accion esta dentro de las acciones no realizadas
