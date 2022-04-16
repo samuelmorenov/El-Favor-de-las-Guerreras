@@ -24,7 +24,7 @@ mano4Iguales = [7,7,7,7,0,0,0]
 mano3Iguales = [7,7,7,0,0,0,0]
 mano2Iguales = [7,7,0,0,0,0,0]
 mano1Iguales = [7,0,0,0,0,0,0]
-manoVacia = [7,0,0,0,0,0,0]
+manoVacia = [0,0,0,0,0,0,0]
 
 
 class Test(unittest.TestCase):

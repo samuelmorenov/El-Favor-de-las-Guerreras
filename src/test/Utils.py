@@ -9,14 +9,7 @@ import numpy as np
 
 import parameterization.ParametrosTablero as const
 
-tableroVacio = [[0,0,0,0,0,0,0], #MANO_JUGADOR1
-               [0,0,0,0,0,0,0], #MANO_JUGADOR2
-               [0,0,0,0,0,0,0], #ACCIONES_USADAS_JUGADOR1
-               [0,0,0,0,0,0,0], #ACCIONES_USADAS_JUGADOR2
-               [0,0,0,0,0,0,0], #ARMAS_USADAS_JUGADOR1
-               [0,0,0,0,0,0,0], #ARMAS_USADAS_JUGADOR2
-               [0,0,0,0,0,0,0], #FAVOR_DE_GUERRERA
-               [0,0,0,0,0,0,0]] #ACCION_PENDIENTE
+tableroVacio = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
 
 class Utils(unittest.TestCase):
     
@@ -31,11 +24,11 @@ class Utils(unittest.TestCase):
         
         #Comprobación de datos obtenidos
         #LA accion esta dentro de las posibles
-        self.accionPosible(accion, accionesDisponibles)
+        self.__accionPosible(accion, accionesDisponibles)
         #La accion tiene un numero de cartas correcto
-        numero = self.accionNumeroCartasCorrecto(accion)
+        numero = self.__accionNumeroCartasCorrecto(accion)
         #La accion usa cartas disponibles en la mano
-        self.accionCartasDisponibles(accion, mano, numero)
+        self.__accionCartasDisponibles(accion, mano, numero)
         
     def accionException(self, actor, mano, accionesDisponibles):
         tablero = tableroVacio
@@ -50,7 +43,7 @@ class Utils(unittest.TestCase):
         accion: es el array de la accion completa realizada
         accionesRealizadas: es el array del estado de las acciones realizadas
     '''
-    def accionPosible(self, accion, accionesRealizadas):
+    def __accionPosible(self, accion, accionesRealizadas):
         listaAccionesPosibles = []
         if(accionesRealizadas[const.TIPO_SECRETO] == 0):
             listaAccionesPosibles.append(const.TIPO_SECRETO)
@@ -67,7 +60,7 @@ class Utils(unittest.TestCase):
         Comprueba que el numero de cartas seleccionado corresponde con la accion
         accion: es el array de la accion completa realizada
     '''
-    def accionNumeroCartasCorrecto(self, accion):
+    def __accionNumeroCartasCorrecto(self, accion):
         num = self.__getNumeroCartasSeleccionadas(accion)
         self.assertNotEqual(num, 0) #Comprobamos que no es 0
         
@@ -92,7 +85,7 @@ class Utils(unittest.TestCase):
         mano: es el array de las cartas que hay en mano
         numero: es el numero de cartas que tiene la accion
     '''
-    def accionCartasDisponibles(self, accion, mano, numero):
+    def __accionCartasDisponibles(self, accion, mano, numero):
         manoRestante = mano
         for i in range(1, numero+1, 1):
             carta = accion[i]
