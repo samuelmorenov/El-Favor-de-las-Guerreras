@@ -9,7 +9,7 @@ sys.path.append('../')
 
 from main.python.controller.BotTonto import BotTonto
 from main.python.controller.NeuralNetworkController import NeuralNetworkController
-from Utils import Utils
+from utils.Utils import Utils
 
 utils = Utils() 
 
