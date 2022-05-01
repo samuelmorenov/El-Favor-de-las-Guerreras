@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-
-import sys
-sys.path.append('../../../')
-
-import parameterization.ParametrosTablero as const
+import main.python.parameterization.ParametrosTablero as const
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""

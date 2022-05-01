@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import sys
-sys.path.append('../')
-
-#import parameterization.ParametrosTablero as const
+import sys, os
+base = os.path.dirname(__file__)
+sys.path.insert(0, os.path.normpath(base+"/..") )
+sys.path.insert(0, os.path.normpath(base+"/../..") )
 
 from main.python.controller.BotTonto import BotTonto
 from main.python.controller.NeuralNetworkController import NeuralNetworkController

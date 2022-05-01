@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-import sys
-sys.path.append('../../../')
-
 from tkinter import ttk
 
 import tkinter as tk
 
-import parameterization.ParametrosImagenes as ip
+import main.python.parameterization.ParametrosImagenes as ip
 
 def sendMensaje(texto):
     bgcolor = '#c4a495'

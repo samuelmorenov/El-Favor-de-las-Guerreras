@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import sys
-sys.path.append('../../../')
 
 import numpy as np
 
 from tensorflow.python.keras.models import load_model
 
-import parameterization.ParametrosDatos as data
-import parameterization.ParametrosCNN as PCNN
+import main.python.parameterization.ParametrosDatos as data
+import main.python.parameterization.ParametrosCNN as PCNN
 
 class Prediccion:
     def __init__(self):

@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-
 import logging
-import sys
-sys.path.append('../../../')
 
-from interface.GUI_Tkinter import GUI_Tkinter
+from main.python.interface.GUI_Tkinter import GUI_Tkinter
 
 class JugadorController:
     def __init__(self, miNombre, miNumero):

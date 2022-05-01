@@ -1,19 +1,16 @@
 # -*- coding: utf-8 -*-
-
 import logging
-import sys
-sys.path.append('../../../')
 
-from controller.TableroController import TableroController
-from controller.BotTonto import BotTonto
-from controller.JugadorController import JugadorController
-from controller.NeuralNetworkController import NeuralNetworkController
-from interface.Popup_Tkinter import sendMensaje
+from main.python.controller.TableroController import TableroController
+from main.python.controller.BotTonto import BotTonto
+from main.python.controller.JugadorController import JugadorController
+from main.python.controller.NeuralNetworkController import NeuralNetworkController
+from main.python.interface.Popup_Tkinter import sendMensaje
 
 
-import parameterization.ParametrosTablero as const
-import parameterization.ParametrosMenu as menu
-import parameterization.ParametrosDatos as data
+import main.python.parameterization.ParametrosTablero as const
+import main.python.parameterization.ParametrosMenu as menu
+import main.python.parameterization.ParametrosDatos as data
 
 
 class PartidaController:

@@ -1,10 +1,5 @@
 # -*- coding: utf-8 -*-
-
 import logging
-import sys
-import os
-# Add the ptdraft folder path to the sys.path list
-sys.path.append('../../../')
 
 from controller.PartidaController import PartidaController
 

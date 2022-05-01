@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
-
 import logging
-import sys
-sys.path.append('../../../')
 
 import numpy as np
 
-import parameterization.ParametrosTablero as const
+import main.python.parameterization.ParametrosTablero as const
 
-from training.Prediccion import Prediccion
+from main.python.training.Prediccion import Prediccion
 
 class NeuralNetworkController:
     def __init__(self, miNombre, miNumero):

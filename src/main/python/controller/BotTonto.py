@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-
 import logging
-import sys
-sys.path.append('../../../')
 
 import numpy as np
 
-import parameterization.ParametrosTablero as const
+import main.python.parameterization.ParametrosTablero as const
 
 class BotTonto:
     def __init__(self, miNombre, miNumero):

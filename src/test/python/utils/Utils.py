@@ -7,7 +7,7 @@ sys.path.append('../')
 
 import numpy as np
 
-import parameterization.ParametrosTablero as const
+import main.python.parameterization.ParametrosTablero as const
 
 tableroVacio = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
 

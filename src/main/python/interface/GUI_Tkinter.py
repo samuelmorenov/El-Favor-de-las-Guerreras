@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-
 import logging
-import sys
-sys.path.append('../../../')
 
 from tkinter import Tk, Button, Label, DISABLED, NORMAL
 from PIL import Image, ImageTk
 
-import parameterization.ParametrosTablero as const
-import parameterization.ParametrosImagenes as ip
-import parameterization.ParametrosGUI as gui
+import main.python.parameterization.ParametrosTablero as const
+import main.python.parameterization.ParametrosImagenes as ip
+import main.python.parameterization.ParametrosGUI as gui
 import numpy as np
 
 bgcolor = '#c4a495'

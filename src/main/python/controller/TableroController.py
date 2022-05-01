@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
-
-import sys
-sys.path.append('../../../')
-
 import numpy as np
 
-import parameterization.ParametrosTablero as const
+import main.python.parameterization.ParametrosTablero as const
 
 
 class TableroController:
