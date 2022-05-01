@@ -28,7 +28,7 @@ class TableroController:
         
     #Se reparten 6 cartas del mazo a cada jugador y ordena las manos
     def __repartoDeCartas(self):
-        for i in range(const.N_CARTAS_INICIAL):
+        for _ in range(const.N_CARTAS_INICIAL):
             self.__conseguirCarta(const.MANO_JUGADOR1)
             self.__conseguirCarta(const.MANO_JUGADOR2)
         self.__ordenarMano(const.MANO_JUGADOR1)

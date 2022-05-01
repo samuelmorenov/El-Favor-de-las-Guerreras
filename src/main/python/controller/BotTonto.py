@@ -61,7 +61,7 @@ class BotTonto:
         else:
             raise Exception("Accion erronea")
             
-        for c in range(accionCount):
+        for _ in range(accionCount):
             posicion = np.random.randint(len(listaDeCartasEnMano))
             carta = listaDeCartasEnMano.pop(posicion)
             cartasSeleccionadas.append(carta)

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import logging
+import logging, os
 
 from controller.PartidaController import PartidaController
 
@@ -16,7 +16,7 @@ class DataGeneratorController:
         self.__resetArchivo(data.PARTIDAS_GANADAS_JUGADAS)
         self.__resetArchivo(data.PARTIDAS_GANADAS_TABLERO)
                 
-        for i in range(menu.NUM_SIMULACIONES):
+        for _ in range(menu.NUM_SIMULACIONES):
             self.mainController = PartidaController()
             self.__guardarGanador(self.mainController.winner)
                 
