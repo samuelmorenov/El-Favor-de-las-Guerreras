@@ -1,6 +1,4 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import unittest
 import sys, os
 base = os.path.dirname(__file__)
