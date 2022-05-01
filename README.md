@@ -14,12 +14,7 @@ Para activar el entorno creado ejecuntar el comando:
 
 `conda activate <nombre del entorno>`
 
-Abrir el navegador de Anaconda *Anaconda Navigator*, en *Aplications on* seleccionar el entorno creado. A continuación abrir la sección *Environments* y buscar e instalar:
-	
-	- Python 3.7.9
-	- Spyder 3.3.6
-	- Tensorflow 2.3.0
-	- ConfigParser 5.0.2
+Abrir el navegador de Anaconda *Anaconda Navigator*, en *Aplications on* seleccionar el entorno creado. A continuación abrir la sección *Environments* y buscar e importar el archivo anaconda.yaml para que se instalen las librerías necesarias.
 	
 Una vez instaladas las librarías, abrir *Spyder* desde *Home* del navegador de Anaconda
 
