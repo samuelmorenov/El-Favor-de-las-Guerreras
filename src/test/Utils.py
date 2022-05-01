@@ -37,6 +37,44 @@ class Utils(unittest.TestCase):
         
         with self.assertRaises(Exception):
             actor.decidirAccion(tablero)
+            
+            
+    def accionSeleccionCorrecta(self, actor, accionSeleccion):
+        #Neuronal Network : Esta es la accion pendiente que me llega: [5 4 5 6 0 0 0]
+        #Neuronal Network : Esta es la accion completa que realizo: [5 5 0 0 0 0 0]
+        tablero = tableroVacio
+        tablero[const.ACCION_PENDIENTE] = accionSeleccion
+        
+        accion = actor.decidirAccionDeSeleccion(tablero)
+        
+        self.assertEqual(accion[const.PENDIENTE_TIPO], accionSeleccion[const.PENDIENTE_TIPO])
+        
+        cartasSeleccionadas = 0
+        cartasPosibles = []
+        
+        if(accion[const.PENDIENTE_TIPO] == const.TIPO_DECISION_REGALO):
+            cartasSeleccionadas = accion[const.PENDIENTE_5_ELEGIDA]
+            cartasPosibles.append(accionSeleccion[const.PENDIENTE_5_1])
+            cartasPosibles.append(accionSeleccion[const.PENDIENTE_5_2])
+            cartasPosibles.append(accionSeleccion[const.PENDIENTE_5_3])
+        if(accion[const.PENDIENTE_TIPO] == const.TIPO_DECISION_COMPETICION):
+            cartasSeleccionadas = []
+            cartasSeleccionadas.append(accion[const.PENDIENTE_6_ELEGIDA_1])
+            cartasSeleccionadas.append(accion[const.PENDIENTE_6_ELEGIDA_1])
+            
+            cartasPosibles1 = []
+            cartasPosibles1.append(accionSeleccion[const.PENDIENTE_6_1_1])
+            cartasPosibles1.append(accionSeleccion[const.PENDIENTE_6_1_2])
+            cartasPosibles2 = []
+            cartasPosibles2.append(accionSeleccion[const.PENDIENTE_6_2_1])
+            cartasPosibles2.append(accionSeleccion[const.PENDIENTE_6_2_2])
+            
+            cartasPosibles.append(cartasPosibles1)
+            cartasPosibles.append(cartasPosibles2)
+            
+        self.assertIn(cartasSeleccionadas, cartasPosibles)
+        
+        
     
     '''
         Comprueba que la accion esta dentro de las acciones no realizadas

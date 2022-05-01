@@ -26,6 +26,12 @@ mano2Iguales = [7,7,0,0,0,0,0]
 mano1Iguales = [7,0,0,0,0,0,0]
 manoVacia = [0,0,0,0,0,0,0]
 
+cartasAccionSeleccionRegalo0Iguales = [5,1,2,3,0,0,0]
+cartasAccionSeleccionRegalo2Iguales = [5,1,1,2,0,0,0]
+cartasAccionSeleccionRegalo3Iguales = [5,4,4,4,0,0,0]
+
+cartasAccionSeleccionCompeticionIguales = [6,7,7,7,7,0,0]
+cartasAccionSeleccionCompeticionDistintas = [6,7,7,6,6,0,0]
 
 class Test(unittest.TestCase):
     
@@ -104,7 +110,33 @@ class Test(unittest.TestCase):
     #    Sin acciones libres
     def test_caso_12(self):
         utils.accionException(self.bot, mano7CartasDistintas, accionesDisponiblesNinguna)
-
         
+    #-----------------Bot Seleccionar accion de seleccion-----------------'''
+    #Prueba del bot, seleccion de accion de seleccion de tipo regalo con:
+    #   Todas las cartas distintas
+    def test_caso_13(self):
+        utils.accionSeleccionCorrecta(self.bot, cartasAccionSeleccionRegalo0Iguales)
+        
+    #Prueba del bot, seleccion de accion de seleccion de tipo regalo con:
+    #   2 cartas iguales
+    def test_caso_14(self):
+        utils.accionSeleccionCorrecta(self.bot, cartasAccionSeleccionRegalo2Iguales)
+        
+    #Prueba del bot, seleccion de accion de seleccion de tipo regalo con:
+    #   Todas las cartas iguales
+    def test_caso_15(self):
+        utils.accionSeleccionCorrecta(self.bot, cartasAccionSeleccionRegalo3Iguales)
+        
+    #Prueba del bot, seleccion de accion de seleccion de tipo competicion con:
+    #   Las dos opciones iguales
+    def test_caso_16(self):
+        utils.accionSeleccionCorrecta(self.bot, cartasAccionSeleccionCompeticionIguales)
+        
+    #Prueba del bot, seleccion de accion de seleccion de tipo competicion con:
+    #   Las dos opciones distintas
+    def test_caso_17(self):
+        utils.accionSeleccionCorrecta(self.bot, cartasAccionSeleccionCompeticionDistintas)
+        
+    
 if __name__ == "__main__":
     unittest.main()
