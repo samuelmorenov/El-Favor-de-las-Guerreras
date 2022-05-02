@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
+import logging
 import sys, os
-base = os.path.dirname(__file__)
-sys.path.insert(0, os.path.normpath(base+"/..") )
-sys.path.insert(0, os.path.normpath(base+"/../..") )
 
 from main.python.controller.BotTonto import BotTonto
 from main.python.controller.NeuralNetworkController import NeuralNetworkController
@@ -236,5 +234,21 @@ class Test(unittest.TestCase):
         utils.accionSeleccionCorrecta(self.redNeuronal, cartasAccionSeleccionCompeticionDistintas)
         
     
+def initLogger():
+    logging.basicConfig(filename='logfile.log',level=logging.DEBUG)
+    
+    logger = logging.getLogger()
+    while logger.hasHandlers():
+        logger.removeHandler(logger.handlers[0])
+    
+    logging.getLogger().addHandler(logging.StreamHandler())
+    
+def initPath():
+    base = os.path.dirname(__file__)
+    sys.path.insert(0, os.path.normpath(base+"/..") )
+    sys.path.insert(0, os.path.normpath(base+"/../..") )
+    
 if __name__ == "__main__":
+    initLogger()
+    initPath()
     unittest.main()

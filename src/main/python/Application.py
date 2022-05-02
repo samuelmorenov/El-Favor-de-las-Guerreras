@@ -2,9 +2,6 @@
 
 import logging
 import sys, os
-base = os.path.dirname(__file__)
-sys.path.insert(0, os.path.normpath(base+"/..") )
-sys.path.insert(0, os.path.normpath(base+"/../..") )
 
 from main.python.controller.PartidaController import PartidaController
 from main.python.training.Entrenamiento import Entrenamiento
@@ -20,9 +17,15 @@ def initLogger():
         logger.removeHandler(logger.handlers[0])
     
     logging.getLogger().addHandler(logging.StreamHandler())
+    
+def initPath():
+    base = os.path.dirname(__file__)
+    sys.path.insert(0, os.path.normpath(base+"/..") )
+    sys.path.insert(0, os.path.normpath(base+"/../..") )
 
 if __name__ == "__main__":
     initLogger()
+    initPath()
     logging.info('Inicio del programa.')
     
     if(menu.MODO == menu.MODO_GENERAR_DATOS):
