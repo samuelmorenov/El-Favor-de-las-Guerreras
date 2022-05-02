@@ -15,7 +15,7 @@ import main.python.parameterization.ParametrosDatos as data
 
 class PartidaController:
     def __init__(self):
-        self.c = TableroController()
+        self.tablero = TableroController()
         self.win = 0
         
         self.__initJugadores()
@@ -69,7 +69,7 @@ class PartidaController:
         contadorRondas = 1
         while (self.win == 0):
             self.__ronda(contadorRondas)
-            self.win = self.c.finalizarTurno()
+            self.win = self.tablero.finalizarTurno()
             
             if(self.win == 1):
                 self.winner = self.j1
@@ -91,7 +91,7 @@ class PartidaController:
                 sendMensaje("Has perdido :(")
         
     def __ronda(self, contadorRondas):
-        self.c.initRonda()
+        self.tablero.initRonda()
         logging.info("Inicio de la ronda "+str(contadorRondas))
         
         for i in range(const.N_ACCIONES):
@@ -100,17 +100,17 @@ class PartidaController:
             self.__accion(const.JUGADOR2, const.JUGADOR1, self.j2, self.j1)
             
     def __accion(self, jugador1, jugador2, botSeleccionadoComo1, botSeleccionadoComo2):
-        self.c.jugadorRobaCarta(jugador1)
-        tablero = self.c.getVistaTablero(jugador1)
+        self.tablero.jugadorRobaCarta(jugador1)
+        tablero = self.tablero.getVistaTablero(jugador1)
         accion = botSeleccionadoComo1.decidirAccion(tablero)
         self.__guardarAccion(tablero, accion, botSeleccionadoComo1)
-        self.c.realizarAccion(jugador1, accion)
+        self.tablero.realizarAccion(jugador1, accion)
         
-        if(self.c.hayAccionPendiente()):
-            tablero = self.c.getVistaTablero(jugador2)
+        if(self.tablero.hayAccionPendiente()):
+            tablero = self.tablero.getVistaTablero(jugador2)
             accionDeSeleccion = botSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
             self.__guardarAccion(tablero, accionDeSeleccion, botSeleccionadoComo2)
-            self.c.realizarAccion(jugador2, accionDeSeleccion)
+            self.tablero.realizarAccion(jugador2, accionDeSeleccion)
             
     def __guardarAccion(self, tablero, accion, jugador):
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
