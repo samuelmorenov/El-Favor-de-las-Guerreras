@@ -244,10 +244,13 @@ class Test(unittest.TestCase):
     #   Todo vacío excepto las manos de los jugadores
     def test_caso_35(self):
         self.tablero = ControladorTablero()
+        self.tablero.initRonda()
         tableroAux1 = self.tablero.getVistaTablero(const.JUGADOR1)
         tableroAux2 = self.tablero.getVistaTablero(const.JUGADOR2)
         tableros.tableroVacio(tableroAux1)
         tableros.tableroVacio(tableroAux2)
+        tableros.manoInicial(tableroAux1)
+        tableros.manoInicial(tableroAux2)
         
     
 def initLogger():
