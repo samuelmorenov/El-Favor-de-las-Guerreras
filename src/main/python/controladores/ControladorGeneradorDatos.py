@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 import logging, os
 
-from controller.PartidaController import PartidaController
+from main.python.controladores.ControladorPartida import ControladorPartida
 
-import parameterization.ParametrosMenu as menu
-import parameterization.ParametrosTablero as const
-import parameterization.ParametrosDatos as data
+import main.python.parametrizacion.ParametrosMenu as menu
+import main.python.parametrizacion.ParametrosTablero as const
+import main.python.parametrizacion.ParametrosDatos as data
 
-class DataGeneratorController:
+class ControladorGeneradorDatos:
     def __init__(self):
         self.partidasGanadas1 = 0
         self.partidasGanadas2 = 0
@@ -17,7 +17,7 @@ class DataGeneratorController:
         self.__resetArchivo(data.PARTIDAS_GANADAS_TABLERO)
                 
         for _ in range(menu.NUM_SIMULACIONES):
-            self.mainController = PartidaController()
+            self.mainController = ControladorPartida()
             self.__guardarGanador(self.mainController.winner)
                 
             logging.info("Partidas ganadas por el 1: "+ str(self.partidasGanadas1))

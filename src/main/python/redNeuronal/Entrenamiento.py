@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import parameterization.ParametrosDatos as data
-import parameterization.ParametrosCNN as PCNN
+import parametrizacion.ParametrosDatos as data
+import parametrizacion.ParametrosCNN as PCNN
 
 import pandas as pd
 import numpy as np

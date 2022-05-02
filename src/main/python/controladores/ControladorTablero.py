@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-import main.python.parameterization.ParametrosTablero as const
+import main.python.parametrizacion.ParametrosTablero as const
 
 
-class TableroController:
+class ControladorTablero:
     def __init__(self):
         self.__tablero = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
         self.__initMazo()

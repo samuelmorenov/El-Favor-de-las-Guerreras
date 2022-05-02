@@ -6,8 +6,8 @@ import numpy as np
 
 from tensorflow.python.keras.models import load_model
 
-import main.python.parameterization.ParametrosDatos as data
-import main.python.parameterization.ParametrosCNN as PCNN
+import main.python.parametrizacion.ParametrosDatos as data
+import main.python.parametrizacion.ParametrosCNN as PCNN
 
 class Prediccion:
     def __init__(self):

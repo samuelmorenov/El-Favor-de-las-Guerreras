@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from main.python.interface.GUI_Tkinter import GUI_Tkinter
+from main.python.interfaz.GUI_Tkinter import GUI_Tkinter
 
-class JugadorController:
+class ControladorJugador:
     def __init__(self, miNombre, miNumero):
         self.miNombre = miNombre
         self.miNumero = miNumero

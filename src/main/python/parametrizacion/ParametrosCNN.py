@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import main.python.parameterization.ParametrosTablero as const
+import main.python.parametrizacion.ParametrosTablero as const
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""

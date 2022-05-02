@@ -4,9 +4,9 @@ import logging
 from tkinter import Tk, Button, Label, DISABLED, NORMAL
 from PIL import Image, ImageTk
 
-import main.python.parameterization.ParametrosTablero as const
-import main.python.parameterization.ParametrosImagenes as ip
-import main.python.parameterization.ParametrosGUI as gui
+import main.python.parametrizacion.ParametrosTablero as const
+import main.python.parametrizacion.ParametrosImagenes as ip
+import main.python.parametrizacion.ParametrosGUI as gui
 import numpy as np
 
 bgcolor = '#c4a495'

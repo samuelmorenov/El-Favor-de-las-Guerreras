@@ -7,11 +7,11 @@ sys.path.append('../')
 
 import numpy as np
 
-import main.python.parameterization.ParametrosTablero as const
+import main.python.parametrizacion.ParametrosTablero as const
 
 tableroVacio = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
 
-class Utils(unittest.TestCase):
+class ComprobarAcciones(unittest.TestCase):
     
     
     def accionCorrecta(self, actor, mano, accionesDisponibles):

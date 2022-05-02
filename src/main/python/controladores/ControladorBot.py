@@ -3,9 +3,9 @@ import logging
 
 import numpy as np
 
-import main.python.parameterization.ParametrosTablero as const
+import main.python.parametrizacion.ParametrosTablero as const
 
-class BotTonto:
+class ControladorBot:
     def __init__(self, miNombre, miNumero):
         self.miNombre = miNombre
         self.miNumero = miNumero

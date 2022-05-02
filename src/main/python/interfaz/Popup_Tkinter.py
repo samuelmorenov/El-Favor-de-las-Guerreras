@@ -3,7 +3,7 @@ from tkinter import ttk
 
 import tkinter as tk
 
-import main.python.parameterization.ParametrosImagenes as ip
+import main.python.parametrizacion.ParametrosImagenes as ip
 
 def sendMensaje(texto):
     bgcolor = '#c4a495'

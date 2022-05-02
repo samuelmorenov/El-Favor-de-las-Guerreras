@@ -3,11 +3,11 @@
 import logging
 import sys, os
 
-from main.python.controller.PartidaController import PartidaController
-from main.python.training.Entrenamiento import Entrenamiento
-from main.python.controller.DataGeneratorController import DataGeneratorController
+from main.python.controladores.ControladorPartida import ControladorPartida
+from main.python.controladores.ControladorGeneradorDatos import ControladorGeneradorDatos
+from main.python.redNeuronal.Entrenamiento import Entrenamiento
 
-import parameterization.ParametrosMenu as menu
+import main.python.parametrizacion.ParametrosMenu as menu
 
 def initLogger():
     logging.basicConfig(filename='logfile.log',level=logging.INFO)
@@ -30,11 +30,11 @@ if __name__ == "__main__":
     
     if(menu.MODO == menu.MODO_GENERAR_DATOS):
         logging.info('Seleccionado modo de generacion de datos')
-        run = DataGeneratorController()
+        run = ControladorGeneradorDatos()
     
     elif(menu.MODO == menu.MODO_JUGAR):
         logging.info('Seleccionado modo de juego')
-        run = PartidaController()
+        run = ControladorPartida()
         
     elif(menu.MODO == menu.MODO_ENTRENAR_RED):
         logging.info('Seleccionado modo de entrenamiento de la red neuronal')

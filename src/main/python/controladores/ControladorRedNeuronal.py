@@ -3,11 +3,11 @@ import logging
 
 import numpy as np
 
-import main.python.parameterization.ParametrosTablero as const
+import main.python.parametrizacion.ParametrosTablero as const
 
-from main.python.training.Prediccion import Prediccion
+from main.python.redNeuronal.Prediccion import Prediccion
 
-class NeuralNetworkController:
+class ControladorRedNeuronal:
     def __init__(self, miNombre, miNumero):
         self.miNombre = miNombre
         self.miNumero = miNumero

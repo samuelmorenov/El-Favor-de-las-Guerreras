@@ -2,7 +2,7 @@
 
 import configparser
 config = configparser.RawConfigParser()
-config.read('./../resources/param.properties')
+config.read('./../recursos/param.properties')
 
 """""""""""""""""""""""""""""""""""""""""""""""""""
 """""""""""""""""""""""""""""""""""""""""""""""""""
