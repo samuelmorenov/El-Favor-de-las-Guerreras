@@ -5,9 +5,14 @@ import sys, os
 
 from main.python.controladores.ControladorBot import ControladorBot
 from main.python.controladores.ControladorRedNeuronal import ControladorRedNeuronal
+from main.python.controladores.ControladorTablero import ControladorTablero
 from auxiliares.ComprobarAcciones import ComprobarAcciones
+from auxiliares.ComprobarTablero import ComprobarTablero
 
-acciones = ComprobarAcciones() 
+import main.python.parametrizacion.ParametrosTablero as const
+
+acciones = ComprobarAcciones()
+tableros = ComprobarTablero()
 
 accionesDisponiblesTodas            = [0,0,0,0,0,0,0]
 accionesDisponiblesSecreto          = [0,2,3,1,1,0,0]
@@ -36,8 +41,9 @@ class Test(unittest.TestCase):
         super(Test, self).__init__(*args, **kwargs)
         self.bot = ControladorBot("Bot de testing", 0)
         self.redNeuronal = ControladorRedNeuronal("Red neuronal de testing", 0)
+        self.tablero = ControladorTablero()
         
-    #-----------------------Bot Seleccionar accion-----------------------   
+    #-----------------------Bot Seleccionar accion-----------------------
     #Prueba del bot, seleccion de accion con:
     #    4 acciones libres
     #    7 cartas distintas a elegir
@@ -109,7 +115,7 @@ class Test(unittest.TestCase):
     def test_caso_12(self):
         acciones.accionException(self.bot, mano7CartasDistintas, accionesDisponiblesNinguna)
         
-    #-----------------Bot Seleccionar accion de seleccion-----------------'''
+    #-----------------Bot Seleccionar accion de seleccion-----------------
     #Prueba del bot, seleccion de accion de seleccion de tipo regalo con:
     #   Todas las cartas distintas
     def test_caso_13(self):
@@ -135,7 +141,7 @@ class Test(unittest.TestCase):
     def test_caso_17(self):
         acciones.accionSeleccionCorrecta(self.bot, cartasAccionSeleccionCompeticionDistintas)
         
-    #-----------------------Red neuronal Seleccionar accion-----------------------   
+    #-----------------------Red neuronal Seleccionar accion-----------------------
     #Prueba de la red neuronal, seleccion de accion con:
     #    4 acciones libres
     #    7 cartas distintas a elegir
@@ -207,7 +213,7 @@ class Test(unittest.TestCase):
     def test_caso_29(self):
         acciones.accionException(self.redNeuronal, mano7CartasDistintas, accionesDisponiblesNinguna)
         
-    #-----------------Red neuronal Seleccionar accion de seleccion-----------------'''
+    #-----------------Red neuronal Seleccionar accion de seleccion-----------------
     #Prueba de la red neuronal, seleccion de accion de seleccion de tipo regalo con:
     #   Todas las cartas distintas
     def test_caso_30(self):
@@ -232,6 +238,16 @@ class Test(unittest.TestCase):
     #   Las dos opciones distintas
     def test_caso_34(self):
         acciones.accionSeleccionCorrecta(self.redNeuronal, cartasAccionSeleccionCompeticionDistintas)
+        
+    #-----------------Tablero-----------------
+    #Prueba del tablero, crear tablero:
+    #   Todo vacío excepto las manos de los jugadores
+    def test_caso_35(self):
+        self.tablero = ControladorTablero()
+        tableroAux1 = self.tablero.getVistaTablero(const.JUGADOR1)
+        tableroAux2 = self.tablero.getVistaTablero(const.JUGADOR2)
+        tableros.tableroVacio(tableroAux1)
+        tableros.tableroVacio(tableroAux2)
         
     
 def initLogger():
