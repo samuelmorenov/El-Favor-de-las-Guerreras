@@ -4,7 +4,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""
 #Parametros imagenes
 
-static = "./../recursos/estaticos/"
+static = "./../../main/recursos/estaticos/"
 
 ICO = static+"ico.ico"
 

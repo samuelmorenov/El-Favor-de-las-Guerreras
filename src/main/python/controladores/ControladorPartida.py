@@ -99,18 +99,18 @@ class ControladorPartida:
             self.__accion(const.JUGADOR1, const.JUGADOR2, self.j1, self.j2)
             self.__accion(const.JUGADOR2, const.JUGADOR1, self.j2, self.j1)
             
-    def __accion(self, jugador1, jugador2, botSeleccionadoComo1, botSeleccionadoComo2):
-        self.tablero.jugadorRobaCarta(jugador1)
-        tablero = self.tablero.getVistaTablero(jugador1)
-        accion = botSeleccionadoComo1.decidirAccion(tablero)
-        self.__guardarAccion(tablero, accion, botSeleccionadoComo1)
-        self.tablero.realizarAccion(jugador1, accion)
+    def __accion(self, numeroJugador1, numeroJugador2, jugadorSeleccionadoComo1, jugadorSeleccionadoComo2):
+        self.tablero.jugadorRobaCarta(numeroJugador1)
+        tablero = self.tablero.getVistaTablero(numeroJugador1)
+        accion = jugadorSeleccionadoComo1.decidirAccion(tablero)
+        self.__guardarAccion(tablero, accion, jugadorSeleccionadoComo1)
+        self.tablero.realizarAccion(numeroJugador1, accion)
         
         if(self.tablero.hayAccionPendiente()):
-            tablero = self.tablero.getVistaTablero(jugador2)
-            accionDeSeleccion = botSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
-            self.__guardarAccion(tablero, accionDeSeleccion, botSeleccionadoComo2)
-            self.tablero.realizarAccion(jugador2, accionDeSeleccion)
+            tablero = self.tablero.getVistaTablero(numeroJugador2)
+            accionDeSeleccion = jugadorSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
+            self.__guardarAccion(tablero, accionDeSeleccion, jugadorSeleccionadoComo2)
+            self.tablero.realizarAccion(numeroJugador2, accionDeSeleccion)
             
     def __guardarAccion(self, tablero, accion, jugador):
         if(menu.MODO == menu.MODO_GENERAR_DATOS):

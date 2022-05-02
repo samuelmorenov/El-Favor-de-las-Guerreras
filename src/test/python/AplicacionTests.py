@@ -40,6 +40,7 @@ class Test(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(Test, self).__init__(*args, **kwargs)
         self.bot = ControladorBot("Bot de testing", 0)
+        self.bot2 = ControladorBot("Bot de testing jugador 2", 0)
         self.redNeuronal = ControladorRedNeuronal("Red neuronal de testing", 0)
         self.tablero = ControladorTablero()
         
@@ -240,31 +241,59 @@ class Test(unittest.TestCase):
         acciones.accionSeleccionCorrecta(self.redNeuronal, cartasAccionSeleccionCompeticionDistintas)
         
     #-----------------Tablero-----------------
-    #Prueba del tablero, crear tablero:
-    #   Todo vacío excepto las manos de los jugadores
+    #Prueba del tablero, :
     def test_caso_35(self):
         self.tablero = ControladorTablero()
-        self.tablero.initRonda()
+        
         tableroAux1 = self.tablero.getVistaTablero(const.JUGADOR1)
         tableroAux2 = self.tablero.getVistaTablero(const.JUGADOR2)
-        tableros.tableroVacio(tableroAux1)
-        tableros.tableroVacio(tableroAux2)
+        
+        tableros.tableroCreacion(tableroAux1)
+        tableros.tableroCreacion(tableroAux2)
+        
+    #Prueba del tablero, :
+    def test_caso_36(self):
+        self.tablero = ControladorTablero()
+        self.tablero.initRonda()
+        
+        tableroAux1 = self.tablero.getVistaTablero(const.JUGADOR1)
+        tableroAux2 = self.tablero.getVistaTablero(const.JUGADOR2)
+        
+        tableros.tableroInicioPrimeraRonda(tableroAux1)
+        tableros.tableroInicioPrimeraRonda(tableroAux2)
         tableros.manoConNCartas(tableroAux1, const.N_CARTAS_INICIAL)
         tableros.manoConNCartas(tableroAux2, const.N_CARTAS_INICIAL)
         
-    #Prueba del tablero, robar una carta:
-    #   Con solo un hueco en mano
-    def test_caso_36(self):
+    #Prueba del tablero, :
+    def test_caso_37(self):
         self.tablero = ControladorTablero()
-        
         self.tablero.initRonda()
-        tableroAux= self.tablero.getVistaTablero(const.JUGADOR1)
-        tableros.manoConNCartas(tableroAux, const.N_CARTAS_INICIAL)
+        self.tablero = tableros.prepararTableroJugador1(const.N_ACCIONES, self.tablero, self.bot, self.bot2)
+        self.tablero.finalizarTurno()
+        self.tablero.initRonda()
         
-        self.tablero.jugadorRobaCarta(const.JUGADOR1)
-        tableroAux= self.tablero.getVistaTablero(const.JUGADOR1)
-        tableros.manoConNCartas(tableroAux, const.NCOLUMNA)
+        tableroAux1 = self.tablero.getVistaTablero(const.JUGADOR1)
+        tableroAux2 = self.tablero.getVistaTablero(const.JUGADOR2)
         
+        tableros.tableroInicioSegundaRonda(tableroAux1)
+        tableros.tableroInicioSegundaRonda(tableroAux2)
+        tableros.manoConNCartas(tableroAux1, const.N_CARTAS_INICIAL)
+        tableros.manoConNCartas(tableroAux2, const.N_CARTAS_INICIAL)
+        
+    #Prueba del tablero, :
+    def test_caso_38(self):
+        self.tablero = ControladorTablero()
+        self.tablero.initRonda()
+        self.tablero = tableros.prepararTableroJugador1(const.N_ACCIONES, self.tablero, self.bot, self.bot2)
+        self.tablero.finalizarTurno()
+        self.tablero.initRonda()
+        self.tablero = tableros.prepararTableroJugador1(int(const.N_ACCIONES/2), self.tablero, self.bot, self.bot2)
+        
+        tableroAux1 = self.tablero.getVistaTablero(const.JUGADOR1)
+        tableroAux2 = self.tablero.getVistaTablero(const.JUGADOR2)
+        
+        tableros.tableroMitadSegundaRonda(tableroAux1)
+        tableros.tableroMitadSegundaRonda(tableroAux2)
     
 def initLogger():
     logging.basicConfig(filename='logfile.log',level=logging.DEBUG)
