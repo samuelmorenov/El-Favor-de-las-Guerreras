@@ -1,4 +1,4 @@
 __pycache__/
 data/*
-src/main/python/logfile.log
+*logfile.log
 *~$*
