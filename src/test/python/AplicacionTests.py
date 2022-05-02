@@ -3,6 +3,10 @@ import unittest
 import logging
 import sys, os
 
+base = os.path.dirname(__file__)
+sys.path.insert(0, os.path.normpath(base+"/.."))
+sys.path.insert(0, os.path.normpath(base+"/../.."))
+
 from main.python.controladores.ControladorBot import ControladorBot
 from main.python.controladores.ControladorRedNeuronal import ControladorRedNeuronal
 from main.python.controladores.ControladorTablero import ControladorTablero
@@ -304,12 +308,6 @@ def initLogger():
     
     logging.getLogger().addHandler(logging.StreamHandler())
     
-def initPath():
-    base = os.path.dirname(__file__)
-    sys.path.insert(0, os.path.normpath(base+"/..") )
-    sys.path.insert(0, os.path.normpath(base+"/../..") )
-    
 if __name__ == "__main__":
     initLogger()
-    initPath()
     unittest.main()
