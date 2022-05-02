@@ -249,8 +249,21 @@ class Test(unittest.TestCase):
         tableroAux2 = self.tablero.getVistaTablero(const.JUGADOR2)
         tableros.tableroVacio(tableroAux1)
         tableros.tableroVacio(tableroAux2)
-        tableros.manoInicial(tableroAux1)
-        tableros.manoInicial(tableroAux2)
+        tableros.manoConNCartas(tableroAux1, const.N_CARTAS_INICIAL)
+        tableros.manoConNCartas(tableroAux2, const.N_CARTAS_INICIAL)
+        
+    #Prueba del tablero, robar una carta:
+    #   Con solo un hueco en mano
+    def test_caso_36(self):
+        self.tablero = ControladorTablero()
+        
+        self.tablero.initRonda()
+        tableroAux= self.tablero.getVistaTablero(const.JUGADOR1)
+        tableros.manoConNCartas(tableroAux, const.N_CARTAS_INICIAL)
+        
+        self.tablero.jugadorRobaCarta(const.JUGADOR1)
+        tableroAux= self.tablero.getVistaTablero(const.JUGADOR1)
+        tableros.manoConNCartas(tableroAux, const.NCOLUMNA)
         
     
 def initLogger():

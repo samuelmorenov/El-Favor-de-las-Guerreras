@@ -20,12 +20,11 @@ class ComprobarTablero(unittest.TestCase):
         self.assertTrue(np.array_equal(tablero[const.FAVOR_DE_GUERRERA], lineaVacia))
         self.assertTrue(np.array_equal(tablero[const.ACCION_PENDIENTE], lineaVacia))
         
-    def manoInicial(self, tablero):
+    def manoConNCartas(self, tablero, nCartas):
         mano = tablero[const.MANO_JUGADOR1]
-        print(mano)
         for i in range(0, const.NCOLUMNA, 1):
             carta = mano[i]
-            if(i < const.NCOLUMNA-const.N_CARTAS_INICIAL):
+            if(i < const.NCOLUMNA-nCartas):
                 self.assertEqual(carta, 0)
             else:
                 self.assertNotEqual(carta, 0)
