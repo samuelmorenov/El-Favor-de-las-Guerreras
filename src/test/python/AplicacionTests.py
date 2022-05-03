@@ -339,9 +339,32 @@ class Test(unittest.TestCase):
         
         tableros.seVenLasCartasDeLasAcciones(tableroAux2[const.ACCIONES_USADAS_JUGADOR1])
         tableros.noSeVenLasCartasDeLasAcciones(tableroAux2[const.ACCIONES_USADAS_JUGADOR2])
+        
+    #Prueba del tablero, con accion pendiente de selección:
+    #   Es de tipo 3
+    def test_caso_40(self):
+        self.tablero = ControladorTablero()
+        self.tablero.initRonda()
+        self.tablero = tableros.prepararAccionSeleccionJugador1(self.tablero, self.bot, self.bot2, const.TIPO_DECISION_REGALO)
+        
+        tableroAux = self.tablero.getVistaTablero(const.JUGADOR1)
+        
+        tableros.accionSeleccionCorrecta(tableroAux[const.ACCION_PENDIENTE], const.TIPO_DECISION_REGALO)
+        
+    #Prueba del tablero, con accion pendiente de selección:
+    #   Es de tipo 4
+    def test_caso_41(self):
+        self.tablero = ControladorTablero()
+        self.tablero.initRonda()
+        self.tablero = tableros.prepararAccionSeleccionJugador1(self.tablero, self.bot, self.bot2, const.TIPO_DECISION_COMPETICION)
+        
+        tableroAux = self.tablero.getVistaTablero(const.JUGADOR1)
+        
+        tableros.accionSeleccionCorrecta(tableroAux[const.ACCION_PENDIENTE], const.TIPO_DECISION_COMPETICION)
+        
     
 def initLogger():
-    logging.basicConfig(filename='logfile.log',level=logging.DEBUG)
+    logging.basicConfig(filename='logfile.log',level=logging.INFO)
     
     logger = logging.getLogger()
     while logger.hasHandlers():
