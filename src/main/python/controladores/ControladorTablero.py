@@ -274,6 +274,14 @@ class ControladorTablero:
             return 2
         else:
             return 0
+        
+    def __manoLlena(self, mano):
+        n = 0
+        for i in range(0, const.NCOLUMNA, 1):
+            carta = mano[i]
+            if (carta != 0):
+                n = n + 1
+        return n==const.NCOLUMNA
 
     #Se inicializa el mazo con todas las cartas menos una y se reparten las cartas iniciales
     def initRonda(self):
@@ -286,6 +294,8 @@ class ControladorTablero:
     #Se le pasa el indice del jugador
     def jugadorRobaCarta(self, jugadorIndex):
         manoIndex = self.__getMano(jugadorIndex)
+        if(self.__manoLlena(self.__tablero[manoIndex])):
+            raise Exception("El jugador no puede robar mas cartas")
         self.__conseguirCarta(manoIndex)
         self.__ordenarMano(manoIndex)
     

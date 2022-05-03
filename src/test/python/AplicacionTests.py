@@ -340,8 +340,9 @@ class Test(unittest.TestCase):
         tableros.seVenLasCartasDeLasAcciones(tableroAux2[const.ACCIONES_USADAS_JUGADOR1])
         tableros.noSeVenLasCartasDeLasAcciones(tableroAux2[const.ACCIONES_USADAS_JUGADOR2])
         
-    #Prueba del tablero, con accion pendiente de selección:
-    #   Es de tipo 3
+    #Prueba del tablero, vista del tablero:
+    #   Con accion pendiente de selección
+    #   Ess de tipo 3
     def test_caso_40(self):
         self.tablero = ControladorTablero()
         self.tablero.initRonda()
@@ -351,7 +352,8 @@ class Test(unittest.TestCase):
         
         tableros.accionSeleccionCorrecta(tableroAux[const.ACCION_PENDIENTE], const.TIPO_DECISION_REGALO)
         
-    #Prueba del tablero, con accion pendiente de selección:
+    #Prueba del tablero, vista del tablero:
+    #   Con accion pendiente de selección
     #   Es de tipo 4
     def test_caso_41(self):
         self.tablero = ControladorTablero()
@@ -362,7 +364,30 @@ class Test(unittest.TestCase):
         
         tableros.accionSeleccionCorrecta(tableroAux[const.ACCION_PENDIENTE], const.TIPO_DECISION_COMPETICION)
         
-    
+    #Prueba del tablero, robar carta:
+    #   Tiene la mano con un solo hueco
+    def test_caso_42(self):
+        self.tablero = ControladorTablero()
+        self.tablero.jugadorRobaCarta(const.JUGADOR1)
+        
+    #Prueba del tablero, robar carta:
+    #   Tiene la mano llena
+    def test_caso_43(self):
+        self.tablero = ControladorTablero()
+        self.tablero.initRonda()
+        self.tablero.jugadorRobaCarta(const.JUGADOR1)
+        with self.assertRaises(Exception):
+            self.tablero.jugadorRobaCarta(const.JUGADOR1)
+        
+    #Prueba del tablero, robar carta:
+    #   Tiene la mano llena
+    def test_caso_44(self):
+        self.tablero = ControladorTablero()
+        self.tablero.initRonda()
+        self.tablero = tableros.prepararTableroJugador1(const.N_ACCIONES, self.tablero, self.bot, self.bot2)
+        with self.assertRaises(Exception):
+            self.tablero.jugadorRobaCarta(const.JUGADOR1)
+            
 def initLogger():
     logging.basicConfig(filename='logfile.log',level=logging.INFO)
     
