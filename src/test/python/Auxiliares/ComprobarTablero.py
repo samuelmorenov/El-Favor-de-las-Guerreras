@@ -51,6 +51,16 @@ class ComprobarTablero(unittest.TestCase):
         self.assertFalse(np.array_equal(tablero[const.FAVOR_DE_GUERRERA], lineaVacia))
         self.assertTrue(np.array_equal(tablero[const.ACCION_PENDIENTE], lineaVacia))
         
+    def tableroFinSegundaRonda(self, tablero):
+        self.assertTrue(np.array_equal(tablero[const.MANO_JUGADOR1], lineaVacia))
+        self.assertTrue(np.array_equal(tablero[const.MANO_JUGADOR2], lineaVacia))
+        self.assertFalse(np.array_equal(tablero[const.ACCIONES_USADAS_JUGADOR1], lineaVacia))
+        self.assertFalse(np.array_equal(tablero[const.ACCIONES_USADAS_JUGADOR2], lineaVacia))
+        self.assertFalse(np.array_equal(tablero[const.ARMAS_USADAS_JUGADOR1], lineaVacia))
+        self.assertFalse(np.array_equal(tablero[const.ARMAS_USADAS_JUGADOR2], lineaVacia))
+        self.assertFalse(np.array_equal(tablero[const.FAVOR_DE_GUERRERA], lineaVacia))
+        self.assertTrue(np.array_equal(tablero[const.ACCION_PENDIENTE], lineaVacia))
+        
     def manoConNCartas(self, tablero, nCartas):
         mano = tablero[const.MANO_JUGADOR1]
         for i in range(0, const.NCOLUMNA, 1):
@@ -59,6 +69,23 @@ class ComprobarTablero(unittest.TestCase):
                 self.assertEqual(carta, 0)
             else:
                 self.assertNotEqual(carta, 0)
+                
+    def seVenLasCartasDeLasAcciones(self, acciones):
+        print(acciones)
+        self.assertNotEqual(acciones[const.TIPO_SECRETO], 0)
+        self.assertNotEqual(acciones[const.TIPO_RENUNCIA_1], 0)
+        self.assertNotEqual(acciones[const.TIPO_RENUNCIA_2], 0)
+        self.assertEqual(acciones[const.TIPO_REGALO], 1)
+        self.assertEqual(acciones[const.TIPO_COMPETICION], 1)
+        
+    def noSeVenLasCartasDeLasAcciones(self, acciones):
+        print(acciones)
+        self.assertEqual(acciones[const.TIPO_SECRETO], 1)
+        self.assertEqual(acciones[const.TIPO_RENUNCIA_1], 1)
+        self.assertEqual(acciones[const.TIPO_RENUNCIA_2], 1)
+        self.assertEqual(acciones[const.TIPO_REGALO], 1)
+        self.assertEqual(acciones[const.TIPO_COMPETICION], 1)
+        
             
     def prepararTableroJugador1(self, turnos, controladorTablero, jugador1, jugador2):
         for _ in range(0, turnos, 1):
@@ -77,3 +104,26 @@ class ComprobarTablero(unittest.TestCase):
             tablero = controladorTablero.getVistaTablero(numeroJugador2)
             accionDeSeleccion = jugadorSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
             controladorTablero.realizarAccion(numeroJugador2, accionDeSeleccion)
+
+    def prepararAccionSeleccionJugador1(self, controladorTablero, jugador1, jugador2):
+        for _ in range(0, const.N_ACCIONES, 1):
+            self.__accion(controladorTablero, const.JUGADOR1, const.JUGADOR2, jugador1, jugador2)
+            if(controladorTablero.hayAccionPendiente()):
+                self.__accionSeleccion(controladorTablero, const.JUGADOR2, jugador2)
+            
+            self.__accion(controladorTablero, const.JUGADOR2, const.JUGADOR1, jugador2, jugador1)
+            if(controladorTablero.hayAccionPendiente()):
+                break
+            
+        return controladorTablero
+            
+    def __accionSimple(self, controladorTablero, numeroJugador1, numeroJugador2, jugadorSeleccionadoComo1, jugadorSeleccionadoComo2):
+        controladorTablero.jugadorRobaCarta(numeroJugador1)
+        tablero = controladorTablero.getVistaTablero(numeroJugador1)
+        accion = jugadorSeleccionadoComo1.decidirAccion(tablero)
+        controladorTablero.realizarAccion(numeroJugador1, accion)
+        
+    def __accionSeleccion(self, controladorTablero, numeroJugador2, jugadorSeleccionadoComo2):
+        tablero = controladorTablero.getVistaTablero(numeroJugador2)
+        accionDeSeleccion = jugadorSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
+        controladorTablero.realizarAccion(numeroJugador2, accionDeSeleccion)

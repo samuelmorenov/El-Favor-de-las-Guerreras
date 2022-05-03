@@ -245,7 +245,7 @@ class Test(unittest.TestCase):
         acciones.accionSeleccionCorrecta(self.redNeuronal, cartasAccionSeleccionCompeticionDistintas)
         
     #-----------------Tablero-----------------
-    #Prueba del tablero, :
+    #Prueba del tablero, creacion del tablero:
     def test_caso_35(self):
         self.tablero = ControladorTablero()
         
@@ -255,7 +255,12 @@ class Test(unittest.TestCase):
         tableros.tableroCreacion(tableroAux1)
         tableros.tableroCreacion(tableroAux2)
         
-    #Prueba del tablero, :
+    #Prueba del tablero, iniciar ronda y vista del tablero:
+    #   Primera ronda
+    #   Todo vacío excepto las manos de los jugadores
+    #   Se ve la mano del jugador
+    #   No se ve la mano del adversario
+    #   Todo lo demas esta vacio
     def test_caso_36(self):
         self.tablero = ControladorTablero()
         self.tablero.initRonda()
@@ -268,7 +273,9 @@ class Test(unittest.TestCase):
         tableros.manoConNCartas(tableroAux1, const.N_CARTAS_INICIAL)
         tableros.manoConNCartas(tableroAux2, const.N_CARTAS_INICIAL)
         
-    #Prueba del tablero, :
+    #Prueba del tablero, iniciar ronda y vista del tablero:
+    #   No primera ronda
+    #   Todo vacío excepto las manos de los jugadores y el favor
     def test_caso_37(self):
         self.tablero = ControladorTablero()
         self.tablero.initRonda()
@@ -284,7 +291,13 @@ class Test(unittest.TestCase):
         tableros.manoConNCartas(tableroAux1, const.N_CARTAS_INICIAL)
         tableros.manoConNCartas(tableroAux2, const.N_CARTAS_INICIAL)
         
-    #Prueba del tablero, :
+    #Prueba del tablero, vista del tablero:
+    #   Mitad de la segunda ronda
+    #   Se ve la mano del jugador
+    #   No se ve la mano del adversario
+    #   Hay acciones realizadas por ambos jugadores
+    #   Se ven las armas en las guerreras
+    #   Se ve el favor de las guerreras
     def test_caso_38(self):
         self.tablero = ControladorTablero()
         self.tablero.initRonda()
@@ -298,6 +311,34 @@ class Test(unittest.TestCase):
         
         tableros.tableroMitadSegundaRonda(tableroAux1)
         tableros.tableroMitadSegundaRonda(tableroAux2)
+        
+    #Prueba del tablero, vista del tablero:
+    #   Fin de la segunda ronda
+    #   Mano del jugador vacia
+    #   No se ve la mano del adversario
+    #   Se ven las cartas de las acciones del jugador
+    #   Se ven las acciones del adbersario pero no las cartas
+    #   Se ven las armas en las guerreras
+    #   Se ve el favor de las guerreras
+    def test_caso_39(self):
+        self.tablero = ControladorTablero()
+        self.tablero.initRonda()
+        self.tablero = tableros.prepararTableroJugador1(const.N_ACCIONES, self.tablero, self.bot, self.bot2)
+        self.tablero.finalizarTurno()
+        self.tablero.initRonda()
+        self.tablero = tableros.prepararTableroJugador1(const.N_ACCIONES, self.tablero, self.bot, self.bot2)
+        
+        tableroAux1 = self.tablero.getVistaTablero(const.JUGADOR1)
+        tableroAux2 = self.tablero.getVistaTablero(const.JUGADOR2)
+        
+        tableros.tableroFinSegundaRonda(tableroAux1)
+        tableros.tableroFinSegundaRonda(tableroAux2)
+
+        tableros.seVenLasCartasDeLasAcciones(tableroAux1[const.ACCIONES_USADAS_JUGADOR1])
+        tableros.noSeVenLasCartasDeLasAcciones(tableroAux1[const.ACCIONES_USADAS_JUGADOR2])
+        
+        tableros.seVenLasCartasDeLasAcciones(tableroAux2[const.ACCIONES_USADAS_JUGADOR1])
+        tableros.noSeVenLasCartasDeLasAcciones(tableroAux2[const.ACCIONES_USADAS_JUGADOR2])
     
 def initLogger():
     logging.basicConfig(filename='logfile.log',level=logging.DEBUG)
