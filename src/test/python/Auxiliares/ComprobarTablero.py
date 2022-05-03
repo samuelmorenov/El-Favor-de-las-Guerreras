@@ -83,7 +83,6 @@ class ComprobarTablero(unittest.TestCase):
         self.assertEqual(acciones[const.TIPO_RENUNCIA_2], 1)
         self.assertEqual(acciones[const.TIPO_REGALO], 1)
         self.assertEqual(acciones[const.TIPO_COMPETICION], 1)
-        
             
     def prepararTableroJugador1(self, turnos, controladorTablero, jugador1, jugador2):
         for _ in range(0, turnos, 1):
@@ -117,8 +116,7 @@ class ComprobarTablero(unittest.TestCase):
                     break
                 else:
                     self.__accionSeleccion(controladorTablero, const.JUGADOR1, jugador1)
-                
-            
+                    
         return controladorTablero
     
     def __accionSimple(self, controladorTablero, numeroJugador1, numeroJugador2, jugadorSeleccionadoComo1, jugadorSeleccionadoComo2):
@@ -161,3 +159,74 @@ class ComprobarTablero(unittest.TestCase):
                 else:
                     self.assertEqual(accionSeleccion[i], 0)
                     
+    def seleccionarCartasDeMano(self, tablero, accion, nCartas):
+        accionSeleccionada = []
+        cartasSeleccionadas = []
+        
+        listaDeCartasEnMano = self.__getListaCartasEnMano(tablero[const.MANO_JUGADOR1])
+                
+        for i in range(const.NCOLUMNA):
+            if(i == 0):
+                accionSeleccionada.append(accion)
+            if(i < nCartas):
+                posicion = np.random.randint(len(listaDeCartasEnMano))
+                carta = listaDeCartasEnMano.pop(posicion)
+                accionSeleccionada.append(carta)
+                cartasSeleccionadas.append(carta)
+            else:
+                accionSeleccionada.append(0)
+        
+        return accionSeleccionada, cartasSeleccionadas
+    
+    def __getListaCartasEnMano(self, mano):
+        listaDeCartasEnMano = []
+        for i in range(len(mano)):
+            if(mano[i] != 0):
+                listaDeCartasEnMano.append(mano[i])
+        return listaDeCartasEnMano
+             
+    def comprobarQueSeRealizaLaAccion(self, controladorTablero, accionARealizar, cartasUsadas):
+        #Preparacion de datos:
+        tableroAux = controladorTablero.getVistaTablero(const.JUGADOR1)
+        manoAntes = tableroAux[const.MANO_JUGADOR1]
+        
+        #Ejecucion de la accion:
+        controladorTablero.realizarAccion(const.JUGADOR1, accionARealizar)
+        
+        #Preparacion de datos:
+        tableroAux = controladorTablero.getVistaTablero(const.JUGADOR1)
+        manoDespues = tableroAux[const.MANO_JUGADOR1]
+        
+        #Comprobación de que se ha guardado en las acciones realizadas
+        if(accionARealizar[const.ACCION_REALIZADA] == const.TIPO_SECRETO):
+            self.assertEqual(tableroAux[const.ACCIONES_USADAS_JUGADOR1][const.TIPO_SECRETO], cartasUsadas[0])
+        elif(accionARealizar[const.ACCION_REALIZADA] == const.TIPO_RENUNCIA):
+            self.assertNotEqual(tableroAux[const.ACCIONES_USADAS_JUGADOR1][const.TIPO_RENUNCIA_1], cartasUsadas[0])
+            self.assertNotEqual(tableroAux[const.ACCIONES_USADAS_JUGADOR1][const.TIPO_RENUNCIA_2], cartasUsadas[1])
+        elif(accionARealizar[const.ACCION_REALIZADA] == const.TIPO_REGALO):
+            self.assertNotEqual(tableroAux[const.ACCIONES_USADAS_JUGADOR1][const.TIPO_REGALO], 0)
+        elif(accionARealizar[const.ACCION_REALIZADA] == const.TIPO_COMPETICION):
+            self.assertNotEqual(tableroAux[const.ACCIONES_USADAS_JUGADOR1][const.TIPO_COMPETICION], 0)
+            
+        #Comprobacion de que se han usado las cartas
+        listaDeCartasEnManoAntes = self.__getListaCartasEnMano(manoAntes)
+        listaDeCartasEnManoDespues = self.__getListaCartasEnMano(manoDespues)
+        for i in range(len(cartasUsadas)):
+            listaDeCartasEnManoDespues.append(cartasUsadas[i])
+            
+        listaDeCartasEnManoAntesOrdenada = np.sort(listaDeCartasEnManoAntes)
+        listaDeCartasEnManoDespuesOrdenada = np.sort(listaDeCartasEnManoDespues)
+        for i in range(len(listaDeCartasEnManoAntes)):
+            self.assertEquals(listaDeCartasEnManoAntesOrdenada[i], listaDeCartasEnManoDespuesOrdenada[i])
+            
+        #Comprobacion de que si es tipo 3 o 4 hay una accion pendiente
+        if(accionARealizar[const.ACCION_REALIZADA] == const.TIPO_REGALO):
+            self.assertNotEqual(tableroAux[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO], accionARealizar)
+        elif(accionARealizar[const.ACCION_REALIZADA] == const.TIPO_COMPETICION):
+            self.assertNotEqual(tableroAux[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO], accionARealizar)
+        
+        
+    def comprobarExceptionAlRealizarLaAccion(self, controladorTablero, accionARealizar):
+        with self.assertRaises(Exception):
+            controladorTablero.realizarAccion(const.JUGADOR1, accionARealizar)
+            
