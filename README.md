@@ -15,12 +15,10 @@ Para activar el entorno creado ejecuntar el comando:
 `conda activate <nombre del entorno>`
 
 Abrir el navegador de Anaconda *Anaconda Navigator*, en *Aplications on* seleccionar el entorno creado. A continuación abrir la sección *Environments* y buscar e importar el archivo anaconda.yaml para que se instalen las librerías necesarias.
-	
-Una vez instaladas las librarías, abrir *Spyder* desde *Home* del navegador de Anaconda
 
 ### Ejecución y configuración
 
-Para la ejecución de la aplicación abrir el programa *Spyder* instalado dentro de Anaconda
+Para la ejecución de la aplicación abrir el programa *Spyder*  desde *Home* del navegador de Anaconda
 
 <img src="/doc/images/spyder.png">
 
