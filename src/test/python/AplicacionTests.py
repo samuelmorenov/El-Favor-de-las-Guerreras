@@ -394,37 +394,21 @@ class Test(unittest.TestCase):
     #   La accion esta bien formada
     def test_caso_45(self):
         self.tablero = ControladorTablero()
-        self.tablero.initRonda()
-        tableroAux = self.tablero.getVistaTablero(const.JUGADOR1)
-        accion, cartas = tableros.seleccionarCartasDeMano(tableroAux, const.TIPO_SECRETO, const.ACCION_1_COUNT)
-        
-        tableros.comprobarQueSeRealizaLaAccion(self.tablero, accion, cartas, const.JUGADOR1, const.MANO_JUGADOR1)
+        tableros.comprobarAccionDisponibleYBienFormada(self.tablero, const.TIPO_SECRETO)
         
     #Prueba del tablero, realizar una accion:
     #   Tipo secreto
     #   El tipo de accion no esta disponible
     def test_caso_46(self):
         self.tablero = ControladorTablero()
-        self.tablero.initRonda()
-        
-        tableroAux = self.tablero.getVistaTablero(const.JUGADOR1)
-        accion, cartas = tableros.seleccionarCartasDeMano(tableroAux, const.TIPO_SECRETO, const.ACCION_1_COUNT)
-        tableros.comprobarQueSeRealizaLaAccion(self.tablero, accion, cartas, const.JUGADOR1, const.MANO_JUGADOR1)
-        
-        tableroAux = self.tablero.getVistaTablero(const.JUGADOR1)
-        accion, cartas = tableros.seleccionarCartasDeMano(tableroAux, const.TIPO_SECRETO, const.ACCION_1_COUNT)
-        tableros.comprobarExceptionAlRealizarLaAccion(self.tablero, accion)
+        tableros.comprobarAccionNoDisponible(self.tablero, const.TIPO_SECRETO)
     
     #Prueba del tablero, realizar una accion:
     #   Tipo secreto
     #   La accion tiene un numero incorrecto de cartas
     def test_caso_47(self):
         self.tablero = ControladorTablero()
-        self.tablero.initRonda()
-        tableroAux = self.tablero.getVistaTablero(const.JUGADOR1)
-        accion, cartas = tableros.seleccionarCartasDeMano(tableroAux, const.TIPO_SECRETO, const.ACCION_1_COUNT+1)
-        
-        tableros.comprobarExceptionAlRealizarLaAccion(self.tablero, accion)
+        tableros.comprobarAccionMalFormada(self.tablero, const.TIPO_SECRETO)
         
 def initLogger():
     logging.basicConfig(filename='logfile.log',level=logging.INFO)
