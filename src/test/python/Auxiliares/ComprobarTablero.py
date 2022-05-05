@@ -185,17 +185,17 @@ class ComprobarTablero(unittest.TestCase):
                 listaDeCartasEnMano.append(mano[i])
         return listaDeCartasEnMano
              
-    def comprobarQueSeRealizaLaAccion(self, controladorTablero, accionARealizar, cartasUsadas):
+    def comprobarQueSeRealizaLaAccion(self, controladorTablero, accionARealizar, cartasUsadas, jugador, indexMano):
         #Preparacion de datos:
-        tableroAux = controladorTablero.getVistaTablero(const.JUGADOR1)
-        manoAntes = tableroAux[const.MANO_JUGADOR1]
+        tableroAux = controladorTablero.getVistaTablero(jugador)
+        manoAntes = tableroAux[indexMano]
         
         #Ejecucion de la accion:
-        controladorTablero.realizarAccion(const.JUGADOR1, accionARealizar)
+        controladorTablero.realizarAccion(jugador, accionARealizar)
         
         #Preparacion de datos:
-        tableroAux = controladorTablero.getVistaTablero(const.JUGADOR1)
-        manoDespues = tableroAux[const.MANO_JUGADOR1]
+        tableroAux = controladorTablero.getVistaTablero(jugador)
+        manoDespues = tableroAux[indexMano]
         
         #Comprobación de que se ha guardado en las acciones realizadas
         if(accionARealizar[const.ACCION_REALIZADA] == const.TIPO_SECRETO):

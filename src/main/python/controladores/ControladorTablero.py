@@ -74,30 +74,58 @@ class ControladorTablero:
         manoList = np.sort(manoList)
         self.__tablero[manoIndex] = manoList
         
+    def __getNumeroCartasEnAccionSeleccionada(self, accionArray):
+        num = 0
+        encontrado0 = False
+        for i in range(len(accionArray)):
+            if(i == const.ACCION_REALIZADA):
+                continue
+            elif (encontrado0 != True and accionArray[i] != 0):
+                num = num + 1
+            elif (encontrado0 != True and accionArray[i] == 0):
+                encontrado0 = True
+            elif (encontrado0 and accionArray[i] == 0):
+                continue
+            else:
+                raise Exception("Accion mal formada")
+        return num
         
-    def __comprobarAccion1(self, manoIndex, filaAcciones, accionArray):
-        if(self.__tablero[filaAcciones][const.TIPO_SECRETO] != 0):
+        
+    def __comprobarAccion1(self, manoIndex, filaAcciones, accionArray, numCartasEnAccion):
+        if(numCartasEnAccion != const.ACCION_1_COUNT):
+            raise Exception("Accion mal formada, esperadas "+str(const.ACCION_1_COUNT)+" cartas, recibidas: "+str(numCartasEnAccion))
+        elif(self.__tablero[filaAcciones][const.TIPO_SECRETO] != 0):
             raise Exception("Accion 1 ya usada")
         
-    def __comprobarAccion2(self, manoIndex, filaAcciones, accionArray):
-        if(self.__tablero[filaAcciones][const.TIPO_RENUNCIA_1] != 0 
+    def __comprobarAccion2(self, manoIndex, filaAcciones, accionArray, numCartasEnAccion):
+        if(numCartasEnAccion != const.ACCION_2_COUNT):
+            raise Exception("Accion mal formada, esperadas "+str(const.ACCION_2_COUNT)+" cartas, recibidas: "+str(numCartasEnAccion))
+        elif(self.__tablero[filaAcciones][const.TIPO_RENUNCIA_1] != 0 
            or self.__tablero[filaAcciones][const.TIPO_RENUNCIA_2] != 0):
             raise Exception("Accion 2 ya usada")
         
-    def __comprobarAccion3(self, manoIndex, filaAcciones, accionArray):
-        if(self.__tablero[filaAcciones][const.TIPO_REGALO] != 0):
+    def __comprobarAccion3(self, manoIndex, filaAcciones, accionArray, numCartasEnAccion):
+        if(numCartasEnAccion != const.ACCION_3_COUNT):
+            raise Exception("Accion mal formada, esperadas "+str(const.ACCION_3_COUNT)+" cartas, recibidas: "+str(numCartasEnAccion))
+        elif(self.__tablero[filaAcciones][const.TIPO_REGALO] != 0):
             raise Exception("Accion 3 ya usada")
         
-    def __comprobarAccion4(self, manoIndex, filaAcciones, accionArray):
-        if(self.__tablero[filaAcciones][const.TIPO_COMPETICION] != 0):
+    def __comprobarAccion4(self, manoIndex, filaAcciones, accionArray, numCartasEnAccion):
+        if(numCartasEnAccion != const.ACCION_4_COUNT):
+            raise Exception("Accion mal formada, esperadas "+str(const.ACCION_4_COUNT)+" cartas, recibidas: "+str(numCartasEnAccion))
+        elif(self.__tablero[filaAcciones][const.TIPO_COMPETICION] != 0):
             raise Exception("Accion 4 ya usada")
         
-    def __comprobarAccionDecision3(self, manoIndex, accionArray):
-        if(self.__tablero[const.ACCION_PENDIENTE][const.TIPO_SECRETO] != const.TIPO_DECISION_REGALO):
+    def __comprobarAccionDecision3(self, manoIndex, accionArray, numCartasEnAccion):
+        if(numCartasEnAccion != const.PENDIENTE_5_ELEGIDA_COUNT):
+            raise Exception("Accion mal formada, esperadas "+str(const.PENDIENTE_5_ELEGIDA_COUNT)+" cartas, recibidas: "+str(numCartasEnAccion))
+        elif(self.__tablero[const.ACCION_PENDIENTE][const.TIPO_SECRETO] != const.TIPO_DECISION_REGALO):
             raise Exception("Accion de decision 3 no disponible")
         
-    def __comprobarAccionDecision4(self, manoIndex, accionArray):
-        if(self.__tablero[const.ACCION_PENDIENTE][const.TIPO_SECRETO] != const.TIPO_DECISION_COMPETICION):
+    def __comprobarAccionDecision4(self, manoIndex, accionArray, numCartasEnAccion):
+        if(numCartasEnAccion != const.PENDIENTE_6_ELEGIDA_COUNT):
+            raise Exception("Accion mal formada, esperadas "+str(const.PENDIENTE_6_ELEGIDA_COUNT)+" cartas, recibidas: "+str(numCartasEnAccion))
+        elif(self.__tablero[const.ACCION_PENDIENTE][const.TIPO_SECRETO] != const.TIPO_DECISION_COMPETICION):
             raise Exception("Accion de decision 4 no disponible")
         
         
@@ -348,30 +376,31 @@ class ControladorTablero:
             
         filaAcciones = self.__getFilaAcciones(jugadorIndex)
         manoIndex = self.__getMano(jugadorIndex)
+        numCartasEnAccion = self.__getNumeroCartasEnAccionSeleccionada(accionArray)
             
         if(accionArray[const.ACCION_REALIZADA] == const.TIPO_SECRETO):
-            self.__comprobarAccion1(manoIndex, filaAcciones, accionArray)
+            self.__comprobarAccion1(manoIndex, filaAcciones, accionArray, numCartasEnAccion)
             self.__guardarAccion1(manoIndex, filaAcciones, accionArray)
 
             
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_RENUNCIA): 
-            self.__comprobarAccion2(manoIndex, filaAcciones, accionArray)
+            self.__comprobarAccion2(manoIndex, filaAcciones, accionArray, numCartasEnAccion)
             self.__guardarAccion2(manoIndex, filaAcciones, accionArray)
             
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_REGALO): 
-            self.__comprobarAccion3(manoIndex, filaAcciones, accionArray)
+            self.__comprobarAccion3(manoIndex, filaAcciones, accionArray, numCartasEnAccion)
             self.__guardarAccion3(manoIndex, filaAcciones, accionArray)
             
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_COMPETICION): 
-            self.__comprobarAccion4(manoIndex, filaAcciones, accionArray)
+            self.__comprobarAccion4(manoIndex, filaAcciones, accionArray, numCartasEnAccion)
             self.__guardarAccion4(manoIndex, filaAcciones, accionArray)
             
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_DECISION_REGALO): 
-            self.__comprobarAccionDecision3(jugadorIndex, accionArray)
+            self.__comprobarAccionDecision3(jugadorIndex, accionArray, numCartasEnAccion)
             self.__guardarAccionDecision3(jugadorIndex, accionArray)
         
         elif (accionArray[const.ACCION_REALIZADA] == const.TIPO_DECISION_COMPETICION): 
-            self.__comprobarAccionDecision4(jugadorIndex, accionArray)
+            self.__comprobarAccionDecision4(jugadorIndex, accionArray, numCartasEnAccion)
             self.__guardarAccionDecision4(jugadorIndex, accionArray)
             
         else:

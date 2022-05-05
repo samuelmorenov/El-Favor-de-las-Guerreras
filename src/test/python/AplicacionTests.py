@@ -342,7 +342,7 @@ class Test(unittest.TestCase):
         
     #Prueba del tablero, vista del tablero:
     #   Con accion pendiente de selección
-    #   Ess de tipo 3
+    #   Es de tipo 3
     def test_caso_40(self):
         self.tablero = ControladorTablero()
         self.tablero.initRonda()
@@ -380,14 +380,52 @@ class Test(unittest.TestCase):
             self.tablero.jugadorRobaCarta(const.JUGADOR1)
         
     #Prueba del tablero, robar carta:
-    #   Tiene la mano llena
+    #   El mazo esta vacio
     def test_caso_44(self):
         self.tablero = ControladorTablero()
         self.tablero.initRonda()
         self.tablero = tableros.prepararTableroJugador1(const.N_ACCIONES, self.tablero, self.bot, self.bot2)
         with self.assertRaises(Exception):
             self.tablero.jugadorRobaCarta(const.JUGADOR1)
-            
+        
+    #Prueba del tablero, realizar una accion:
+    #   Tipo secreto
+    #   El tipo de accion esta disponible
+    #   La accion esta bien formada
+    def test_caso_45(self):
+        self.tablero = ControladorTablero()
+        self.tablero.initRonda()
+        tableroAux = self.tablero.getVistaTablero(const.JUGADOR1)
+        accion, cartas = tableros.seleccionarCartasDeMano(tableroAux, const.TIPO_SECRETO, const.ACCION_1_COUNT)
+        
+        tableros.comprobarQueSeRealizaLaAccion(self.tablero, accion, cartas, const.JUGADOR1, const.MANO_JUGADOR1)
+        
+    #Prueba del tablero, realizar una accion:
+    #   Tipo secreto
+    #   El tipo de accion no esta disponible
+    def test_caso_46(self):
+        self.tablero = ControladorTablero()
+        self.tablero.initRonda()
+        
+        tableroAux = self.tablero.getVistaTablero(const.JUGADOR1)
+        accion, cartas = tableros.seleccionarCartasDeMano(tableroAux, const.TIPO_SECRETO, const.ACCION_1_COUNT)
+        tableros.comprobarQueSeRealizaLaAccion(self.tablero, accion, cartas, const.JUGADOR1, const.MANO_JUGADOR1)
+        
+        tableroAux = self.tablero.getVistaTablero(const.JUGADOR1)
+        accion, cartas = tableros.seleccionarCartasDeMano(tableroAux, const.TIPO_SECRETO, const.ACCION_1_COUNT)
+        tableros.comprobarExceptionAlRealizarLaAccion(self.tablero, accion)
+    
+    #Prueba del tablero, realizar una accion:
+    #   Tipo secreto
+    #   La accion tiene un numero incorrecto de cartas
+    def test_caso_47(self):
+        self.tablero = ControladorTablero()
+        self.tablero.initRonda()
+        tableroAux = self.tablero.getVistaTablero(const.JUGADOR1)
+        accion, cartas = tableros.seleccionarCartasDeMano(tableroAux, const.TIPO_SECRETO, const.ACCION_1_COUNT+1)
+        
+        tableros.comprobarExceptionAlRealizarLaAccion(self.tablero, accion)
+        
 def initLogger():
     logging.basicConfig(filename='logfile.log',level=logging.INFO)
     
