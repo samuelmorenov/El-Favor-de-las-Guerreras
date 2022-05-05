@@ -223,9 +223,9 @@ class ComprobarTablero(unittest.TestCase):
             
         #Comprobacion de que si es tipo 3 o 4 hay una accion pendiente
         if(accionARealizar[const.ACCION_REALIZADA] == const.TIPO_REGALO):
-            self.assertNotEqual(tableroAux[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO], accionARealizar)
+            self.assertNotEqual(tableroAux[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO], accionARealizar[const.ACCION_REALIZADA])
         elif(accionARealizar[const.ACCION_REALIZADA] == const.TIPO_COMPETICION):
-            self.assertNotEqual(tableroAux[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO], accionARealizar)
+            self.assertNotEqual(tableroAux[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO], accionARealizar[const.ACCION_REALIZADA])
         
         
     def __comprobarExceptionAlRealizarLaAccion(self, controladorTablero, accionARealizar):
@@ -266,6 +266,8 @@ class ComprobarTablero(unittest.TestCase):
         tableroAux = controladorTablero.getVistaTablero(const.JUGADOR1)
         accion, cartas = self.__seleccionarCartasDeMano(tableroAux, tipoAccion, accionCount)
         self.__comprobarQueSeRealizaLaAccion(controladorTablero, accion, cartas, const.JUGADOR1, const.MANO_JUGADOR1)
+        for _ in range(accionCount):
+            controladorTablero.jugadorRobaCarta(const.JUGADOR1)
         
         tableroAux = controladorTablero.getVistaTablero(const.JUGADOR1)
         accion, cartas = self.__seleccionarCartasDeMano(tableroAux, tipoAccion, accionCount)

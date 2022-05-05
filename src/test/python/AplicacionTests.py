@@ -410,6 +410,72 @@ class Test(unittest.TestCase):
         self.tablero = ControladorTablero()
         tableros.comprobarAccionMalFormada(self.tablero, const.TIPO_SECRETO)
         
+    #Prueba del tablero, realizar una accion:
+    #   Tipo renuncia
+    #   El tipo de accion esta disponible
+    #   La accion esta bien formada
+    def test_caso_48(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionDisponibleYBienFormada(self.tablero, const.TIPO_RENUNCIA)
+        
+    #Prueba del tablero, realizar una accion:
+    #   Tipo renuncia
+    #   El tipo de accion no esta disponible
+    def test_caso_49(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionNoDisponible(self.tablero, const.TIPO_RENUNCIA)
+    
+    #Prueba del tablero, realizar una accion:
+    #   Tipo renuncia
+    #   La accion tiene un numero incorrecto de cartas
+    def test_caso_50(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionMalFormada(self.tablero, const.TIPO_RENUNCIA)
+        
+    #Prueba del tablero, realizar una accion:
+    #   Tipo regalo
+    #   El tipo de accion esta disponible
+    #   La accion esta bien formada
+    def test_caso_51(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionDisponibleYBienFormada(self.tablero, const.TIPO_REGALO)
+        
+    #Prueba del tablero, realizar una accion:
+    #   Tipo regalo
+    #   El tipo de accion no esta disponible
+    def test_caso_52(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionNoDisponible(self.tablero, const.TIPO_REGALO)
+    
+    #Prueba del tablero, realizar una accion:
+    #   Tipo regalo
+    #   La accion tiene un numero incorrecto de cartas
+    def test_caso_53(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionMalFormada(self.tablero, const.TIPO_REGALO)
+        
+    #Prueba del tablero, realizar una accion:
+    #   Tipo competicion
+    #   El tipo de accion esta disponible
+    #   La accion esta bien formada
+    def test_caso_54(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionDisponibleYBienFormada(self.tablero, const.TIPO_COMPETICION)
+        
+    #Prueba del tablero, realizar una accion:
+    #   Tipo competicion
+    #   El tipo de accion no esta disponible
+    def test_caso_55(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionNoDisponible(self.tablero, const.TIPO_COMPETICION)
+    
+    #Prueba del tablero, realizar una accion:
+    #   Tipo competicion
+    #   La accion tiene un numero incorrecto de cartas
+    def test_caso_56(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionMalFormada(self.tablero, const.TIPO_COMPETICION)
+        
 def initLogger():
     logging.basicConfig(filename='logfile.log',level=logging.INFO)
     
