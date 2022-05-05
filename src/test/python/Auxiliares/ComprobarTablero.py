@@ -178,6 +178,28 @@ class ComprobarTablero(unittest.TestCase):
         
         return accionSeleccionada, cartasSeleccionadas
     
+    def __seleccionarCartasDeAccionPendiente(self, tablero, tipoAccion, accionCount, seleccionCount):
+        accionSeleccionada = []
+        cartasSeleccionadas = []
+        cartasASeleccionar = []
+
+        for i in range(len(tablero[const.ACCION_PENDIENTE])):
+            if(i != const.PENDIENTE_TIPO and tablero[const.ACCION_PENDIENTE][i] != 0):
+                cartasASeleccionar.append(tablero[const.ACCION_PENDIENTE][i])
+                
+        for i in range(const.NCOLUMNA):
+            if(i == 0):
+                accionSeleccionada.append(tipoAccion)
+            elif(i <= seleccionCount):
+                posicion = np.random.randint(len(cartasASeleccionar))
+                carta = cartasASeleccionar.pop(posicion)
+                accionSeleccionada.append(carta)
+                cartasSeleccionadas.append(carta)
+            else:
+                accionSeleccionada.append(0)
+        
+        return accionSeleccionada, cartasSeleccionadas
+    
     def __getListaCartasEnMano(self, mano):
         listaDeCartasEnMano = []
         for i in range(len(mano)):
@@ -211,15 +233,16 @@ class ComprobarTablero(unittest.TestCase):
             self.assertNotEqual(tableroAux[const.ACCIONES_USADAS_JUGADOR1][const.TIPO_COMPETICION], 0)
             
         #Comprobacion de que se han usado las cartas
-        listaDeCartasEnManoAntes = self.__getListaCartasEnMano(manoAntes)
-        listaDeCartasEnManoDespues = self.__getListaCartasEnMano(manoDespues)
-        for i in range(len(cartasUsadas)):
-            listaDeCartasEnManoDespues.append(cartasUsadas[i])
-            
-        listaDeCartasEnManoAntesOrdenada = np.sort(listaDeCartasEnManoAntes)
-        listaDeCartasEnManoDespuesOrdenada = np.sort(listaDeCartasEnManoDespues)
-        for i in range(len(listaDeCartasEnManoAntes)):
-            self.assertEquals(listaDeCartasEnManoAntesOrdenada[i], listaDeCartasEnManoDespuesOrdenada[i])
+        if(accionARealizar[const.ACCION_REALIZADA] != const.TIPO_REGALO and accionARealizar[const.ACCION_REALIZADA] == const.TIPO_COMPETICION):
+            listaDeCartasEnManoAntes = self.__getListaCartasEnMano(manoAntes)
+            listaDeCartasEnManoDespues = self.__getListaCartasEnMano(manoDespues)
+            for i in range(len(cartasUsadas)):
+                listaDeCartasEnManoDespues.append(cartasUsadas[i])
+                
+            listaDeCartasEnManoAntesOrdenada = np.sort(listaDeCartasEnManoAntes)
+            listaDeCartasEnManoDespuesOrdenada = np.sort(listaDeCartasEnManoDespues)
+            for i in range(len(listaDeCartasEnManoAntes)):
+                self.assertEquals(listaDeCartasEnManoAntesOrdenada[i], listaDeCartasEnManoDespuesOrdenada[i])
             
         #Comprobacion de que si es tipo 3 o 4 hay una accion pendiente
         if(accionARealizar[const.ACCION_REALIZADA] == const.TIPO_REGALO):
@@ -246,10 +269,10 @@ class ComprobarTablero(unittest.TestCase):
             return const.ACCION_4_COUNT
         
         elif(tipo == const.TIPO_DECISION_REGALO):
-            return const.PENDIENTE_5_COUNT
+            return const.PENDIENTE_5_ELEGIDA_COUNT
         
         elif(tipo == const.TIPO_DECISION_COMPETICION):
-            return const.PENDIENTE_6_COUNT
+            return const.PENDIENTE_6_ELEGIDA_COUNT
             
     def comprobarAccionDisponibleYBienFormada(self, controladorTablero, tipoAccion):
         controladorTablero.initRonda()
@@ -279,6 +302,67 @@ class ComprobarTablero(unittest.TestCase):
         
         tableroAux = controladorTablero.getVistaTablero(const.JUGADOR1)
         accion, cartas = self.__seleccionarCartasDeMano(tableroAux, tipoAccion, accionCount+1)
+        
+        self.__comprobarExceptionAlRealizarLaAccion(controladorTablero, accion)
+        
+    def comprobarAccionDeSeleccionDisponibleYBienFormada(self, controladorTablero, tipoAccion):
+        controladorTablero.initRonda()
+        
+        tableroAux = controladorTablero.getVistaTablero(const.JUGADOR2)
+        if(tipoAccion == const.TIPO_DECISION_REGALO):
+            tipoAccionPreparacion = const.TIPO_REGALO
+            accionCount = self.__getAccionCount(const.TIPO_REGALO)
+        else:
+            tipoAccionPreparacion = const.TIPO_COMPETICION
+            accionCount = self.__getAccionCount(const.TIPO_COMPETICION)
+        accionPreparacion, cartasPreparacion = self.__seleccionarCartasDeMano(tableroAux, tipoAccionPreparacion, accionCount)
+        self.__comprobarQueSeRealizaLaAccion(controladorTablero, accionPreparacion, cartasPreparacion, const.JUGADOR2, const.MANO_JUGADOR2)
+
+        tableroAux = controladorTablero.getVistaTablero(const.JUGADOR1)
+        seleccionCount = self.__getAccionCount(tipoAccion)
+        accion, cartas = self.__seleccionarCartasDeAccionPendiente(tableroAux, tipoAccion, accionCount, seleccionCount)
+        
+        self.__comprobarQueSeRealizaLaAccion(controladorTablero, accion, cartas, const.JUGADOR1, const.MANO_JUGADOR1)
+        
+    def comprobarAccionDeSeleccionNoDisponible(self, controladorTablero, tipoAccion):
+
+        if(tipoAccion == const.TIPO_DECISION_REGALO):
+            accionCount = self.__getAccionCount(const.TIPO_REGALO)
+            tipoAccionPreparacion = const.TIPO_COMPETICION
+            accionCountPreparacion = self.__getAccionCount(const.TIPO_COMPETICION)
+        else:
+            accionCount = self.__getAccionCount(const.TIPO_COMPETICION)
+            tipoAccionPreparacion = const.TIPO_REGALO
+            accionCountPreparacion = self.__getAccionCount(const.TIPO_REGALO)
+            
+        controladorTablero.initRonda()
+        tableroAux = controladorTablero.getVistaTablero(const.JUGADOR2)
+        
+        accionPreparacion, cartasPreparacion = self.__seleccionarCartasDeMano(tableroAux, tipoAccionPreparacion, accionCountPreparacion)
+        self.__comprobarQueSeRealizaLaAccion(controladorTablero, accionPreparacion, cartasPreparacion, const.JUGADOR2, const.MANO_JUGADOR2)
+
+        tableroAux = controladorTablero.getVistaTablero(const.JUGADOR1)
+        seleccionCount = self.__getAccionCount(tipoAccion)
+        accion, cartas = self.__seleccionarCartasDeAccionPendiente(tableroAux, tipoAccion, accionCount, seleccionCount)
+        
+        self.__comprobarExceptionAlRealizarLaAccion(controladorTablero, accion)
+        
+    def comprobarAccionDeSeleccionMalFormada(self, controladorTablero, tipoAccion):
+        controladorTablero.initRonda()
+        
+        tableroAux = controladorTablero.getVistaTablero(const.JUGADOR2)
+        if(tipoAccion == const.TIPO_DECISION_REGALO):
+            tipoAccionPreparacion = const.TIPO_REGALO
+            accionCount = self.__getAccionCount(const.TIPO_REGALO)
+        else:
+            tipoAccionPreparacion = const.TIPO_COMPETICION
+            accionCount = self.__getAccionCount(const.TIPO_COMPETICION)
+        accionPreparacion, cartasPreparacion = self.__seleccionarCartasDeMano(tableroAux, tipoAccionPreparacion, accionCount)
+        self.__comprobarQueSeRealizaLaAccion(controladorTablero, accionPreparacion, cartasPreparacion, const.JUGADOR2, const.MANO_JUGADOR2)
+
+        tableroAux = controladorTablero.getVistaTablero(const.JUGADOR1)
+        seleccionCount = self.__getAccionCount(tipoAccion)
+        accion, cartas = self.__seleccionarCartasDeAccionPendiente(tableroAux, tipoAccion, accionCount, seleccionCount+1)
         
         self.__comprobarExceptionAlRealizarLaAccion(controladorTablero, accion)
             

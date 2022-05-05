@@ -475,6 +475,50 @@ class Test(unittest.TestCase):
     def test_caso_56(self):
         self.tablero = ControladorTablero()
         tableros.comprobarAccionMalFormada(self.tablero, const.TIPO_COMPETICION)
+      
+    #Prueba del tablero, realizar una accion:
+    #   Tipo decision regalo
+    #   El tipo de accion esta disponible
+    #   La accion esta bien formada
+    def test_caso_57(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionDeSeleccionDisponibleYBienFormada(self.tablero, const.TIPO_DECISION_REGALO)
+        
+    #Prueba del tablero, realizar una accion:
+    #   Tipo decision regalo
+    #   El tipo de accion no esta disponible
+    def test_caso_58(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionDeSeleccionNoDisponible(self.tablero, const.TIPO_DECISION_REGALO)
+    
+    #Prueba del tablero, realizar una accion:
+    #   Tipo decision regalo
+    #   La accion tiene un numero incorrecto de cartas
+    def test_caso_59(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionDeSeleccionMalFormada(self.tablero, const.TIPO_DECISION_REGALO)
+        
+    #Prueba del tablero, realizar una accion:
+    #   Tipo decision competicion
+    #   El tipo de accion esta disponible
+    #   La accion esta bien formada
+    def test_caso_60(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionDeSeleccionDisponibleYBienFormada(self.tablero, const.TIPO_DECISION_COMPETICION)
+        
+    #Prueba del tablero, realizar una accion:
+    #   Tipo decision competicion
+    #   El tipo de accion no esta disponible
+    def test_caso_61(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionDeSeleccionNoDisponible(self.tablero, const.TIPO_DECISION_COMPETICION)
+    
+    #Prueba del tablero, realizar una accion:
+    #   Tipo decision competicion
+    #   La accion tiene un numero incorrecto de cartas
+    def test_caso_62(self):
+        self.tablero = ControladorTablero()
+        tableros.comprobarAccionDeSeleccionMalFormada(self.tablero, const.TIPO_DECISION_COMPETICION)
         
 def initLogger():
     logging.basicConfig(filename='logfile.log',level=logging.INFO)
