@@ -14,9 +14,9 @@ class ControladorBot:
     '''
     def __init__(self, miNombre, miNumero):
         '''Atributo miNombre: define el nombre para leerlo en los logs'''
-        self.miNombre = miNombre
+        self.__miNombre = miNombre
         '''Atributo miNumero: define el orden del jugador, puede ser 1 o 2'''
-        self.miNumero = miNumero
+        self.__miNumero = miNumero
         
     '''
     Metodo para generar una accion aleatoria, recibe la matriz del tablero y 
@@ -25,7 +25,7 @@ class ControladorBot:
     '''
     def decidirAccion(self, tablero):
         
-        logging.info(self.miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
+        logging.info(self.__miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
     
         listaDeCartasEnMano = []
         
@@ -34,12 +34,12 @@ class ControladorBot:
                 listaDeCartasEnMano.append(tablero[const.MANO_JUGADOR1][i])
         
 
-        logging.debug(self.miNombre+" : Estas son las cartas de mi mano: "+str(listaDeCartasEnMano))
+        logging.debug(self.__miNombre+" : Estas son las cartas de mi mano: "+str(listaDeCartasEnMano))
         
         listaAccionesPosibles = []
         accionesRealizadas = tablero[const.ACCIONES_USADAS_JUGADOR1]
         
-        logging.debug(self.miNombre+" : Estas son las acciones realizadas: "+str(accionesRealizadas))
+        logging.debug(self.__miNombre+" : Estas son las acciones realizadas: "+str(accionesRealizadas))
         
         if(accionesRealizadas[const.TIPO_SECRETO] == 0):
             listaAccionesPosibles.append(const.TIPO_SECRETO)
@@ -53,11 +53,11 @@ class ControladorBot:
         if(len(listaAccionesPosibles) == 0):
             raise Exception("No hay acciones posibles para hacer")
            
-        logging.debug(self.miNombre+" : Estas son las acciones que puedo hacer: "+str(listaAccionesPosibles))
+        logging.debug(self.__miNombre+" : Estas son las acciones que puedo hacer: "+str(listaAccionesPosibles))
         
         accionARealizar = listaAccionesPosibles.pop(np.random.randint(len(listaAccionesPosibles)))
         
-        logging.debug(self.miNombre+" : He decidido realizar la accion: "+str(accionARealizar))
+        logging.debug(self.__miNombre+" : He decidido realizar la accion: "+str(accionARealizar))
         
         cartasSeleccionadas = []
         accionCount = 0
@@ -78,8 +78,8 @@ class ControladorBot:
             carta = listaDeCartasEnMano.pop(posicion)
             cartasSeleccionadas.append(carta)
             
-        logging.debug(self.miNombre+" : He seleccionado estas cartas para hacer la accion: "+str(cartasSeleccionadas))
-        logging.debug(self.miNombre+" : Estas son las cartas que quedan en mi mano: "+str(listaDeCartasEnMano))
+        logging.debug(self.__miNombre+" : He seleccionado estas cartas para hacer la accion: "+str(cartasSeleccionadas))
+        logging.debug(self.__miNombre+" : Estas son las cartas que quedan en mi mano: "+str(listaDeCartasEnMano))
 
         accionCompleta = np.zeros(const.NCOLUMNA, dtype=int)
         
@@ -109,8 +109,8 @@ class ControladorBot:
             raise Exception("Error al encontrar accion en bot")
             
 
-        logging.info(self.miNombre+" : Esta es la accion completa que realizo: "+str(accionCompleta))
-        logging.info(self.miNombre+" : ___________________________________") #Separador de bots
+        logging.info(self.__miNombre+" : Esta es la accion completa que realizo: "+str(accionCompleta))
+        logging.info(self.__miNombre+" : ___________________________________") #Separador de bots
         return accionCompleta
     
     '''
@@ -121,7 +121,7 @@ class ControladorBot:
     '''
     def decidirAccionDeSeleccion(self, tablero):
         
-        logging.info(self.miNombre+" : Esta es la accion pendiente que me llega: "+str(tablero[const.ACCION_PENDIENTE]))
+        logging.info(self.__miNombre+" : Esta es la accion pendiente que me llega: "+str(tablero[const.ACCION_PENDIENTE]))
         
         accionPendienteList = tablero[const.ACCION_PENDIENTE]
         accionPendienteTipo = accionPendienteList[const.PENDIENTE_TIPO]
@@ -153,8 +153,8 @@ class ControladorBot:
         else:
             raise Exception("Error al encontrar accion en bot")
         
-        logging.info(self.miNombre+" : Esta es la accion completa que realizo: "+str(accionCompleta))
-        logging.info(self.miNombre+" : ___________________________________") #Separador de bots
+        logging.info(self.__miNombre+" : Esta es la accion completa que realizo: "+str(accionCompleta))
+        logging.info(self.__miNombre+" : ___________________________________") #Separador de bots
         return accionCompleta
     
     '''
@@ -163,3 +163,16 @@ class ControladorBot:
     '''
     def finish(self):
         return
+    
+    '''
+    Metodo get para el atributo miNombre
+    '''
+    def getMiNombre(self):
+        return self.__miNombre
+    
+    '''
+    Metodo get para el atributo miNumero
+    '''
+    def getMiNumero(self):
+        return self.__miNumero
+    

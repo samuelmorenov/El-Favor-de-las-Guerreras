@@ -18,12 +18,12 @@ class ControladorRedNeuronal:
     '''
     def __init__(self, miNombre, miNumero):
         '''Atributo miNombre: define el nombre para leerlo en los logs'''
-        self.miNombre = miNombre
+        self.__miNombre = miNombre
         '''Atributo miNumero: define el orden del jugador, puede ser 1 o 2'''
-        self.miNumero = miNumero
-        '''Atributo Prediccion: implementa la clase Prediccion que corresponde 
+        self.__miNumero = miNumero
+        '''Atributo prediccion: implementa la clase Prediccion que corresponde 
         a la parte de la red neuronal encargada de generar predicciones'''
-        self.Prediccion = Prediccion()
+        self.__prediccion = Prediccion()
         
     '''
     Metodo para generar una accion, recibe la matriz del tablero y devuelve un 
@@ -32,13 +32,13 @@ class ControladorRedNeuronal:
     '''
     def decidirAccion(self, tablero):
         
-        logging.info(self.miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
+        logging.info(self.__miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
             
-        self.Prediccion.predecir(tablero)
+        self.__prediccion.predecir(tablero)
         salida = self.__procesarAccion(tablero)
         
-        logging.info(self.miNombre+" : Esta es la accion completa que realizo: "+str(salida))
-        logging.info(self.miNombre+" : ___________________________________") #Separador
+        logging.info(self.__miNombre+" : Esta es la accion completa que realizo: "+str(salida))
+        logging.info(self.__miNombre+" : ___________________________________") #Separador
         return salida
     
     '''
@@ -50,21 +50,21 @@ class ControladorRedNeuronal:
     def __procesarAccion(self, tablero):
         listaDeCartasEnMano, listaAccionesPosibles = self.__obtenerCartasEnManoYAccionesPosibles(tablero)
         
-        logging.debug(self.miNombre+" : Estas son las acciones que puedo hacer: "+str(listaAccionesPosibles))
+        logging.debug(self.__miNombre+" : Estas son las acciones que puedo hacer: "+str(listaAccionesPosibles))
         
-        accionARealizar = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, listaAccionesPosibles)
+        accionARealizar = self.__prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, listaAccionesPosibles)
         
-        logging.debug(self.miNombre+" : He decidido realizar la accion: "+str(accionARealizar))
+        logging.debug(self.__miNombre+" : He decidido realizar la accion: "+str(accionARealizar))
         
         accionCount = self.__obtenerAccionCount(accionARealizar)
         cartasSeleccionadas = []
         for i in range(accionCount):
-            carta = self.Prediccion.obtenerPrediccionCampo(i+1, listaDeCartasEnMano)
+            carta = self.__prediccion.obtenerPrediccionCampo(i+1, listaDeCartasEnMano)
             listaDeCartasEnMano = self.__eliminarCarta(carta, listaDeCartasEnMano)
             cartasSeleccionadas.append(carta)
             
-        logging.debug(self.miNombre+" : Estas son las cartas que puedo usar: "+str(listaDeCartasEnMano))    
-        logging.debug(self.miNombre+" : He seleccionado estas cartas para hacer la accion: "+str(cartasSeleccionadas))
+        logging.debug(self.__miNombre+" : Estas son las cartas que puedo usar: "+str(listaDeCartasEnMano))    
+        logging.debug(self.__miNombre+" : He seleccionado estas cartas para hacer la accion: "+str(cartasSeleccionadas))
             
         accionCompleta = self.__crearAccionCompleta(accionARealizar, cartasSeleccionadas)
             
@@ -88,7 +88,7 @@ class ControladorRedNeuronal:
         listaAccionesPosibles = []
         accionesRealizadas = tablero[const.ACCIONES_USADAS_JUGADOR1]
             
-        logging.debug(self.miNombre+" : Estas son las acciones realizadas: "+str(accionesRealizadas))
+        logging.debug(self.__miNombre+" : Estas son las acciones realizadas: "+str(accionesRealizadas))
          
                 
         if(accionesRealizadas[const.TIPO_SECRETO] == 0):
@@ -100,7 +100,7 @@ class ControladorRedNeuronal:
         if(accionesRealizadas[const.TIPO_COMPETICION] == 0):
             listaAccionesPosibles.append(const.TIPO_COMPETICION)
            
-        logging.debug(self.miNombre+" : Estas son las acciones que puedo hacer: "+str(listaAccionesPosibles))
+        logging.debug(self.__miNombre+" : Estas son las acciones que puedo hacer: "+str(listaAccionesPosibles))
             
         return listaDeCartasEnMano, listaAccionesPosibles
     
@@ -143,13 +143,13 @@ class ControladorRedNeuronal:
     __procesarAccionDeSeleccion
     '''
     def decidirAccionDeSeleccion(self, tablero):
-        logging.info(self.miNombre+" : Esta es la accion pendiente que me llega: "+str(tablero[const.ACCION_PENDIENTE]))
+        logging.info(self.__miNombre+" : Esta es la accion pendiente que me llega: "+str(tablero[const.ACCION_PENDIENTE]))
             
-        salida =  self.Prediccion.predecir(tablero)
+        salida =  self.__prediccion.predecir(tablero)
         salida = self.__procesarAccionDeSeleccion(tablero)
         
-        logging.info(self.miNombre+" : Esta es la accion completa que realizo: "+str(salida))
-        logging.info(self.miNombre+" : ___________________________________") #Separador
+        logging.info(self.__miNombre+" : Esta es la accion completa que realizo: "+str(salida))
+        logging.info(self.__miNombre+" : ___________________________________") #Separador
         return salida
     
     '''
@@ -187,7 +187,7 @@ class ControladorRedNeuronal:
         cartasList.append(accionPendienteList[const.PENDIENTE_5_2])
         cartasList.append(accionPendienteList[const.PENDIENTE_5_3])
 
-        carta = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
+        carta = self.__prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
         cartasSeleccionadas.append(carta)
         return cartasSeleccionadas
         
@@ -204,14 +204,14 @@ class ControladorRedNeuronal:
             
             cartasList.append(accionPendienteList[const.PENDIENTE_6_1_2]) 
             cartasList.append(accionPendienteList[const.PENDIENTE_6_2_2])
-            carta = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
+            carta = self.__prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
             
             cartasSeleccionadas.append(carta)
             
         else:
             cartasList.append(accionPendienteList[const.PENDIENTE_6_1_2]) 
             cartasList.append(accionPendienteList[const.PENDIENTE_6_2_2])
-            carta = self.Prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
+            carta = self.__prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
             
             if(carta == accionPendienteList[const.PENDIENTE_6_1_2]):
                 cartasSeleccionadas.append(accionPendienteList[const.PENDIENTE_6_1_1])
@@ -267,3 +267,16 @@ class ControladorRedNeuronal:
     '''
     def finish(self):
         return
+    
+    '''
+    Metodo get para el atributo miNombre
+    '''
+    def getMiNombre(self):
+        return self.__miNombre
+    
+    '''
+    Metodo get para el atributo miNumero
+    '''
+    def getMiNumero(self):
+        return self.__miNumero
+    

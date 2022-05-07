@@ -15,12 +15,12 @@ class ControladorJugador:
     '''
     def __init__(self, miNombre, miNumero):
         '''Atributo miNombre: define el nombre para leerlo en los logs'''
-        self.miNombre = miNombre
+        self.__miNombre = miNombre
         '''Atributo miNumero: define el orden del jugador, puede ser 1 o 2'''
-        self.miNumero = miNumero
+        self.__miNumero = miNumero
         '''Atributo GUI: implementa la clase GUI_Tkinter que corresponde a la 
         interfaz grafica de usuario con la que interactuará el usuario'''
-        self.GUI = GUI_Tkinter()
+        self.__GUI = GUI_Tkinter()
         
     '''
     Metodo para generar una accion, recibe la matriz del tablero y devuelve un 
@@ -28,10 +28,10 @@ class ControladorJugador:
     del metodo __pedirAccion
     '''
     def decidirAccion(self, tablero):
-        logging.info(self.miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
+        logging.info(self.__miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
         salida = self.__pedirAccion(tablero)
-        logging.info(self.miNombre+" : Esta es la accion completa que realizo: "+str(salida))
-        logging.info(self.miNombre+" : ___________________________________") #Separador
+        logging.info(self.__miNombre+" : Esta es la accion completa que realizo: "+str(salida))
+        logging.info(self.__miNombre+" : ___________________________________") #Separador
         return salida
     
     '''
@@ -49,12 +49,25 @@ class ControladorJugador:
     seleccione la accion que desee
     '''
     def __pedirAccion(self, tablero):
-        self.GUI.printTabla(tablero)
-        self.GUI.start()
-        return self.GUI.obtenerAccion()
+        self.__GUI.printTabla(tablero)
+        self.__GUI.start()
+        return self.__GUI.obtenerAccion()
         
     '''
     Metodo que sirve para cerrar el hilo de la interfaz gráfica
     '''
     def finish(self):
-        self.GUI.cerrar()
+        self.__GUI.cerrar()
+    
+    '''
+    Metodo get para el atributo miNombre
+    '''
+    def getMiNombre(self):
+        return self.__miNombre
+    
+    '''
+    Metodo get para el atributo miNumero
+    '''
+    def getMiNumero(self):
+        return self.__miNumero
+    

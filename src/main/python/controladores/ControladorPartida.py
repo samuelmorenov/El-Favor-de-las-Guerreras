@@ -17,16 +17,16 @@ class ControladorPartida:
     def __init__(self):
         self.tablero = ControladorTablero()
         self.win = 0
+        self.winner = None
+        self.accionesj1 = ''
+        self.accionesj2 = ''
+        self.tablerosj1 = ''
+        self.tablerosj2 = ''
+        self.j1 = None
+        self.j2 = None
         
     def run(self):
         self.__initJugadores()
-
-        if(menu.MODO == menu.MODO_GENERAR_DATOS):
-            self.winner = False
-            self.accionesj1 = ''
-            self.accionesj2 = ''
-            self.tablerosj1 = ''
-            self.tablerosj2 = ''
         
         try:
             self.__start()
@@ -78,7 +78,7 @@ class ControladorPartida:
                 
     def __start(self):
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
-            self.winner = False
+            self.winner = None
             self.accionesj1 = ''
             self.accionesj2 = ''
             self.tablerosj1 = ''
@@ -99,10 +99,10 @@ class ControladorPartida:
         self.j1.finish()
         self.j2.finish()
         
-        logging.info("Ha ganado: "+str(self.winner.miNombre))
+        logging.info("Ha ganado: "+str(self.winner.getMiNombre()))
         
         if(menu.MODO == menu.MODO_JUGAR):
-            if(self.winner.miNumero == const.JUGADOR1):
+            if(self.winner.getMiNumero() == const.JUGADOR1):
                 sendMensaje("Has ganado :)")
             else:
                 sendMensaje("Has perdido :(")
@@ -151,7 +151,7 @@ class ControladorPartida:
                     linea2 = linea2 + data.SEPARADOR
                     
                 
-            if(jugador.miNumero) == const.JUGADOR1:
+            if(jugador.getMiNumero()) == const.JUGADOR1:
                 self.tablerosj1 = self.tablerosj1 + linea1 + "\n"
                 self.accionesj1 = self.accionesj1 + linea2 + "\n"
             else:

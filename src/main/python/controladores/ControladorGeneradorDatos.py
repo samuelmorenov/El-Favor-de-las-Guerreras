@@ -36,6 +36,7 @@ class ControladorGeneradorDatos:
                 
         for _ in range(menu.NUM_SIMULACIONES):
             self.__controladorPartida = ControladorPartida()
+            self.__controladorPartida.run()
             self.__guardarGanador(self.__controladorPartida.getWinner())
                 
             logging.info("Partidas ganadas por el 1: "+ str(self.__partidasGanadas1))
@@ -49,7 +50,7 @@ class ControladorGeneradorDatos:
         acciones = ''
         tablero = ''
         
-        if(jugador.miNumero == const.JUGADOR1):
+        if(jugador.getMiNumero() == const.JUGADOR1):
             acciones = self.__controladorPartida.getAccionesJ1()
             tablero = self.__controladorPartida.getTablerosJ1()
             self.__partidasGanadas1 = self.__partidasGanadas1 + 1
@@ -61,7 +62,7 @@ class ControladorGeneradorDatos:
         self.__guardarEnArchivo(acciones, data.PARTIDAS_GANADAS_JUGADAS)
         self.__guardarEnArchivo(tablero, data.PARTIDAS_GANADAS_TABLERO)
         
-        logging.info("Ha ganado el "+str(jugador.miNombre))
+        logging.info("Ha ganado el "+str(jugador.getMiNombre()))
             
     '''
     Metodo que elimina los archivos generados anteriormente y los deja limpios
