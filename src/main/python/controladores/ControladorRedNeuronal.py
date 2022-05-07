@@ -1,18 +1,35 @@
 # -*- coding: utf-8 -*-
 import logging
-
 import numpy as np
 
 import main.python.parametrizacion.ParametrosTablero as const
 
 from main.python.redNeuronal.Prediccion import Prediccion
 
+'''
+Clase controladora del jugador controlado por la red neuronal entrenada
+anteriormente
+'''
 class ControladorRedNeuronal:
+    '''
+    Metodo constructor de la clase ControladorRedNeuronal, recibe el nombre y el numero
+    para guardarlo en sus respectivos atributos. Además inicializa el atributo
+    Prediccion que implementa la clase Prediccion.
+    '''
     def __init__(self, miNombre, miNumero):
+        '''Atributo miNombre: define el nombre para leerlo en los logs'''
         self.miNombre = miNombre
+        '''Atributo miNumero: define el orden del jugador, puede ser 1 o 2'''
         self.miNumero = miNumero
+        '''Atributo Prediccion: implementa la clase Prediccion que corresponde 
+        a la parte de la red neuronal encargada de generar predicciones'''
         self.Prediccion = Prediccion()
         
+    '''
+    Metodo para generar una accion, recibe la matriz del tablero y devuelve un 
+    array con una accion correcta que será seleccionada por la red neuronal y 
+    procesada por el metodo __procesarAccion
+    '''
     def decidirAccion(self, tablero):
         
         logging.info(self.miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
@@ -24,6 +41,12 @@ class ControladorRedNeuronal:
         logging.info(self.miNombre+" : ___________________________________") #Separador
         return salida
     
+    '''
+    Metodo encargado de procesar el resultado emitido por la red neuronal para 
+    transformarlo en una accion correctamente formada y valida para el tablero
+    actual. Esto se debe a que la red neuronal devuelve el valor en porcentajes
+    de acierto, que no estan exentos de fallos
+    '''
     def __procesarAccion(self, tablero):
         listaDeCartasEnMano, listaAccionesPosibles = self.__obtenerCartasEnManoYAccionesPosibles(tablero)
         
@@ -47,7 +70,11 @@ class ControladorRedNeuronal:
             
         return accionCompleta
         
-    
+    '''
+    Metodo encargado de devolver una lista con las cartas que hay en la mano
+    y otra lista con las acciones posibles que puede realizar el jugador para 
+    el tablero dado. Este metodo es necesario para el metodo __procesarAccion
+    '''
     def __obtenerCartasEnManoYAccionesPosibles(self, tablero):
     
         listaDeCartasEnMano = []
@@ -77,6 +104,10 @@ class ControladorRedNeuronal:
             
         return listaDeCartasEnMano, listaAccionesPosibles
     
+    '''
+    Metodo que devuelve el numero de cartas que debe tener la accion a realizar
+    dada por parametro. Este metodo es necesario para el metodo __procesarAccion
+    '''
     def __obtenerAccionCount(self, accionARealizar):
         accionCount = 0
         
@@ -93,6 +124,11 @@ class ControladorRedNeuronal:
         
         return accionCount
     
+    '''
+    Metodo que devuelve un array con las cartas en mano a la que se le ha 
+    retidado la carta seleccionada. Este metodo es necesario para el metodo 
+    __procesarAccion
+    '''
     def __eliminarCarta(self, cartaSeleccionada, listaDeCartasEnMano):
         posiciones = np.where(listaDeCartasEnMano == cartaSeleccionada)
         posicion = posiciones[0][0]
@@ -100,6 +136,12 @@ class ControladorRedNeuronal:
         listaDeCartasEnMano_Modificada = np.delete(listaDeCartasEnMano, posicion)
         return listaDeCartasEnMano_Modificada
     
+    '''
+    Metodo para generar la accion de seleccion pendiente, recibe la matriz del 
+    tablero y devuelve un array con la accion correctamente formada con las 
+    cartas seleccionadas por red neuronal y procesada por el metodo 
+    __procesarAccionDeSeleccion
+    '''
     def decidirAccionDeSeleccion(self, tablero):
         logging.info(self.miNombre+" : Esta es la accion pendiente que me llega: "+str(tablero[const.ACCION_PENDIENTE]))
             
@@ -110,6 +152,12 @@ class ControladorRedNeuronal:
         logging.info(self.miNombre+" : ___________________________________") #Separador
         return salida
     
+    '''
+    Metodo encargado de procesar el resultado emitido por la red neuronal para 
+    transformarlo en una accion de seleccion correctamente formada y valida 
+    para el tablero actual. Esto se debe a que la red neuronal devuelve el 
+    valor en porcentajes de acierto, que no estan exentos de fallos
+    '''
     def __procesarAccionDeSeleccion(self, tablero):        
         accionPendienteList = tablero[const.ACCION_PENDIENTE]
         accionPendienteTipo = accionPendienteList[const.PENDIENTE_TIPO]
@@ -127,6 +175,11 @@ class ControladorRedNeuronal:
         
         return accionCompleta
             
+    '''
+    Metodo encargado de procesar el resultado emitido por la red neuronal para 
+    la accion de seleccion espeficica de tipo regalo para una accion pendiente 
+    dada
+    '''
     def __seleccionarCartasAccionDeSeleccionRegalo(self, accionPendienteList):   
         cartasSeleccionadas = []
         cartasList = []
@@ -138,6 +191,11 @@ class ControladorRedNeuronal:
         cartasSeleccionadas.append(carta)
         return cartasSeleccionadas
         
+    '''
+    Metodo encargado de procesar el resultado emitido por la red neuronal para 
+    la accion de seleccion espeficica de tipo competicion para una accion 
+    pendiente dada
+    '''
     def __seleccionarCartasAccionDeSeleccionCompeticion(self, accionPendienteList):  
         cartasSeleccionadas = []
         cartasList = []
@@ -164,6 +222,10 @@ class ControladorRedNeuronal:
 
         return cartasSeleccionadas
     
+    '''
+    Metodo que crea un array accion a partir del tipo de accion y las cartas
+    seleccionadas
+    '''
     def __crearAccionCompleta(self, accionARealizar, cartasSeleccionadas):
         accionCompleta = np.zeros(const.NCOLUMNA, dtype=int)
         
@@ -199,5 +261,9 @@ class ControladorRedNeuronal:
             
         return accionCompleta
 
+    '''
+    Metodo que sirve para cerrar los hilos pendientes de los jugadores, en este
+    caso no es necesario cerrar ninguno
+    '''
     def finish(self):
         return
