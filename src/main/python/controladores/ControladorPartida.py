@@ -37,7 +37,8 @@ class ControladorPartida:
                 logging.error("Ha habido un error en el turno")
                 sendMensaje("Se ha producido un error")
             except:
-                logging.error("Ha habido un error en la interfaz o se ha cerrado la ventana")
+                logging.error("Se ha cerrado la ventana de forma inesperada")
+                sendMensaje("Se ha cerrado la ventana de forma inesperada")
             
     def __initJugadores(self):
         #Elegir opciones para generar datos
