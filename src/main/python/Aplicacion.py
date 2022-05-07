@@ -18,14 +18,18 @@ if __name__ == "__main__":
     
     if(menu.MODO == menu.MODO_GENERAR_DATOS):
         logging.info('Seleccionado modo de generacion de datos')
+        loggerConfig.initLogger(None)
         run = ControladorGeneradorDatos()
     
     elif(menu.MODO == menu.MODO_JUGAR):
         logging.info('Seleccionado modo de juego')
+        loggerConfig.initLogger(logging.INFO)
         run = ControladorPartida()
         
     elif(menu.MODO == menu.MODO_ENTRENAR_RED):
         logging.info('Seleccionado modo de entrenamiento de la red neuronal')
+        loggerConfig.initLogger(logging.DEBUG)
         run = Entrenamiento()
 
+    loggerConfig.initLogger(logging.INFO)
     logging.info('Fin del programa.')

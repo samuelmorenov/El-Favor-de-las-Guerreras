@@ -7,6 +7,9 @@ def initLogger(level):
     while rootLogger.hasHandlers():
         rootLogger.removeHandler(rootLogger.handlers[0])
         
+    if(level == None):
+        return
+        
     rootLogger.setLevel(level) #INFO/DEBUG
     
     fileHandler = logging.FileHandler("logfile.log")
