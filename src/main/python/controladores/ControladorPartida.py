@@ -15,15 +15,15 @@ import main.python.parametrizacion.ParametrosDatos as data
 
 class ControladorPartida:
     def __init__(self):
-        self.tablero = ControladorTablero()
-        self.win = 0
-        self.winner = None
-        self.accionesj1 = ''
-        self.accionesj2 = ''
-        self.tablerosj1 = ''
-        self.tablerosj2 = ''
-        self.j1 = None
-        self.j2 = None
+        self.__controladorTablero = ControladorTablero()
+        self.__winnnerNumero = 0
+        self.__accionesJ1 = ''
+        self.__accionesJ2 = ''
+        self.__tableroJ1 = ''
+        self.__tableroJ2 = ''
+        self.__winner = None
+        self.__jugador1 = None
+        self.__jugador2 = None
         
     def run(self):
         self.__initJugadores()
@@ -33,8 +33,8 @@ class ControladorPartida:
         except:
             newPopup = Popup_Tkinter()
             try:
-                self.j1.finish()
-                self.j2.finish()
+                self.__jugador1.finish()
+                self.__jugador2.finish()
                 logging.error("Ha habido un error en el turno")
                 newPopup.sendMensaje("Se ha producido un error")
             except:
@@ -42,94 +42,94 @@ class ControladorPartida:
                 newPopup.sendMensaje("Se ha cerrado la ventana de forma inesperada")
                 
     def getAccionesJ1(self):
-        return self.accionesj1
+        return self.__accionesJ1
     
     def getAccionesJ2(self):
-        return self.accionesj2
+        return self.__accionesJ2
     
     def getTablerosJ1(self):
-        return self.tablerosj1
+        return self.__tableroJ1
     
     def getTablerosJ2(self):
-        return self.tablerosj2
+        return self.__tableroJ2
     
     def getWinner(self):
-        return self.winner
+        return self.__winner
             
     def __initJugadores(self):
         #Elegir opciones para generar datos
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
             #Bot tonto en caso de ser facil
             if(menu.MODO_DIFICULTAD == menu.MODO_FACIL):
-                self.j1 = ControladorBot("Bot tonto 1", const.JUGADOR1)
-                self.j2 = ControladorBot("Bot tonto 2", const.JUGADOR2)
+                self.__jugador1 = ControladorBot("Bot tonto 1", const.JUGADOR1)
+                self.__jugador2 = ControladorBot("Bot tonto 2", const.JUGADOR2)
             #Neural Network en caso de ser dificil
             if(menu.MODO_DIFICULTAD == menu.MODO_DIFICIL):
-                self.j1 = ControladorRedNeuronal("Neuronal Network 1", const.JUGADOR1)
-                self.j2 = ControladorRedNeuronal("Neuronal Network 2", const.JUGADOR2)
+                self.__jugador1 = ControladorRedNeuronal("Neuronal Network 1", const.JUGADOR1)
+                self.__jugador2 = ControladorRedNeuronal("Neuronal Network 2", const.JUGADOR2)
                 
         if(menu.MODO == menu.MODO_JUGAR):
             #El jugador 1 siempre sera un jugador
-            self.j1 = ControladorJugador("Jugador", const.JUGADOR1)
+            self.__jugador1 = ControladorJugador("Jugador", const.JUGADOR1)
             #Elegir al jugador 2 dependiendo de la dificultad
             if(menu.MODO_DIFICULTAD == menu.MODO_FACIL):
-                self.j2 = ControladorBot("Bot tonto", const.JUGADOR2)
+                self.__jugador2 = ControladorBot("Bot tonto", const.JUGADOR2)
             if(menu.MODO_DIFICULTAD == menu.MODO_DIFICIL):
-                self.j2 = ControladorRedNeuronal("Neuronal Network", const.JUGADOR2)
+                self.__jugador2 = ControladorRedNeuronal("Neuronal Network", const.JUGADOR2)
                 
     def __start(self):
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
-            self.winner = None
-            self.accionesj1 = ''
-            self.accionesj2 = ''
-            self.tablerosj1 = ''
-            self.tablerosj2 = ''
+            self.__winner = None
+            self.__accionesJ1 = ''
+            self.__accionesJ2 = ''
+            self.__tableroJ1 = ''
+            self.__tableroJ2 = ''
         contadorRondas = 1
-        while (self.win == 0):
+        while (self.__winnnerNumero == 0):
             self.__ronda(contadorRondas)
-            self.win = self.tablero.finalizarTurno()
+            self.__winnnerNumero = self.__controladorTablero.finalizarTurno()
             
-            if(self.win == 1):
-                self.winner = self.j1
-            elif(self.win == 2):
-                self.winner = self.j2
+            if(self.__winnnerNumero == 1):
+                self.__winner = self.__jugador1
+            elif(self.__winnnerNumero == 2):
+                self.__winner = self.__jugador2
             else:
-                self.j1, self.j2 = self.j2, self.j1
+                self.__jugador1, self.__jugador2 = self.__jugador2, self.__jugador1
             contadorRondas = contadorRondas + 1
             
-        self.j1.finish()
-        self.j2.finish()
+        self.__jugador1.finish()
+        self.__jugador2.finish()
         
-        logging.info("Ha ganado: "+str(self.winner.getMiNombre()))
+        logging.info("Ha ganado: "+str(self.__winner.getMiNombre()))
         
         if(menu.MODO == menu.MODO_JUGAR):
             newPopup = Popup_Tkinter()
-            if(self.winner.getMiNumero() == const.JUGADOR1):
+            if(self.__winner.getMiNumero() == const.JUGADOR1):
                 newPopup.sendMensaje("Has ganado :)")
             else:
                 newPopup.sendMensaje("Has perdido :(")
         
     def __ronda(self, contadorRondas):
-        self.tablero.initRonda()
+        self.__controladorTablero.initRonda()
         logging.info("Inicio de la ronda "+str(contadorRondas))
         
         for i in range(const.N_ACCIONES):
             logging.info("Inicio de turno "+str(i))
-            self.__accion(const.JUGADOR1, const.JUGADOR2, self.j1, self.j2)
-            self.__accion(const.JUGADOR2, const.JUGADOR1, self.j2, self.j1)
+            self.__accion(const.JUGADOR1, const.JUGADOR2, self.__jugador1, self.__jugador2)
+            self.__accion(const.JUGADOR2, const.JUGADOR1, self.__jugador2, self.__jugador1)
             
     def __accion(self, numeroJugador1, numeroJugador2, jugadorSeleccionadoComo1, jugadorSeleccionadoComo2):
-        self.tablero.jugadorRobaCarta(numeroJugador1)
-        tablero = self.tablero.getVistaTablero(numeroJugador1)
+        self.__controladorTablero.jugadorRobaCarta(numeroJugador1)
+        tablero = self.__controladorTablero.getVistaTablero(numeroJugador1)
         accion = jugadorSeleccionadoComo1.decidirAccion(tablero)
         self.__guardarAccion(tablero, accion, jugadorSeleccionadoComo1)
-        self.tablero.realizarAccion(numeroJugador1, accion)
+        self.__controladorTablero.realizarAccion(numeroJugador1, accion)
         
-        if(self.tablero.hayAccionPendiente()):
-            tablero = self.tablero.getVistaTablero(numeroJugador2)
+        if(self.__controladorTablero.hayAccionPendiente()):
+            tablero = self.__controladorTablero.getVistaTablero(numeroJugador2)
             accionDeSeleccion = jugadorSeleccionadoComo2.decidirAccionDeSeleccion(tablero)
             self.__guardarAccion(tablero, accionDeSeleccion, jugadorSeleccionadoComo2)
-            self.tablero.realizarAccion(numeroJugador2, accionDeSeleccion)
+            self.__controladorTablero.realizarAccion(numeroJugador2, accionDeSeleccion)
             
     def __guardarAccion(self, tablero, accion, jugador):
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
@@ -154,8 +154,8 @@ class ControladorPartida:
                     
                 
             if(jugador.getMiNumero()) == const.JUGADOR1:
-                self.tablerosj1 = self.tablerosj1 + linea1 + "\n"
-                self.accionesj1 = self.accionesj1 + linea2 + "\n"
+                self.__tableroJ1 = self.__tableroJ1 + linea1 + "\n"
+                self.__accionesJ1 = self.__accionesJ1 + linea2 + "\n"
             else:
-                self.tablerosj2 = self.tablerosj2 + linea1 + "\n"
-                self.accionesj2 = self.accionesj2 + linea2 + "\n"
+                self.__tableroJ2 = self.__tableroJ2 + linea1 + "\n"
+                self.__accionesJ2 = self.__accionesJ2 + linea2 + "\n"
