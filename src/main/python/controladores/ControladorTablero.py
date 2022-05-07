@@ -7,6 +7,7 @@ import main.python.parametrizacion.ParametrosTablero as const
 class ControladorTablero:
     def __init__(self):
         self.__tablero = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
+        self.__mazoArmas = []
         self.__initMazo()
         
     def __initMazo(self):

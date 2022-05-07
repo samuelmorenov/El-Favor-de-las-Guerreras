@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 import parametrizacion.ParametrosDatos as data
 import parametrizacion.ParametrosCNN as PCNN
 
@@ -15,15 +17,16 @@ from tensorflow.python.framework.ops import disable_eager_execution
 class Entrenamiento:
     
     def __init__(self):
+        self.__cnn = None
+        
+    def run(self):
         #Se deshabilita eager execution para poder usar Adam
         disable_eager_execution()
         #Eliminamos sesiones de keras abiertas
         K.clear_session()
         
-    def run(self):
         entrada, salida = self.__preProcesadoDeDatos()
         
-        self.__cnn = None
         self.__creacionModelo()
         self.__establecerCapas()
         self.__complileAndFit(entrada, salida)

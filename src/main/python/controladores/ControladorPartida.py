@@ -11,6 +11,7 @@ from main.python.interfaz.Popup_Tkinter import Popup_Tkinter
 import main.python.parametrizacion.ParametrosTablero as const
 import main.python.parametrizacion.ParametrosMenu as menu
 import main.python.parametrizacion.ParametrosDatos as data
+import main.python.parametrizacion.ParametrosGUI as gui
 
 
 class ControladorPartida:
@@ -36,10 +37,10 @@ class ControladorPartida:
                 self.__jugador1.finish()
                 self.__jugador2.finish()
                 logging.error("Ha habido un error en el turno")
-                newPopup.sendMensaje("Se ha producido un error")
+                newPopup.sendMensaje(gui.TEXTO_POPUP_ERROR)
             except:
                 logging.error("Se ha cerrado la ventana de forma inesperada")
-                newPopup.sendMensaje("Se ha cerrado la ventana de forma inesperada")
+                newPopup.sendMensaje(gui.TEXTO_POPUP_CIERRE)
                 
     def getAccionesJ1(self):
         return self.__accionesJ1
@@ -105,9 +106,9 @@ class ControladorPartida:
         if(menu.MODO == menu.MODO_JUGAR):
             newPopup = Popup_Tkinter()
             if(self.__winner.getMiNumero() == const.JUGADOR1):
-                newPopup.sendMensaje("Has ganado :)")
+                newPopup.sendMensaje(gui.TEXTO_POPUP_GANADO)
             else:
-                newPopup.sendMensaje("Has perdido :(")
+                newPopup.sendMensaje(gui.TEXTO_POPUP_PERDIDO)
         
     def __ronda(self, contadorRondas):
         self.__controladorTablero.initRonda()

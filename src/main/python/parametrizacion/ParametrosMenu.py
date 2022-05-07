@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
-
 import configparser
+
 config = configparser.RawConfigParser()
 config.read('./../recursos/param.properties')
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""
 #Parametros del modo de ejecucion del programa
 
 MODO = int(config.get('Menu', 'MODO'))

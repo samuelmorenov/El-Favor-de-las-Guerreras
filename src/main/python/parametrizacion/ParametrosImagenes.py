@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""
 #Parametros imagenes
-
 static = "./../../main/recursos/estaticos/"
 
 ICO = static+"ico.ico"

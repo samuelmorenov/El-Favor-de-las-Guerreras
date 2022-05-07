@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""
 #Constantes de la interfaz
-
 TAMANIO_GUERRERAS = 3
 
 POSICION_SUS_ACCIONES = 0
@@ -52,3 +49,7 @@ TEXTO_ACCION_REGALO = "Regalo"
 TEXTO_ACCION_COMPETICION = "Competición"
 TEXTO_PENDIENTE_REGALO = "Elija una carta entre\nlas siguientes 3"
 TEXTO_PENDIENTE_COMPETICION = "Elija entre\nlas 2 primeras cartas\no las 2 ultimas"
+TEXTO_POPUP_GANADO = "Has ganado :)"
+TEXTO_POPUP_PERDIDO = "Has perdido :("
+TEXTO_POPUP_ERROR = "Se ha producido un error inesperado"
+TEXTO_POPUP_CIERRE = "Se ha cerrado la ventana de forma inesperada"

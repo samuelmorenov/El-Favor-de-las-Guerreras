@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 import main.python.parametrizacion.ParametrosTablero as const
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""""""""""""""""""""""""""""""""""""""""""""""""
-
-#Parametros de la red neuronal
-
 #Numero de veces de iteracion sobre el set de datos completo
 epocas=20
 #Numero de veces que se va a procesar la informacion en cada epoca
