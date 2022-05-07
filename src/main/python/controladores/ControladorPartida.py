@@ -5,7 +5,7 @@ from main.python.controladores.ControladorTablero import ControladorTablero
 from main.python.controladores.ControladorBot import ControladorBot
 from main.python.controladores.ControladorJugador import ControladorJugador
 from main.python.controladores.ControladorRedNeuronal import ControladorRedNeuronal
-from main.python.interfaz.Popup_Tkinter import sendMensaje
+from main.python.interfaz.Popup_Tkinter import Popup_Tkinter
 
 
 import main.python.parametrizacion.ParametrosTablero as const
@@ -31,14 +31,15 @@ class ControladorPartida:
         try:
             self.__start()
         except:
+            newPopup = Popup_Tkinter()
             try:
                 self.j1.finish()
                 self.j2.finish()
                 logging.error("Ha habido un error en el turno")
-                sendMensaje("Se ha producido un error")
+                newPopup.sendMensaje("Se ha producido un error")
             except:
                 logging.error("Se ha cerrado la ventana de forma inesperada")
-                sendMensaje("Se ha cerrado la ventana de forma inesperada")
+                newPopup.sendMensaje("Se ha cerrado la ventana de forma inesperada")
                 
     def getAccionesJ1(self):
         return self.accionesj1
@@ -102,10 +103,11 @@ class ControladorPartida:
         logging.info("Ha ganado: "+str(self.winner.getMiNombre()))
         
         if(menu.MODO == menu.MODO_JUGAR):
+            newPopup = Popup_Tkinter()
             if(self.winner.getMiNumero() == const.JUGADOR1):
-                sendMensaje("Has ganado :)")
+                newPopup.sendMensaje("Has ganado :)")
             else:
-                sendMensaje("Has perdido :(")
+                newPopup.sendMensaje("Has perdido :(")
         
     def __ronda(self, contadorRondas):
         self.tablero.initRonda()
