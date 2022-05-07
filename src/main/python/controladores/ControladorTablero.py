@@ -189,11 +189,10 @@ class ControladorTablero:
         #Preparar accion pendiente
         decisionList = self.__tablero[const.ACCION_PENDIENTE]
         cartasList = np.array([carta1, carta2, carta3, carta4])
-        cartasListOrdenada = np.sort(cartasList)
-        decisionList[const.PENDIENTE_6_1_1] = cartasListOrdenada[0]
-        decisionList[const.PENDIENTE_6_1_2] = cartasListOrdenada[1]
-        decisionList[const.PENDIENTE_6_2_1] = cartasListOrdenada[2]
-        decisionList[const.PENDIENTE_6_2_2] = cartasListOrdenada[3]
+        decisionList[const.PENDIENTE_6_1_1] = cartasList[0]
+        decisionList[const.PENDIENTE_6_1_2] = cartasList[1]
+        decisionList[const.PENDIENTE_6_2_1] = cartasList[2]
+        decisionList[const.PENDIENTE_6_2_2] = cartasList[3]
         decisionList[const.PENDIENTE_TIPO] = const.TIPO_DECISION_COMPETICION
         
         #Eliminar cartas de la mano
