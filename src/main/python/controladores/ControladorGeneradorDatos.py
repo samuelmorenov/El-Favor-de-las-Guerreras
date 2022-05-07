@@ -7,12 +7,22 @@ import main.python.parametrizacion.ParametrosMenu as menu
 import main.python.parametrizacion.ParametrosTablero as const
 import main.python.parametrizacion.ParametrosDatos as data
 
+'''
+Clase controladora de la generacion de datos para el entranamiento de la red 
+neuronal
+'''
 class ControladorGeneradorDatos:
+    '''
+    Metodo constructor de la clase ControladorGeneradorDatos, al ser una clase
+    de ejecucion 
+    '''
     def __init__(self):
         self.partidasGanadas1 = 0
         self.partidasGanadas2 = 0
         self.mainController = 0
-        
+        self.__run()
+            
+    def __run(self):
         self.__resetArchivo(data.PARTIDAS_GANADAS_JUGADAS)
         self.__resetArchivo(data.PARTIDAS_GANADAS_TABLERO)
                 

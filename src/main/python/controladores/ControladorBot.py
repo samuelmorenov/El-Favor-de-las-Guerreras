@@ -1,16 +1,28 @@
 # -*- coding: utf-8 -*-
 import logging
-
 import numpy as np
 
 import main.python.parametrizacion.ParametrosTablero as const
 
+'''
+Clase controladora del jugador de bot aleatorio
+'''
 class ControladorBot:
+    '''
+    Metodo constructor de la clase ControladorBot, recibe el nombre y el numero
+    para guardarlo en sus respectivos atributos
+    '''
     def __init__(self, miNombre, miNumero):
+        '''Atributo miNombre: define el nombre para leerlo en los logs'''
         self.miNombre = miNombre
+        '''Atributo miNumero: define el orden del jugador, puede ser 1 o 2'''
         self.miNumero = miNumero
         
-        
+    '''
+    Metodo para generar una accion aleatoria, recibe la matriz del tablero y 
+    devuelve un array con una accion correcta aleatoria dentro de las posibles 
+    con las cartas aleatorias que tenga en mano
+    '''
     def decidirAccion(self, tablero):
         
         logging.info(self.miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
@@ -101,6 +113,12 @@ class ControladorBot:
         logging.info(self.miNombre+" : ___________________________________") #Separador de bots
         return accionCompleta
     
+    '''
+    Metodo para generar la accion de seleccion pendiente con cartas aleatorias,
+    recibe la matriz del tablero y devuelve un array con la accion 
+    correctamente formada con las cartas aleatorias dadas por la accion
+    pendiente
+    '''
     def decidirAccionDeSeleccion(self, tablero):
         
         logging.info(self.miNombre+" : Esta es la accion pendiente que me llega: "+str(tablero[const.ACCION_PENDIENTE]))
@@ -139,5 +157,9 @@ class ControladorBot:
         logging.info(self.miNombre+" : ___________________________________") #Separador de bots
         return accionCompleta
     
+    '''
+    Metodo que sirve para cerrar los hilos pendientes de los jugadores, en este
+    caso no es necesario cerrar ninguno
+    '''
     def finish(self):
         return
