@@ -18,6 +18,7 @@ class ControladorPartida:
         self.tablero = ControladorTablero()
         self.win = 0
         
+    def run(self):
         self.__initJugadores()
 
         if(menu.MODO == menu.MODO_GENERAR_DATOS):

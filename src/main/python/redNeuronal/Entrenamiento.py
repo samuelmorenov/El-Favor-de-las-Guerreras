@@ -13,15 +13,14 @@ from tensorflow.python.keras import backend as K
 from tensorflow.python.framework.ops import disable_eager_execution
 
 class Entrenamiento:
-##Pre procesado de datos
     
     def __init__(self):
-        
         #Se deshabilita eager execution para poder usar Adam
         disable_eager_execution()
         #Eliminamos sesiones de keras abiertas
         K.clear_session()
         
+    def run(self):
         entrada, salida = self.__preProcesadoDeDatos()
         
         self.__cnn = None
