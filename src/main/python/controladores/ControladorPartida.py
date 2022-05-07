@@ -39,6 +39,21 @@ class ControladorPartida:
             except:
                 logging.error("Se ha cerrado la ventana de forma inesperada")
                 sendMensaje("Se ha cerrado la ventana de forma inesperada")
+                
+    def getAccionesJ1(self):
+        return self.accionesj1
+    
+    def getAccionesJ2(self):
+        return self.accionesj2
+    
+    def getTablerosJ1(self):
+        return self.tablerosj1
+    
+    def getTablerosJ2(self):
+        return self.tablerosj2
+    
+    def getWinner(self):
+        return self.winner
             
     def __initJugadores(self):
         #Elegir opciones para generar datos
