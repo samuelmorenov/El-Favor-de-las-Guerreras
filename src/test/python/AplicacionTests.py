@@ -4,7 +4,6 @@ import logging
 import sys, os
 
 base = os.path.dirname(__file__)
-sys.path.insert(0, os.path.normpath(base+"/.."))
 sys.path.insert(0, os.path.normpath(base+"/../.."))
 
 from main.python.controladores.ControladorBot import ControladorBot
@@ -14,6 +13,7 @@ from auxiliares.ComprobarAcciones import ComprobarAcciones
 from auxiliares.ComprobarTablero import ComprobarTablero
 
 import main.python.parametrizacion.ParametrosTablero as const
+import main.python.LoggerConfig as loggerConfig
 
 acciones = ComprobarAcciones()
 tableros = ComprobarTablero()
@@ -519,16 +519,7 @@ class Test(unittest.TestCase):
     def test_caso_62(self):
         self.tablero = ControladorTablero()
         tableros.comprobarAccionDeSeleccionMalFormada(self.tablero, const.TIPO_DECISION_COMPETICION)
-        
-def initLogger():
-    logging.basicConfig(filename='logfile.log',level=logging.INFO)
-    
-    logger = logging.getLogger()
-    while logger.hasHandlers():
-        logger.removeHandler(logger.handlers[0])
-    
-    logging.getLogger().addHandler(logging.StreamHandler())
     
 if __name__ == "__main__":
-    initLogger()
+    loggerConfig.initLogger(logging.DEBUG)
     unittest.main()

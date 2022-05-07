@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-
 import logging
 import sys, os
 
 base = os.path.dirname(__file__)
-sys.path.insert(0, os.path.normpath(base+"/.."))
 sys.path.insert(0, os.path.normpath(base+"/../.."))
 
 from main.python.controladores.ControladorPartida import ControladorPartida
@@ -12,18 +10,10 @@ from main.python.controladores.ControladorGeneradorDatos import ControladorGener
 from main.python.redNeuronal.Entrenamiento import Entrenamiento
 
 import main.python.parametrizacion.ParametrosMenu as menu
-
-def initLogger():
-    logging.basicConfig(filename='logfile.log',level=logging.INFO)
-    
-    logger = logging.getLogger()
-    while logger.hasHandlers():
-        logger.removeHandler(logger.handlers[0])
-    
-    logging.getLogger().addHandler(logging.StreamHandler())
+import main.python.LoggerConfig as loggerConfig
 
 if __name__ == "__main__":
-    initLogger()
+    loggerConfig.initLogger(logging.INFO)
     logging.info('Inicio del programa.')
     
     if(menu.MODO == menu.MODO_GENERAR_DATOS):
