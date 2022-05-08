@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 import sys, os
+import datetime
 
 base = os.path.dirname(__file__)
 sys.path.insert(0, os.path.normpath(base+"/../.."))
@@ -31,7 +32,13 @@ if __name__ == "__main__":
         loggerConfig.initLogger(logging.DEBUG)
         ejecutor = Entrenamiento()
         
+    inicio = datetime.datetime.now()
     ejecutor.run()
+    fin = datetime.datetime.now()
+    duracion = fin - inicio
+    datetime.timedelta(0, 4, 316543)
+    duracion.seconds
 
     loggerConfig.initLogger(logging.INFO)
+    logging.info('Duracion del programa: '+str(duracion.seconds)+' segundos.')
     logging.info('Fin del programa.')
