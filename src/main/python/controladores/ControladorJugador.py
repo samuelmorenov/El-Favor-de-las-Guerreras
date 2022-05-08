@@ -60,13 +60,13 @@ class ControladorJugador:
         self.__GUI.cerrar()
     
     '''
-    Metodo get para el atributo miNombre
+    Metodo get para el atributo de tipo string: miNombre
     '''
     def getMiNombre(self):
         return self.__miNombre
     
     '''
-    Metodo get para el atributo miNumero
+    Metodo get para el atributo de tipo string: miNumero
     '''
     def getMiNumero(self):
         return self.__miNumero
