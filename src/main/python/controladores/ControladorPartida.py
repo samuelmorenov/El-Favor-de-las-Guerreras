@@ -114,16 +114,27 @@ class ControladorPartida:
     ''' 
     def __start(self):
         contadorRondas = 1
+        textoFinal = ''
         while (self.__winnnerNumero == const.GANADOR_EMPATE):
             self.__ronda(contadorRondas)
             self.__winnnerNumero = self.__controladorTablero.finalizarTurno()
             
-            if(self.__winnnerNumero == const.GANADOR_1_POR_11_PUNTOS or
-               self.__winnnerNumero == const.GANADOR_1_POR_4_FAVORES):
+            if(self.__winnnerNumero == const.GANADOR_1_POR_11_PUNTOS):
                 self.__winner = self.__jugador1Inicio
-            elif(self.__winnnerNumero == const.GANADOR_2_POR_11_PUNTOS or
-               self.__winnnerNumero == const.GANADOR_2_POR_4_FAVORES):
+                textoFinal = gui.TEXTO_POPUP_GANADO_JUGADOR_POR_11_PUNTOS
+                
+            elif(self.__winnnerNumero == const.GANADOR_1_POR_4_FAVORES):
+                self.__winner = self.__jugador1Inicio
+                textoFinal = gui.TEXTO_POPUP_GANADO_JUGADOR_POR_4_FAVORES
+                
+            elif(self.__winnnerNumero == const.GANADOR_2_POR_11_PUNTOS):
                 self.__winner = self.__jugador2Inicio
+                textoFinal = gui.TEXTO_POPUP_PERDIDO_JUGADOR_POR_11_PUNTOS
+                
+            elif(self.__winnnerNumero == const.GANADOR_2_POR_4_FAVORES):
+                self.__winner = self.__jugador2Inicio
+                textoFinal = gui.TEXTO_POPUP_PERDIDO_JUGADOR_POR_4_FAVORES
+                
             else:
                 self.__jugador1, self.__jugador2 = self.__jugador2, self.__jugador1
             contadorRondas = contadorRondas + 1
@@ -135,10 +146,7 @@ class ControladorPartida:
         
         if(menu.MODO == menu.MODO_JUGAR):
             newPopup = Popup_Tkinter()
-            if(self.__winner.getMiNumero() == const.JUGADOR1):
-                newPopup.sendMensaje(gui.TEXTO_POPUP_GANADO)
-            else:
-                newPopup.sendMensaje(gui.TEXTO_POPUP_PERDIDO)
+            newPopup.sendMensaje(textoFinal)
                 
     '''
     Metodo encargado de inicializar la ronda correspondiente y realizar el 

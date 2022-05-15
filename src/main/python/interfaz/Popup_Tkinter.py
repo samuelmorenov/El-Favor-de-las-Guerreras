@@ -14,7 +14,7 @@ class Popup_Tkinter:
         popup.title('El Favor de las Guerreras')
         popup.configure(background=bgcolor)
         popup.iconbitmap(ip.ICO)
-        popup.geometry("400x100")
+        popup.geometry("420x100")
         
         label = ttk.Label(popup,background=bgcolor,text = texto+"\n\n")
         label.pack()
