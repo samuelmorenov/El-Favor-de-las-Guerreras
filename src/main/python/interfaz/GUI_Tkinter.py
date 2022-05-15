@@ -9,8 +9,6 @@ import main.python.parametrizacion.ParametrosImagenes as ip
 import main.python.parametrizacion.ParametrosGUI as gui
 import numpy as np
 
-bgcolor = '#c4a495'
-
 class GUI_Tkinter:
     def __init__(self):
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
@@ -19,7 +17,7 @@ class GUI_Tkinter:
         self.__window = Tk()
         self.__window.title('El Favor de las Guerreras')
         self.__window.geometry(str(gui.VENTANA_ANCHO)+"x"+str(gui.VENTANA_ALTO))
-        self.__window.configure(background=bgcolor)
+        self.__window.configure(background=gui.COLOR_FONDO)
         self.__window.iconbitmap(ip.ICO)
         
     def printTabla(self, tablero):
@@ -304,7 +302,7 @@ class GUI_Tkinter:
                       image = photo,
                       width=ancho,
                       height=alto,
-                      bg=bgcolor,
+                      bg=gui.COLOR_FONDO,
                       text = texto,
                       compound='center',
                       fg='black',
@@ -316,7 +314,7 @@ class GUI_Tkinter:
         label = Label(self.__window,
                       width=ancho,
                       height=alto,
-                      bg=bgcolor,
+                      bg=gui.COLOR_FONDO,
                       text = texto,
                       compound='center',
                       fg='black',
@@ -332,7 +330,7 @@ class GUI_Tkinter:
                       image = photo,
                       width=ancho,
                       height=alto,
-                      bg=bgcolor,
+                      bg=gui.COLOR_FONDO,
                       borderwidth=borde,
                       text = texto,
                       compound='center',
@@ -347,7 +345,7 @@ class GUI_Tkinter:
                 text = text,
                 state=DISABLED,
                 borderwidth=borde, 
-                bg=bgcolor,
+                bg=gui.COLOR_FONDO,
                 #activebackground='#00ff00'
                 )
         boton.grid(row=fila, column=columna, padx=gui.PADDING, pady=gui.PADDING)

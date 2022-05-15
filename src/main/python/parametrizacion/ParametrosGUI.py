@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 #Constantes de la interfaz
+COLOR_FONDO = '#c4a495'
+
 TAMANIO_GUERRERAS = 3
 
 POSICION_SUS_ACCIONES = 0
