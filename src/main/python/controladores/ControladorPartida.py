@@ -50,6 +50,14 @@ class ControladorPartida:
         self.__jugador1 = None
         '''Atributo jugador2: instancia del jugador correspondiente al orden 2'''
         self.__jugador2 = None
+        '''Atributo jugador1Inicio: instancia del jugador copia de jugador 1, 
+        pero que no cambia a lo largo de la partida dependiendo del turno, 
+        se usa para declarar el ganador'''
+        self.__jugador1Inicio = None
+        '''Atributo jugador2Inicio: instancia del jugador copia de jugador 2, 
+        pero que no cambia a lo largo de la partida dependiendo del turno, 
+        se usa para declarar el ganador'''
+        self.__jugador2Inicio = None
         
     '''
     Metodo ejecutor de la clase ControladorPartida, inicializa los jugadores y
@@ -97,20 +105,25 @@ class ControladorPartida:
             if(menu.MODO_DIFICULTAD == menu.MODO_DIFICIL):
                 self.__jugador2 = ControladorRedNeuronal("Neuronal Network", const.JUGADOR2)
                 
+        self.__jugador1Inicio = self.__jugador1
+        self.__jugador2Inicio = self.__jugador2
+        
     '''
     Metodo encargado de realizar el bucle de rondas hasta que en una de ellas
     haya un ganador
     ''' 
     def __start(self):
         contadorRondas = 1
-        while (self.__winnnerNumero == 0):
+        while (self.__winnnerNumero == const.GANADOR_EMPATE):
             self.__ronda(contadorRondas)
             self.__winnnerNumero = self.__controladorTablero.finalizarTurno()
             
-            if(self.__winnnerNumero == 1):
-                self.__winner = self.__jugador1
-            elif(self.__winnnerNumero == 2):
-                self.__winner = self.__jugador2
+            if(self.__winnnerNumero == const.GANADOR_1_POR_11_PUNTOS or
+               self.__winnnerNumero == const.GANADOR_1_POR_4_FAVORES):
+                self.__winner = self.__jugador1Inicio
+            elif(self.__winnnerNumero == const.GANADOR_2_POR_11_PUNTOS or
+               self.__winnnerNumero == const.GANADOR_2_POR_4_FAVORES):
+                self.__winner = self.__jugador2Inicio
             else:
                 self.__jugador1, self.__jugador2 = self.__jugador2, self.__jugador1
             contadorRondas = contadorRondas + 1

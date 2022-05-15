@@ -409,15 +409,15 @@ class ControladorTablero:
                 favorJugador2 = favorJugador2 + 1
             
         if(puntosJugador1 >= 11):
-            return 1
+            return const.GANADOR_1_POR_11_PUNTOS
         elif (puntosJugador2 >= 11):
-            return 2
+            return const.GANADOR_2_POR_11_PUNTOS
         elif (favorJugador1 >= 4):
-            return 1
+            return const.GANADOR_1_POR_4_FAVORES
         elif (favorJugador2 >= 4):
-            return 2
+            return const.GANADOR_2_POR_4_FAVORES
         else:
-            return 0
+            return const.GANADOR_EMPATE
         
     '''
     Metodo que comprueba el numero de cartas en la mano dada y devuelve y esta 
