@@ -21,7 +21,7 @@ class ControladorRedNeuronal:
         self.__miNombre = miNombre
         '''Atributo miNumero: define el orden del jugador, puede ser 1 o 2'''
         self.__miNumero = miNumero
-        '''Atributo prediccion: implementa la clase Prediccion que corresponde 
+        '''Atributo prediccion: instancia la clase Prediccion que corresponde 
         a la parte de la red neuronal encargada de generar predicciones'''
         self.__prediccion = Prediccion()
         

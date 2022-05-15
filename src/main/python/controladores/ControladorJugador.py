@@ -18,7 +18,7 @@ class ControladorJugador:
         self.__miNombre = miNombre
         '''Atributo miNumero: define el orden del jugador, puede ser 1 o 2'''
         self.__miNumero = miNumero
-        '''Atributo GUI: implementa la clase GUI_Tkinter que corresponde a la 
+        '''Atributo GUI: instancia la clase GUI_Tkinter que corresponde a la 
         interfaz grafica de usuario con la que interactuará el usuario'''
         self.__GUI = GUI_Tkinter()
         

@@ -13,8 +13,8 @@ neuronal
 '''
 class ControladorGeneradorDatos:
     '''
-    Metodo constructor de la clase ControladorGeneradorDatos, se inicializan los
-    atributos de la clase
+    Metodo constructor de la clase ControladorGeneradorDatos, se inicializan 
+    los atributos de la clase
     '''
     def __init__(self):
         '''Atributo partidasGanadas1: define el numero de partidas que ha 
@@ -23,7 +23,8 @@ class ControladorGeneradorDatos:
         '''Atributo partidasGanadas2: define el numero de partidas que ha 
         ganado el jugador numero 2'''
         self.__partidasGanadas2 = 0
-        '''Atributo miNombre: define el nombre para leerlo en los logs'''
+        '''Atributo controladorPartida: instancia la clase ControladorPartida, 
+        que se va reinstanciando con cada nueva simulacion'''
         self.__controladorPartida = None
         
     '''
