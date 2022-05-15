@@ -15,7 +15,7 @@ class GUI_Tkinter:
         self.__cartasRestantes = 0
         self.__accionPendiente = 0
         self.__window = Tk()
-        self.__window.title('El Favor de las Guerreras')
+        self.__window.title(gui.TEXTO_TITULO)
         self.__window.geometry(str(gui.VENTANA_ANCHO)+"x"+str(gui.VENTANA_ALTO))
         self.__window.configure(background=gui.COLOR_FONDO)
         self.__window.iconbitmap(ip.ICO)

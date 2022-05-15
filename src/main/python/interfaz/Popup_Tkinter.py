@@ -11,7 +11,7 @@ class Popup_Tkinter:
     def sendMensaje(self, texto):
     
         popup = tk.Tk()
-        popup.title('El Favor de las Guerreras')
+        popup.title(gui.TEXTO_TITULO)
         popup.configure(background=gui.COLOR_FONDO)
         popup.iconbitmap(ip.ICO)
         popup.geometry("420x100")
@@ -21,3 +21,4 @@ class Popup_Tkinter:
         B1 = ttk.Button(popup, text="Aceptar", command = popup.destroy)
         B1.pack()
         popup.mainloop()
+        

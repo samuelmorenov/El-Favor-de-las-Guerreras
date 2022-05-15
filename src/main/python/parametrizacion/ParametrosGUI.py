@@ -45,6 +45,7 @@ VENTANA_ALTO=730
 VENTANA_ANCHO= 810
 
 #Textos de las acciones
+TEXTO_TITULO = "El Favor de las Guerreras"
 TEXTO_ACCION_SECRETO = "Secreto"
 TEXTO_ACCION_RENUNCIA = "Renuncia"
 TEXTO_ACCION_REGALO = "Regalo"
