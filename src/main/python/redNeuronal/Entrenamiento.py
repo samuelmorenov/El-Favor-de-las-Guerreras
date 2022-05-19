@@ -14,11 +14,23 @@ from tensorflow.python.keras import backend as K
 
 from tensorflow.python.framework.ops import disable_eager_execution
 
+'''
+Clase encargada de utilizar los datos de entrenamiento para guardar el 
+modelo entrenado
+'''
 class Entrenamiento:
-    
+    '''
+    Metodo constructor de la clase Entrenamiento, se define el atributo cnn
+    '''
     def __init__(self):
+        '''Atributo cnn: contendrá una instancia de la clase Sequential 
+        de tensorflow'''
         self.__cnn = None
         
+    '''
+    Metodo ejecutor de la clase Entrenamiento, se realiza el preprocesado de 
+    datos, la creacion del modelo y el entrenamiento
+    '''
     def run(self):
         #Se deshabilita eager execution para poder usar Adam
         disable_eager_execution()
@@ -32,6 +44,10 @@ class Entrenamiento:
         self.__complileAndFit(entrada, salida)
         self.__guardarModelo()
         
+    '''
+    Metodo encargado de cargar los datos de entrenamiento desde los ficheros y 
+    transformarlos en matrices y arrays que reconoce la red neuronal
+    '''
     def __preProcesadoDeDatos(self):
         tipos = int
         cabecera = None
@@ -61,9 +77,16 @@ class Entrenamiento:
         
         return training_entrada, training_salida
     
+    '''
+    Metodo encargado de instanciar el atributo cnn con la clase Sequential 
+    '''
     def __creacionModelo(self):
         self.__cnn = tf.keras.Sequential()
         
+    '''
+    Metodo encargado de definir las capas y filtos que va a tener la red 
+    neuronal
+    '''
     def __establecerCapas(self):
         #Primera capa de convolucion
         filtrosConv1=56
@@ -99,6 +122,9 @@ class Entrenamiento:
         #Cambio del formato de la salida
         self.__cnn.add(Reshape((PCNN.salida, PCNN.n_clases)))
         
+    '''
+    Metodo encargado de compilar el modelo para su entrenamiento
+    '''
     def __complileAndFit(self, entrada, salida):
         self.__cnn.compile(
                 loss='sparse_categorical_crossentropy',
@@ -108,6 +134,10 @@ class Entrenamiento:
         
         self.__cnn.fit(entrada, salida, epochs=PCNN.epocas)
         
+    '''
+    Metodo encargado de guardar el modelo generado con los pesos del mismo en 
+    los archivos .h5 para su posterior carga por parte de la clase Prediccion
+    '''
     def __guardarModelo(self):
         dir=data.MODELO_DIR
 
