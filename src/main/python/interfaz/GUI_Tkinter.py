@@ -9,19 +9,36 @@ import main.python.parametrizacion.ParametrosImagenes as ip
 import main.python.parametrizacion.ParametrosGUI as gui
 import numpy as np
 
+'''
+Clase encargada de generar la ventana principal de la aplicacion usando la 
+libreria tkinter
+'''
 class GUI_Tkinter:
+    '''
+    Metodo constructor de la clase GUI_Tkinter, se definen e inicializan 
+    todos los atributos privados de la misma
+    '''
     def __init__(self):
+        '''Atributo accionGuardada: Array en el que se van guardando la 
+        informacion de la accion que se esta generando'''
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
+        '''Atributo cartasRestantes: El el numero de cartas que faltan para 
+        terminar de completar la accion actual'''
         self.__cartasRestantes = 0
-        self.__accionPendiente = 0
+        '''Atributo accionPendiente: Array con la accion pendiente que llega'''
+        self.__accionPendiente = None
+        '''Atributo window: instancia la clase Tk de tkinter'''
         self.__window = Tk()
+        
         self.__window.title(gui.TEXTO_TITULO)
         self.__window.geometry(str(gui.VENTANA_ANCHO)+"x"+str(gui.VENTANA_ALTO))
         self.__window.configure(background=gui.COLOR_FONDO)
         self.__window.iconbitmap(ip.ICO)
         
+    '''
+    Metodo encargado de pintar el tablero que nos llega
+    '''
     def printTabla(self, tablero):
-        
         #Limpieza de elementos del tablero
         for label in self.__window.grid_slaves():
            label.grid_forget()
@@ -36,34 +53,43 @@ class GUI_Tkinter:
         
         #Si hay accion pendiente cambiar el tablero para seleccionarla
         self.__comprobarAccionPendiente(tablero)
-            
-    
+        
+    '''
+    Metodo encargado de vaciar el array de accion guardada y borrar del talbero 
+    la accion que se había eleccionado
+    '''
     def __limpiarAccion(self):
-        #Borrado de la accion anterior si existiera
         self.__accionGuardada = np.zeros(const.NCOLUMNA, dtype=int)
         for label in self.__window.grid_slaves(gui.POSICION_ACCION):
            label.grid_forget()
-           
+        
+    '''
+    Metodo encargado de comprobar si existe una accion pendiente y modificar 
+    el tablero para que se muestre la misma
+    '''
     def __comprobarAccionPendiente(self, tablero):
         self.__accionPendiente = tablero[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO]
         if(self.__accionPendiente != 0):
             self.__accionPendiente = 1
             self.__addAccionPendiente(gui.POSICION_ACCION, tablero[const.ACCION_PENDIENTE])
             self.__bloquearAccionesNormalesYMano()
-
-    
+        
+    '''
+    Metodo encargado de desabilitar todos los botones de las acciones y de 
+    la mano
+    '''
     def __bloquearAccionesNormalesYMano(self):
         for label in self.__window.grid_slaves(gui.POSICION_MIS_ACCIONES):
             label.config(state=DISABLED)
         for label in self.__window.grid_slaves(gui.POSICION_MI_MANO):
             label.config(state=DISABLED)
-        
-        
-    '''
-    Metodos para añadir filas completas
-    '''
+            
     
-    #Añade una fila de imagenes de cartas grandes
+    ##### Metodos para añadir filas completas
+        
+    '''
+    Metodo encargado de añadir una fila de imagenes de cartas grandes
+    '''
     def __addGuerreras(self, fila, favores):
         self.__addCartaGrande(fila, 0, ip.G1)
         self.__addCartaGrande(fila, 1, ip.G2)
@@ -82,12 +108,17 @@ class GUI_Tkinter:
         for c in range(const.NCOLUMNA):
             favor  = switcher.get(favores[c])
             self.__addMarcadorValor(favor, c, ip.MARCADOR_VALOR)
-        
-    #Añade una fila de marcadores dada una lista de numeros
+            
+    '''
+    Metodo encargado de añadir una fila de marcadores dada una lista de numeros
+    '''
     def __addMarcadores(self, fila, listaNumeros):
         for c in range(const.NCOLUMNA):
             self.__addMarcador(fila, c, listaNumeros[c])
             
+    '''
+    Metodo encargado de añadir una fila con las acciones usadas del adversario
+    '''
     def __addSusAcciones(self, fila, acciones):
         self.__addAccionEnemiga(fila, 0, acciones[const.TIPO_SECRETO], const.TIPO_SECRETO)
         self.__addCartaOculta(fila, 1, acciones[const.TIPO_SECRETO])
@@ -98,7 +129,10 @@ class GUI_Tkinter:
         
         self.__addAccionEnemiga(fila, 5, acciones[const.TIPO_REGALO], const.TIPO_REGALO)
         self.__addAccionEnemiga(fila, 6, acciones[const.TIPO_COMPETICION], const.TIPO_COMPETICION)
-        
+            
+    '''
+    Metodo encargado de añadir una fila con las acciones usadas del jugador
+    '''
     def __addMisAcciones(self, fila, acciones):
         self.__addAccionPropia(fila, 0, acciones, const.TIPO_SECRETO)
         self.__addCartaPeque(fila, 1, acciones[const.TIPO_SECRETO], 'inactivo')
@@ -110,26 +144,36 @@ class GUI_Tkinter:
         self.__addAccionPropia(fila, 5, acciones, const.TIPO_REGALO)
         
         self.__addAccionPropia(fila, 6, acciones, const.TIPO_COMPETICION)
-        
+            
+    '''
+    Metodo encargado de añadir una fila con las cartas de la mano del jugador
+    '''
     def __addMiMano(self, finaIndice, cartas):
         for c in range(const.NCOLUMNA):
             self.__addCartaPeque(finaIndice, c, cartas[c], 'activo')
             
+    '''
+    Metodo encargado de añadir el label con la accion seleccionada
+    '''
     def __addAccionSeleccionada(self, fila):
         lado = gui.CARTA_ACCION_LADO
         borde = gui.BORDE_NULO
         texto = self.__getTextoAccion(self.__accionGuardada[const.PENDIENTE_TIPO])
         columna = const.PENDIENTE_TIPO
         self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_MARCADA)
-        
+            
+    '''
+    Metodo encargado de añadir las cartas de la accion pendiente
+    '''
     def __addAccionPendiente(self, fila, cartas):
-        
         if(cartas[const.PENDIENTE_TIPO] == const.TIPO_DECISION_REGALO):
             self.__addAccionPendiente5(fila, cartas)
         if(cartas[const.PENDIENTE_TIPO] == const.TIPO_DECISION_COMPETICION):
             self.__addAccionPendiente6(fila, cartas)
-                
             
+    '''
+    Metodo encargado de añadir las cartas de la accion pendiente para el tipo 5
+    '''
     def __addAccionPendiente5(self, fila, cartas):
         texto = gui.TEXTO_PENDIENTE_REGALO
         self.__addMarcoExplicativo(fila, gui.POSICION_SUS_ACCIONES, texto)
@@ -145,8 +189,10 @@ class GUI_Tkinter:
         columna3 = const.PENDIENTE_5_3
         accion = lambda: self.__seleccionarCartaPendiente5(fila, columna3, cartas[columna3])
         self.__addCartaAccionPendiente(fila, columna3, cartas[columna3], accion)
-
-        
+            
+    '''
+    Metodo encargado de añadir las cartas de la accion pendiente para el tipo 6
+    '''
     def __addAccionPendiente6(self, fila, cartas):
         texto = gui.TEXTO_PENDIENTE_COMPETICION
         self.__addMarcoExplicativo(fila, gui.POSICION_SUS_ACCIONES, texto)
@@ -171,32 +217,41 @@ class GUI_Tkinter:
         accion = lambda: self.__seleccionarCartaPendiente6(fila, columna41, columna42, cartas[columna41], cartas[columna42])
         self.__addCartaAccionPendiente(fila, columna41, cartas[columna41], accion)
         
-        
-            
+    
+    ##### Metodos para añadir objetos a las filas
+    
     '''
-    Metodos para añadir objetos a las filas
+    Metodo para añadir una imagen de carta grande en la posicion dada con la 
+    imangen dada
     '''
-    #Metodo para añadir una imagen de carta grande
     def __addCartaGrande(self, fila, columna, path):
         alto = gui.CARTA_GRANDE_ALTO
         ancho = gui.CARTA_GRANDE_ANCHO
         borde = gui.BORDE_NULO
         nfilas = gui.TAMANIO_GUERRERAS
         self.__addLabelConImagenYTamanioFilas(fila, columna, alto, ancho, nfilas, borde, '', path)
-        
-    #Metodo para añadir el marcador del valor
+    
+    '''
+    Metodo para añadir el marcador del valor en la posicion dada con la 
+    imangen dada
+    '''
     def __addMarcadorValor(self, fila, columna, path):
         alto = gui.MARCADOR_VALOR_LADO
         ancho = gui.MARCADOR_VALOR_LADO
         borde = gui.BORDE_NULO
         self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
-        
-    #Metodo para añadir marcadores
+    
+    '''
+    Metodo para añadir marcadores en la posicion dada con el texto dado
+    '''
     def __addMarcador(self, fila, columna, texto):
         borde = gui.BORDE_MARCADO
         self.__addButtonConTexto(fila, columna, borde, texto)
-        
-    #Metodo para añadir un boton de accion activa/inactiva dependiendo del valor
+    
+    '''
+    Metodo para añadir un boton, en la posicion dada, de accion activa/inactiva 
+    dependiendo del tipo dado
+    '''
     def __addAccionPropia(self, fila, columna, accionesLista, tipo):
         lado = gui.CARTA_ACCION_LADO
         texto = self.__getTextoAccion(tipo)
@@ -206,10 +261,13 @@ class GUI_Tkinter:
             self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_USADA)
         else:
             borde = gui.BORDE_CLICKABLE
-            accion = lambda: self.__seleccionarAccion(accionesLista, tipo)
+            accion = lambda: self.__seleccionarAccion(tipo)
             self.__addBotonConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_PROPIA_NO_USADA, accion)
-            
-    #Metodo para añadir una imagen de accion realizada/norealizada
+    
+    '''
+    Metodo encargado de añadir una imagen de accion realizada/norealizada
+    en la posicion dada
+    '''
     def __addAccionEnemiga(self, fila, columna, valor, tipo):
         lado = gui.CARTA_ACCION_LADO
         borde = gui.BORDE_NULO
@@ -218,7 +276,10 @@ class GUI_Tkinter:
             self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_ENEMIGA_USADA)
         else:
             self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.ACCION_ENEMIGA_NO_USADA)
-            
+    
+    '''
+    Metodo encargado de seleccionar el texto para un tipo dado
+    '''
     def __getTextoAccion(self, tipo):
         switcher = {
             const.TIPO_SECRETO: gui.TEXTO_ACCION_SECRETO,
@@ -228,8 +289,10 @@ class GUI_Tkinter:
         }
         texto = switcher.get(tipo)
         return texto
-            
-    #Metodo para añadir un boton con una carta pequeña
+    
+    '''
+    Metodo encargado de añadir un boton con una carta pequeña
+    '''
     def __addCartaPeque(self, fila, columna, valor, activo):
         if(valor != 0):
             switcher = {
@@ -251,7 +314,10 @@ class GUI_Tkinter:
                 self.__addBotonConImagen(fila, columna, alto, ancho, borde, '', path, accion)
             else:
                 self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
-            
+    
+    '''
+    Metodo encargado de añadir un boton de una carta de accion pendiente
+    '''
     def __addCartaAccionPendiente(self, fila, columna, valor, accion):
         if(valor != 0):
             switcher = {
@@ -269,9 +335,10 @@ class GUI_Tkinter:
             ancho = gui.CARTA_PEQUE_ANCHO
             borde = gui.BORDE_CLICKABLE
             self.__addBotonConImagen(fila, columna, alto, ancho, borde, '', path, accion)
-        
-            
-    #Metodo para añadir un boton con una carta pequeña oculta
+    
+    '''
+    Metodo encargado de añadir un boton con una carta oculta
+    '''
     def __addCartaOculta(self, fila, columna, valor):
         if(valor != 0):
             path = ip.CO
@@ -279,20 +346,30 @@ class GUI_Tkinter:
             ancho = gui.CARTA_PEQUE_ANCHO
             borde = gui.BORDE_NULO
             self.__addLabelConImagen(fila, columna, alto, ancho, borde, '', path)
-            
+    
+    '''
+    Metodo encargado de añadir un boton con una carta oculta
+    '''
     def __addMarcoExplicativo(self, fila, columna, texto):
         lado = gui.CARTA_ACCION_LADO
         borde = gui.BORDE_NULO
         self.__addLabelConImagen(fila, columna, lado, lado, borde, texto, ip.MARCO_TEXTO_EXPLICATIVO)
         
-            
+    
+    ##### Metodos de creacion de witgets
+    
     '''
-    Metodos de creacion de witgets (self, fila, columna, alto, ancho, borde, activo, texto/path)
+    Metodo encargado de añadir un label con una imagen para una posicion, 
+    con un tamaño, imagen, texto y borde dados y numero de filas = 1
     '''
     def __addLabelConImagen(self, fila, columna, alto, ancho, borde, texto, image_path):
         nfilas = 1
         self.__addLabelConImagenYTamanioFilas(fila, columna, alto, ancho, nfilas, borde, texto, image_path)
     
+    '''
+    Metodo encargado de añadir un label con una imagen para una posicion, 
+    con un tamaño, imagen, texto, numero de filas y borde dados
+    '''
     def __addLabelConImagenYTamanioFilas(self, fila, columna, alto, ancho, nfilas, borde, texto, image_path):
         image = Image.open(image_path)
         image = image.resize((ancho, alto), Image.ANTIALIAS)
@@ -310,6 +387,10 @@ class GUI_Tkinter:
         label.image = photo
         label.grid(row=fila, column=columna, padx=gui.PADDING, rowspan = nfilas, pady=gui.PADDING)
     
+    '''
+    Metodo encargado de añadir un label in imagen para una posicion, con un 
+    tamaño, texto y borde dados
+    '''
     def __addLabelConSoloTexto(self, fila, columna, alto, ancho, borde, texto):
         label = Label(self.__window,
                       width=ancho,
@@ -320,7 +401,11 @@ class GUI_Tkinter:
                       fg='black',
                       borderwidth=borde)
         label.grid(row=fila, column=columna, padx=gui.PADDING, pady=gui.PADDING)
-        
+    
+    '''
+    Metodo encargado de añadir un boton con una imagen para una posicion, 
+    con un tamaño, imagen, texto, numero de filas y borde dados
+    '''
     def __addBotonConImagen(self, fila, columna, alto, ancho, borde, texto, image_path, accion):
         image = Image.open(image_path)
         image = image.resize((ancho, alto), Image.ANTIALIAS)
@@ -338,7 +423,11 @@ class GUI_Tkinter:
                       command = accion)
         boton.image = photo
         boton.grid(row=fila, column=columna, padx=gui.PADDING, pady=gui.PADDING)
-        
+    
+    '''
+    Metodo encargado de añadir un boton con un texto para una posicion, 
+    con una imagen, texto y borde dados
+    '''
     def __addButtonConTexto(self, fila, columna, borde, text):
         boton = Button(
                 self.__window,
@@ -349,10 +438,16 @@ class GUI_Tkinter:
                 #activebackground='#00ff00'
                 )
         boton.grid(row=fila, column=columna, padx=gui.PADDING, pady=gui.PADDING)
+        
+    
+    ##### Metodos de accion de botones
+    
     '''
-    Metodos de accion de botones
+    Metodo que se ejecuta al dar a un boton de selecicon de accion. Elimina la 
+    accion anteriormente seleccionada y pinta la nueva para poder seleccionar 
+    las cartas correspondientes
     '''
-    def __seleccionarAccion(self, accionesLista, tipo):
+    def __seleccionarAccion(self, tipo):
         #Eliminamos la informacion de la accion seleccionada anteriormente
         self.__limpiarAccion()
         #Borramos el boton de aceptar para que no este disponible hasta 
@@ -375,7 +470,11 @@ class GUI_Tkinter:
         self.__accionGuardada[const.PENDIENTE_TIPO] = tipo
         self.__addAccionSeleccionada(gui.POSICION_ACCION)
         
-        
+    '''
+    Metodo que se ejecuta al seleccionar una carta, en caso de que la accion 
+    admita una nueva carta pinta la carta seleccionada en la seccion de la 
+    accion seleccionada y bloquea la carta de la mano
+    '''
     def __seleccionarCarta(self, valor, fila, columna):
         logging.info("GUI : Seleccionada carta "+str(valor))
         if(self.__cartasRestantes > 0):
@@ -398,7 +497,11 @@ class GUI_Tkinter:
             #Bloqueamos la carta marcada
             for label in self.__window.grid_slaves(fila, columna):
                 label.config(state=DISABLED)
-            
+                
+    '''
+    Metodo que se ejecuta al seleccionar una carta cuando esta la accion de 
+    seleccion pendiente de tipo 5
+    '''
     def __seleccionarCartaPendiente5(self, fila, columna, valor):
         logging.info("GUI : Seleccionada carta para accion pendiente "+str(valor))
         #Eliminamos la informacion de la accion seleccionada anteriormente
@@ -418,6 +521,10 @@ class GUI_Tkinter:
         self.__borrarAceptar()
         self.__printAceptar()
         
+    '''
+    Metodo que se ejecuta al seleccionar una carta cuando esta la accion de 
+    seleccion pendiente de tipo 6
+    '''
     def __seleccionarCartaPendiente6(self, fila, columna1, columna2, valor1, valor2):
         logging.info("GUI : Seleccionada cartas para accion pendiente "+str(valor1)+" y "+str(valor2))
         #Eliminamos la informacion de la accion seleccionada anteriormente
@@ -439,31 +546,52 @@ class GUI_Tkinter:
         #Volvemos a pintar el boton de aceptar
         self.__borrarAceptar()
         self.__printAceptar()
-        
+                
+    '''
+    Metodo auxiliar para no hacer nada al pulsar acciones que no estan disponibles
+    '''
     def __noAccion(self):
         return
-        
-        
-    '''
-    Metodos de control de loop
-    '''
     
+    
+    ##### Metodos de control de loop
+                
+    '''
+    Metodo que pinta el boton de aceptar para enviar la accion seleccionada
+    '''
     def __printAceptar(self):
         ButtonToAdd = Button(self.__window, text = "Aceptar", command = self.__pressAceptar)
         ButtonToAdd.grid(row=gui.POSICION_ACEPTAR, column=int(const.NCOLUMNA/2))
         
+    '''
+    Metodo que borra el boton de aceptar para que no se envie una accion a medias
+    '''
     def __borrarAceptar(self):
         for label in self.__window.grid_slaves(gui.POSICION_ACEPTAR, int(const.NCOLUMNA/2)):
            label.grid_forget()
-        
+           
+    '''
+    Metodo que inicia el bucle de tkinter
+    '''
     def start(self):
         self.__window.mainloop()
         
+           
+    '''
+    Metodo sale del bucle de tkinter para poder seguir con la ejecucion del 
+    programa y aplicar la accion seleccionada
+    '''
     def __pressAceptar(self):
         self.__window.quit()
         
+    '''
+    Metodo que destruye la ventana de tkinter cuando se termina la partida
+    '''
     def cerrar(self):
         self.__window.destroy()
         
+    '''
+    Metodo que devuelve el atributo de accionGuardada
+    '''
     def obtenerAccion(self):
         return self.__accionGuardada

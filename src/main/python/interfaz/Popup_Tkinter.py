@@ -6,10 +6,15 @@ import tkinter as tk
 import main.python.parametrizacion.ParametrosImagenes as ip
 import main.python.parametrizacion.ParametrosGUI as gui
 
+'''
+Clase encargada de generar la ventana pequeña de informacion (o popup)
+'''
 class Popup_Tkinter:
-
+    '''
+    Metodo que construye el popup con el texto dado y un boton de aceptar 
+    para cerrarlo
+    '''
     def sendMensaje(self, texto):
-    
         popup = tk.Tk()
         popup.title(gui.TEXTO_TITULO)
         popup.configure(background=gui.COLOR_FONDO)
