@@ -8,28 +8,28 @@ import main.python.parametrizacion.ParametrosTablero as const
 import main.python.parametrizacion.ParametrosDatos as data
 
 '''
-Clase controladora de la generacion de datos para el entranamiento de la red 
-neuronal
+Clase controladora de la generación de datos para el entrenamiento de la red 
+neuronal.
 '''
 class ControladorGeneradorDatos:
     '''
-    Metodo constructor de la clase ControladorGeneradorDatos, se inicializan 
-    los atributos de la clase
+    Método constructor de la clase ControladorGeneradorDatos, se inicializan 
+    los atributos de la clase.
     '''
     def __init__(self):
-        '''Atributo partidasGanadas1: define el numero de partidas que ha 
-        ganado el jugador numero 1'''
+        '''Atributo partidasGanadas1: Define el numero de partidas que ha 
+        ganado el jugador numero 1.'''
         self.__partidasGanadas1 = 0
-        '''Atributo partidasGanadas2: define el numero de partidas que ha 
-        ganado el jugador numero 2'''
+        '''Atributo partidasGanadas2: Define el numero de partidas que ha 
+        ganado el jugador numero 2.'''
         self.__partidasGanadas2 = 0
-        '''Atributo controladorPartida: instancia la clase ControladorPartida, 
-        que se va reinstanciando con cada nueva simulacion'''
+        '''Atributo controladorPartida: Instancia la clase ControladorPartida, 
+        que se va instanciando con cada nueva simulacion.'''
         self.__controladorPartida = None
         
     '''
-    Metodo ejecutor de la clase ControladorGeneradorDatos, reinicia los
-    archivos y ejecuta partidas un numero de veces parametrizado
+    Método ejecutor de la clase ControladorGeneradorDatos, reinicia los 
+    archivos y ejecuta partidas un número de veces parametrizado.
     '''
     def run(self):
         self.__resetArchivo(data.PARTIDAS_GANADAS_JUGADAS)
@@ -44,8 +44,8 @@ class ControladorGeneradorDatos:
             logging.info("Partidas ganadas por el 2: "+ str(self.__partidasGanadas2))
             
     '''
-    Metodo que dado un jugador obtiene los datos de su partida y los guarda en
-    los ficheros de partidas ganadas
+    Método que dado un jugador obtiene los datos de su partida y los guarda en
+    los ficheros de partidas ganadas.
     '''
     def __guardarGanador(self, jugador):
         acciones = ''
@@ -66,8 +66,8 @@ class ControladorGeneradorDatos:
         logging.info("Ha ganado el "+str(jugador.getMiNombre()))
             
     '''
-    Metodo que elimina los archivos generados anteriormente y los deja limpios
-    para una nueva generacion
+    Método que elimina los archivos generados anteriormente y los deja limpios
+    para una nueva generación.
     '''
     def __resetArchivo(self, path):
         if not os.path.exists(data.PARTIDAS_GANADAS_DIR):
@@ -76,7 +76,7 @@ class ControladorGeneradorDatos:
             f.write('')
             
     '''
-    Metodo de escritura en fichero del texto dado
+    Método de escritura en fichero del texto dado.
     '''
     def __guardarEnArchivo(self, jugadas, path):
         with open(path, 'a') as f:

@@ -19,50 +19,50 @@ de guardar las acciones que han llevado a cabo los jugadores
 '''
 class ControladorPartida:
     '''
-    Metodo constructor de la clase ControladorPartida, se definen todos los 
+    Método constructor de la clase ControladorPartida, se definen todos los 
     atributos privados de la misma.
     '''
     def __init__(self):
         '''Atributo controladorTablero: instancia del controlador del tablero
-        en el que se guarda el estado del tablero y se ejecutan las acciones'''
+        en el que se guarda el estado del tablero y se ejecutan las acciones.'''
         self.__controladorTablero = ControladorTablero()
-        '''Atributo accionesJ1: string en el que se guardan las acciones que
-        ha ejecutado el jugador 1 para su futuro guardado'''
+        '''Atributo accionesJ1: Cadena de texto en la que se guardan las 
+        acciones que ha ejecutado el jugador 1 para su futuro guardado.'''
         self.__accionesJ1 = ''
-        '''Atributo accionesJ2: string en el que se guardan las acciones que
-        ha ejecutado el jugador 2 para su futuro guardado'''
+        '''Atributo accionesJ2: Cadena de texto en la que se guardan las 
+        acciones que ha ejecutado el jugador 2 para su futuro guardado.'''
         self.__accionesJ2 = ''
-        '''Atributo tableroJ1: string en el que se guardan los tableros que le 
-        llegaron la jugador 1 y sobre los cuales formo la accion 
-        correspondiente'''
+        '''Atributo tableroJ1: Cadena de texto en la que se guardan los 
+        tableros que le llegaron al jugador 1 y sobre los cuales formo la
+        acción correspondiente.'''
         self.__tableroJ1 = ''
-        '''Atributo tableroJ2: string en el que se guardan los tableros que le 
-        llegaron la jugador 2 y sobre los cuales formo la accion 
-        correspondiente'''
+        '''Atributo tableroJ2: Cadena de texto en la que se guardan los 
+        tableros que le llegaron al jugador 2 y sobre los cuales formo la
+        acción correspondiente.'''
         self.__tableroJ2 = ''
-        '''Atributo winnnerNumero: guarda el numero del ganador al final de
-        cada ronda para poder saber si se ha terminado la partida'''
+        '''Atributo winnnerNumero: Guarda el número del ganador al final de 
+        cada ronda para poder saber si se ha terminado la partida.'''
         self.__winnnerNumero = 0
-        '''Atributo winner: copia de la instancia del jugador que ha ganado 
-        la partida'''
+        '''Atributo winner: Copia de la instancia del jugador que ha ganado 
+        la partida.'''
         self.__winner = None
-        '''Atributo jugador1: instancia del jugador correspondiente al orden 1'''
+        '''Atributo jugador1: Instancia del jugador correspondiente al orden 1.'''
         self.__jugador1 = None
-        '''Atributo jugador2: instancia del jugador correspondiente al orden 2'''
+        '''Atributo jugador2: Instancia del jugador correspondiente al orden 2.'''
         self.__jugador2 = None
-        '''Atributo jugador1Inicio: instancia del jugador copia de jugador 1, 
+        '''Atributo jugador1Inicio: Instancia del jugador copia de jugador 1, 
         pero que no cambia a lo largo de la partida dependiendo del turno, 
-        se usa para declarar el ganador'''
+        se usa para declarar el ganador.'''
         self.__jugador1Inicio = None
-        '''Atributo jugador2Inicio: instancia del jugador copia de jugador 2, 
+        '''Atributo jugador2Inicio: Instancia del jugador copia de jugador 2, 
         pero que no cambia a lo largo de la partida dependiendo del turno, 
-        se usa para declarar el ganador'''
+        se usa para declarar el ganador.'''
         self.__jugador2Inicio = None
         
     '''
-    Metodo ejecutor de la clase ControladorPartida, inicializa los jugadores y
-    ejecuta el metodo __start con una captura de posibles errores que se 
-    mostraran en un popup
+    Método ejecutor de la clase ControladorPartida, inicializa los jugadores y
+    ejecuta el método __start con una captura de posibles errores que se 
+    mostraran en un popup.
     '''
     def run(self):
         self.__initJugadores()
@@ -81,8 +81,8 @@ class ControladorPartida:
                 newPopup.sendMensaje(gui.TEXTO_POPUP_CIERRE)
                 
     '''
-    Metodo que instancia los atributos de jugador1 y jugador2 dependiendo del 
-    modo y nivel seleccionados en la parametrizacion 
+    Método que instancia los atributos de jugador1 y jugador2 dependiendo del 
+    modo y nivel seleccionados en la parametrización.
     '''       
     def __initJugadores(self):
         #Elegir opciones para generar datos
@@ -109,8 +109,8 @@ class ControladorPartida:
         self.__jugador2Inicio = self.__jugador2
         
     '''
-    Metodo encargado de realizar el bucle de rondas hasta que en una de ellas
-    haya un ganador
+    Método encargado de realizar el bucle de rondas hasta que en una de ellas 
+    haya un ganador.
     ''' 
     def __start(self):
         contadorRondas = 1
@@ -149,8 +149,7 @@ class ControladorPartida:
             newPopup.sendMensaje(textoFinal)
                 
     '''
-    Metodo encargado de inicializar la ronda correspondiente y realizar el 
-    bucle de las acciones de los jugadores
+    Método encargado de inicializar la ronda correspondiente y realizar el bucle de las acciones de los jugadores.
     '''
     def __ronda(self, contadorRondas):
         self.__controladorTablero.initRonda()
@@ -162,9 +161,9 @@ class ControladorPartida:
             self.__accion(const.JUGADOR2, const.JUGADOR1, self.__jugador2, self.__jugador1)
             
     '''
-    Metodo encargado de pedir a los jugadores que realicen una accion, si la 
-    accion requiere de interaccion por parte del otro jugador tambien se le 
-    pedira que haga la seleccion
+    Método encargado de pedir a los jugadores que realicen una acción, si la 
+    acción requiere de interacción por parte del otro jugador también se le 
+    pedirá que haga la selección.
     '''
     def __accion(self, numeroJugador1, numeroJugador2, jugadorSeleccionadoComo1, jugadorSeleccionadoComo2):
         self.__controladorTablero.jugadorRobaCarta(numeroJugador1)
@@ -180,8 +179,8 @@ class ControladorPartida:
             self.__controladorTablero.realizarAccion(numeroJugador2, accionDeSeleccion)
             
     '''
-    Metodo encargado de guardar en formato string la accion y el tablero dados
-    en su correspondiente atributo de la clase
+    Método encargado de guardar la acción en formato cadena de texto y el 
+    tablero dados en su correspondiente atributo de la clase.
     '''
     def __guardarAccion(self, tablero, accion, jugador):
         if(menu.MODO == menu.MODO_GENERAR_DATOS):
@@ -213,31 +212,31 @@ class ControladorPartida:
                 self.__accionesJ2 = self.__accionesJ2 + linea2 + "\n"
                 
     '''
-    Metodo get para el atributo de tipo string: accionesJ1
+    Método para obtener el atributo de tipo cadena de texto: accionesJ1.
     '''
     def getAccionesJ1(self):
         return self.__accionesJ1
     
     '''
-    Metodo get para el atributo de tipo string: accionesJ2
+    Método para obtener el atributo de tipo cadena de texto: accionesJ2.
     '''
     def getAccionesJ2(self):
         return self.__accionesJ2
     
     '''
-    Metodo get para el atributo de tipo string: tablerosJ1
+    Método para obtener para el atributo de tipo cadena de texto: tablerosJ1.
     '''
     def getTablerosJ1(self):
         return self.__tableroJ1
     
     '''
-    Metodo get para el atributo de tipo string: tablerosJ2
+    Método para obtener para el atributo de tipo cadena de texto: tablerosJ1.
     '''
     def getTablerosJ2(self):
         return self.__tableroJ2
     
     '''
-    Metodo get para el atributo winner que implementa una clase jugador
+    Método para obtener para el atributo winner que implementa una clase jugador.
     '''
     def getWinner(self):
         return self.__winner

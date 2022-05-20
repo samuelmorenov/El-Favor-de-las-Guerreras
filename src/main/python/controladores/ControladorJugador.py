@@ -4,28 +4,28 @@ import logging
 from main.python.interfaz.GUI_Tkinter import GUI_Tkinter
 
 '''
-Clase controladora del jugador controlado por el usuario a traves de la 
-interfaz grafica
+Clase controladora del jugador controlado por el usuario a través de la
+interfaz gráfica.
 '''
 class ControladorJugador:
     '''
-    Metodo constructor de la clase ControladorJugador, recibe el nombre y el numero
-    para guardarlo en sus respectivos atributos. Además inicializa el atributo
-    GUI que implementa la clase GUI_Tkinter.
+    Método constructor de la clase ControladorJugador, recibe el nombre y el 
+    numero para guardarlo en sus respectivos atributos. Además, inicializa el 
+    atributo GUI que implementa la clase GUI_Tkinter.
     '''
     def __init__(self, miNombre, miNumero):
-        '''Atributo miNombre: define el nombre para leerlo en los logs'''
+        '''Atributo miNombre: Define el nombre para leerlo en los logs.'''
         self.__miNombre = miNombre
-        '''Atributo miNumero: define el orden del jugador, puede ser 1 o 2'''
+        '''Atributo miNumero: Define el orden del jugador, puede ser 1 o 2.'''
         self.__miNumero = miNumero
-        '''Atributo GUI: instancia la clase GUI_Tkinter que corresponde a la 
-        interfaz grafica de usuario con la que interactuará el usuario'''
+        '''Atributo GUI: Instancia la clase GUI_Tkinter que corresponde a la 
+        interfaz gráfica de usuario con la que interactuará el usuario.'''
         self.__GUI = GUI_Tkinter()
         
     '''
-    Metodo para generar una accion, recibe la matriz del tablero y devuelve un 
+    Método para generar una accion, recibe la matriz del tablero y devuelve un 
     array con una accion correcta que será seleccionada por el usuario a traves 
-    del metodo __pedirAccion
+    del Método __pedirAccion
     '''
     def decidirAccion(self, tablero):
         logging.info(self.__miNombre+" : Este es el tablero que me llega:\n"+str(tablero))
@@ -35,18 +35,18 @@ class ControladorJugador:
         return salida
     
     '''
-    Metodo para generar la accion de seleccion pendiente, recibe la matriz del 
-    tablero y devuelve un array con la accion correctamente formada con las 
-    cartas seleccionadas por el usuarioa traves del metodo __pedirAccion
+    Método para generar la acción de selección pendiente, recibe la matriz del 
+    tablero y devuelve un array con la acción correctamente formada con las 
+    cartas seleccionadas por el usuario a través del Método __pedirAccion.
     '''
     def decidirAccionDeSeleccion(self, tablero):
         return self.__pedirAccion(tablero)
     
     '''
-    Metodo que unifica los metodos de decidirAccion y decidirAccionDeSeleccion
-    en el que se llama a los metodos de printTabla, start y obtenerAccion para
+    Método que unifica los Métodos de decidirAccion y decidirAccionDeSeleccion
+    en el que se llama a los Métodos de printTabla, start y obtenerAccion para 
     pintar el tablero en la interfaz de usuario y esperar a que el usuario 
-    seleccione la accion que desee
+    seleccione la acción que desee.
     '''
     def __pedirAccion(self, tablero):
         self.__GUI.printTabla(tablero)
@@ -54,19 +54,19 @@ class ControladorJugador:
         return self.__GUI.obtenerAccion()
         
     '''
-    Metodo que sirve para cerrar el hilo de la interfaz gráfica
+    Método que sirve para cerrar el hilo de la interfaz gráfica.
     '''
     def finish(self):
         self.__GUI.cerrar()
     
     '''
-    Metodo get para el atributo de tipo string: miNombre
+    Método para obtener para el atributo de tipo cadena de texto: miNombre.
     '''
     def getMiNombre(self):
         return self.__miNombre
     
     '''
-    Metodo get para el atributo de tipo string: miNumero
+    Método para obtener para el atributo de tipo cadena de texto: miNumero.
     '''
     def getMiNumero(self):
         return self.__miNumero

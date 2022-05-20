@@ -5,23 +5,23 @@ import numpy as np
 import main.python.parametrizacion.ParametrosTablero as const
 
 '''
-Clase controladora del jugador de bot aleatorio
+Clase controladora del jugador de bot aleatorio.
 '''
 class ControladorBot:
     '''
-    Metodo constructor de la clase ControladorBot, recibe el nombre y el numero
-    para guardarlo en sus respectivos atributos
+    Método constructor de la clase ControladorBot, recibe el nombre y el numero
+    para guardarlo en sus respectivos atributos.
     '''
     def __init__(self, miNombre, miNumero):
-        '''Atributo miNombre: define el nombre para leerlo en los logs'''
+        '''Atributo miNombre: Define el nombre para leerlo en los logs.'''
         self.__miNombre = miNombre
-        '''Atributo miNumero: define el orden del jugador, puede ser 1 o 2'''
+        '''Atributo miNumero: Define el orden del jugador, puede ser 1 o 2.'''
         self.__miNumero = miNumero
         
     '''
-    Metodo para generar una accion aleatoria, recibe la matriz del tablero y 
-    devuelve un array con una accion correcta aleatoria dentro de las posibles 
-    con las cartas aleatorias que tenga en mano
+    Método para generar una acción aleatoria, recibe la matriz del tablero y 
+    devuelve un array con una acción correcta aleatoria dentro de las posibles
+    con las cartas aleatorias que tenga en mano.
     '''
     def decidirAccion(self, tablero):
         
@@ -114,10 +114,9 @@ class ControladorBot:
         return accionCompleta
     
     '''
-    Metodo para generar la accion de seleccion pendiente con cartas aleatorias,
-    recibe la matriz del tablero y devuelve un array con la accion 
-    correctamente formada con las cartas aleatorias dadas por la accion
-    pendiente
+    Método para generar la acción de selección pendiente con cartas aleatorias,
+    recibe la matriz del tablero y devuelve un array con la acción correctamente 
+    formada con las cartas aleatorias dadas por la acción pendiente.
     '''
     def decidirAccionDeSeleccion(self, tablero):
         
@@ -158,20 +157,20 @@ class ControladorBot:
         return accionCompleta
     
     '''
-    Metodo que sirve para cerrar los hilos pendientes de los jugadores, en este
-    caso no es necesario cerrar ninguno
+    Método que sirve para cerrar los hilos pendientes de los jugadores, en este
+    caso no es necesario cerrar ninguno.
     '''
     def finish(self):
         return
     
     '''
-    Metodo get para el atributo de tipo string: miNombre
+    Método para obtener para el atributo de tipo cadena de texto: miNombre.
     '''
     def getMiNombre(self):
         return self.__miNombre
     
     '''
-    Metodo get para el atributo de tipo string: miNumero
+    Método para obtener para el atributo de tipo cadena de texto: miNumero.
     '''
     def getMiNumero(self):
         return self.__miNumero

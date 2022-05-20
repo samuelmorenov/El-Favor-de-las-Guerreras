@@ -13,11 +13,11 @@ Clase encargada de utilizar el modelo entrenado para generar predicciones
 '''
 class Prediccion:
     '''
-    Metodo constructor de la clase Entrenamiento, se define los atributos e 
-    inicializarlos
+    Método constructor de la clase Entrenamiento, se define los atributos e 
+    inicializarlos.
     '''
     def __init__(self):
-        '''Atributo cnn: contendrá una instancia de la clase Sequential 
+        '''Atributo cnn: Contendrá una instancia de la clase Sequential.
         de tensorflow'''
         self.__cnn = None
         '''Atributo resultado: contendrá el resultado de la ultima prediccion
@@ -27,7 +27,7 @@ class Prediccion:
         self.__cargarModelo()
         
     '''
-    Metodo encargado de cargar el modelo entrenado de los ficheros .h5
+    Método encargado de cargar el modelo entrenado de los ficheros .h5
     '''
     def __cargarModelo(self):
         #cargamos el modelo
@@ -36,8 +36,8 @@ class Prediccion:
         self.__cnn.load_weights(data.MODELO_PESOS)
         
     '''
-    Metodo que, dado un tablero de entrada, genera una prediccion y la guarda 
-    en el atributo resultado
+    Método que, dado un tablero de entrada, genera una predicción y la guarda
+    en el atributo resultado.
     '''
     def predecir(self, entrada):
         entrada = entrada.flatten()
@@ -47,9 +47,9 @@ class Prediccion:
         self.__resultado = self.__cnn.predict(entrada)
         
     '''
-    Metodo que, dado un el indice del campo del que se desea obtener la 
-    prediccion realizada y los posibles valores aceptables, devuelve el valor 
-    mas probable
+    Método que, dado un el índice del campo del que se desea obtener la 
+    predicción realizada y los posibles valores aceptables, devuelve el 
+    valor más probable.
     '''
     def obtenerPrediccionCampo(self, numeroCampo, posiblesValores):
         copiaResultado = np.copy(self.__resultado[0][numeroCampo])

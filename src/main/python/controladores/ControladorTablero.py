@@ -9,44 +9,43 @@ situación actual del tablero en la que permite realizar acciones
 '''
 class ControladorTablero:
     '''
-    Metodo constructor de la clase ControladorTablero, se definen e inicializan 
+    Método constructor de la clase ControladorTablero, se definen e inicializan 
     todos los atributos privados de la misma
     '''
     def __init__(self):
-        '''Atributo tablero: guarda una matriz con el estado actual del tablero'''
+        '''Atributo tablero: Guarda una matriz con el estado actual del tablero.'''
         self.__tablero = np.zeros((const.NFILA,const.NCOLUMNA), dtype=int)
-        '''Atributo mazoArmas: garda un array con las cartas que quedan en el 
-        mazo de robo'''
+        '''Atributo mazoArmas: Guarda un array con las cartas que quedan en el 
+        mazo de robo.'''
         self.__mazoArmas = []
         
         self.__initMazo()
         
     '''
-    Metodo que inicializa el mazo de las cartas con todas las cartas de armas 
-    disponibles
+    Método que inicializa el mazo de las cartas con todas las cartas de armas 
+    disponibles.
     '''
     def __initMazo(self):
         self.__mazoArmas = [1,1,2,2,3,3,4,4,4,5,5,5,6,6,6,6,7,7,7,7,7]
         
     '''
-    Metodo que se encarga de borrar del tablero las acciones realizadas por 
-    ambos jugadores
+    Método que se encarga de borrar del tablero las acciones realizadas por ambos jugadores.
     '''
     def __borrarAcciones(self):
         self.__tablero[const.ACCIONES_USADAS_JUGADOR1] = np.zeros(const.NCOLUMNA, dtype=int)
         self.__tablero[const.ACCIONES_USADAS_JUGADOR2] = np.zeros(const.NCOLUMNA, dtype=int)
         
     '''
-    Metodo que se encarga de borrar del tablero las armas usadas por 
-    ambos jugadores
+    Método que se encarga de borrar del tablero las armas usadas por ambos 
+    jugadores.
     '''
     def __borrarArmas(self):
         self.__tablero[const.ARMAS_USADAS_JUGADOR1] = np.zeros(const.NCOLUMNA, dtype=int)
         self.__tablero[const.ARMAS_USADAS_JUGADOR2] = np.zeros(const.NCOLUMNA, dtype=int)
         
     '''
-    Metodo que limina del mazo de cartas una carta random y la devuelve en el 
-    return. Lanza una exception si el mazo no tiene cartas que robar
+    Método que elimina del mazo de cartas una carta aleatoria y la devuelve. 
+    Lanza una excepción si el mazo no tiene cartas que robar.
     '''
     def __robarCarta(self):
         if(len(self.__mazoArmas) < 1):
@@ -54,8 +53,7 @@ class ControladorTablero:
         return self.__mazoArmas.pop(np.random.randint(len(self.__mazoArmas)))
         
     '''
-    Metodo que se encarga de repartir 6 cartas del mazo a cada jugador y 
-    ordenar las manos de dichos jugadores
+    Método que se encarga de repartir 6 cartas del mazo a cada jugador y ordenar las manos de dichos jugadores.
     '''
     def __repartoDeCartas(self):
         for _ in range(const.N_CARTAS_INICIAL):
@@ -65,8 +63,8 @@ class ControladorTablero:
         self.__ordenarMano(const.MANO_JUGADOR2)
         
     '''
-    Metodo que asigna una carta del mazo a la mano del jugador con el numero 
-    dado por parametro
+    Método que asigna una carta del mazo a la mano del jugador con el numero 
+    dado por parámetro.
     '''
     def __conseguirCarta(self, jugadorIndex):
         manoList = self.__tablero[jugadorIndex]
@@ -78,8 +76,7 @@ class ControladorTablero:
         self.__tablero[jugadorIndex] = manoList
         
     '''
-    Metodo que recibe el array de la mano y el valor de la carta que sustituye 
-    por 0
+    Método que recibe el array de la mano y el valor de la carta que sustituye por 0.
     '''
     def __soltarCarta(self, manoList, cartaValue):
         manoList = self.__eliminarCarta(manoList, cartaValue)
@@ -88,15 +85,15 @@ class ControladorTablero:
         return manoList
         
     '''
-    Metodo que recibe un array y un valor, devuelve el array eliminando el 
-    valor 1 vez
+    Método que recibe un array y un valor, devuelve el array eliminando el 
+    valor una vez.
     '''
     def __eliminarCarta(self, lista, valor):
         return np.delete(lista, np.argwhere(lista == valor)[0])
         
     '''
-    Metodo que recibe el indice del jugador y devuelve el indice de sus 
-    acciones usadas
+    Método que recibe el índice del jugador y devuelve el índice de sus 
+    acciones usadas.
     '''
     def __getFilaAcciones(self, jugadorIndex):
         filaAccionesIndex = const.ACCIONES_USADAS_JUGADOR1
@@ -105,7 +102,7 @@ class ControladorTablero:
         return filaAccionesIndex
         
     '''
-    Metodo que recibe el indice del jugador y devuelve el indice de su mano
+    Método que recibe el índice del jugador y devuelve el índice de su mano.
     '''
     def __getMano(self, jugadorIndex):
         manoIndex = const.MANO_JUGADOR1
@@ -114,7 +111,7 @@ class ControladorTablero:
         return manoIndex
         
     '''
-    Metodo que recibe el indice de la mano del jugador y ordena su mano
+    Método que recibe el índice de la mano del jugador y ordena su mano.
     '''
     def __ordenarMano(self, manoIndex):
         manoList = self.__tablero[manoIndex]
@@ -122,10 +119,10 @@ class ControladorTablero:
         self.__tablero[manoIndex] = manoList
         
     '''
-    Metodo que devuelve el numero de cartas que contiene el array que se le
-    pasa por parametro, sin incluir la primera posicion que corresponde al 
-    tipo de accion. Ademas lanza una excepcion si las cartas no estan bien 
-    ordenadas en el array y contiene ceros en medio
+    Método que devuelve el número de cartas que contiene el array que se le
+    pasa por parámetro, sin incluir la primera posición que corresponde al 
+    tipo de acción. Además, lanza una excepción si las cartas no están bien 
+    ordenadas en el array y contiene ceros en medio.
     '''
     def __getNumeroCartasEnAccionSeleccionada(self, accionArray):
         num = 0
@@ -144,8 +141,8 @@ class ControladorTablero:
         return num
         
     '''
-    Metodo que lanza una excepcion si el numero de cartas no concuerda con el 
-    tipo de accion 1 o si esta accion ya ha sido usada
+    Método que lanza una excepción si el número de cartas no concuerda con el 
+    tipo de acción 1 o si esta acción ya ha sido usada.
     '''
     def __comprobarAccion1(self, filaAcciones, numCartasEnAccion):
         if(numCartasEnAccion != const.ACCION_1_COUNT):
@@ -154,8 +151,8 @@ class ControladorTablero:
             raise Exception("Accion 1 ya usada")
         
     '''
-    Metodo que lanza una excepcion si el numero de cartas no concuerda con el 
-    tipo de accion 2 o si esta accion ya ha sido usada
+    Método que lanza una excepción si el número de cartas no concuerda con el 
+    tipo de acción 2 o si esta acción ya ha sido usada.
     '''
     def __comprobarAccion2(self, filaAcciones, numCartasEnAccion):
         if(numCartasEnAccion != const.ACCION_2_COUNT):
@@ -165,8 +162,8 @@ class ControladorTablero:
             raise Exception("Accion 2 ya usada")
         
     '''
-    Metodo que lanza una excepcion si el numero de cartas no concuerda con el 
-    tipo de accion 3 o si esta accion ya ha sido usada
+    Método que lanza una excepción si el número de cartas no concuerda con el 
+    tipo de acción 3 o si esta acción ya ha sido usada.
     '''
     def __comprobarAccion3(self, filaAcciones, numCartasEnAccion):
         if(numCartasEnAccion != const.ACCION_3_COUNT):
@@ -175,8 +172,8 @@ class ControladorTablero:
             raise Exception("Accion 3 ya usada")
         
     '''
-    Metodo que lanza una excepcion si el numero de cartas no concuerda con el 
-    tipo de accion 4 o si esta accion ya ha sido usada
+    Método que lanza una excepción si el número de cartas no concuerda con el 
+    tipo de acción 4 o si esta acción ya ha sido usada.
     '''
     def __comprobarAccion4(self, filaAcciones, numCartasEnAccion):
         if(numCartasEnAccion != const.ACCION_4_COUNT):
@@ -185,8 +182,8 @@ class ControladorTablero:
             raise Exception("Accion 4 ya usada")
         
     '''
-    Metodo que lanza una excepcion si el numero de cartas no concuerda con el 
-    tipo de accion de decision 3 o si esta accion no concuerda con la esperada
+    Método que lanza una excepción si el número de cartas no concuerda con el 
+    tipo de acción de decisión 3 o si esta acción no concuerda con la esperada.
     '''
     def __comprobarAccionDecision3(self, numCartasEnAccion):
         if(numCartasEnAccion != const.PENDIENTE_5_ELEGIDA_COUNT):
@@ -195,8 +192,8 @@ class ControladorTablero:
             raise Exception("Accion de decision 3 no disponible")
         
     '''
-    Metodo que lanza una excepcion si el numero de cartas no concuerda con el 
-    tipo de accion de decision 4 o si esta accion no concuerda con la esperada
+    Método que lanza una excepción si el número de cartas no concuerda con el 
+    tipo de acción de decisión 4 o si esta acción no concuerda con la esperada.
     '''
     def __comprobarAccionDecision4(self, numCartasEnAccion):
         if(numCartasEnAccion != const.PENDIENTE_6_ELEGIDA_COUNT):
@@ -205,9 +202,9 @@ class ControladorTablero:
             raise Exception("Accion de decision 4 no disponible")
         
     '''
-    Metodo que guarda la carta seleccionada del array dado por parametro para 
-    la accion 1 en la fila de acciones del tablero dada por parametro y elimina
-    esa carta de la mano dada por parametro 
+    Método que guarda la carta seleccionada del array dado por parámetro para 
+    la acción 1 en la fila de acciones del tablero dada por parámetro y 
+    elimina esa carta de la mano dada por parámetro.
     '''
     def __guardarAccion1(self, manoIndex, filaAccionesIndex, accionArray):
         carta1 = accionArray[const.ACCION_1]
@@ -217,9 +214,9 @@ class ControladorTablero:
         self.__tablero[manoIndex] = manoList
         
     '''
-    Metodo que guarda las cartas seleccionadas del array dado por parametro 
-    para la accion 2 en la fila de acciones del tablero dada por parametro y 
-    elimina esas cartas de la mano dada por parametro 
+    Método que guarda la carta seleccionada del array dado por parámetro para 
+    la acción 2 en la fila de acciones del tablero dada por parámetro y 
+    elimina esa carta de la mano dada por parámetro.
     '''
     def __guardarAccion2(self, manoIndex, filaAccionesIndex, accionArray):
         carta1 = accionArray[const.ACCION_2_1]
@@ -236,10 +233,10 @@ class ControladorTablero:
         self.__tablero[manoIndex] = manoList
         
     '''
-    Metodo que guarda las cartas seleccionadas del array dado por parametro 
-    para la accion 3 en la fila de accion pendiente, establece la accion 3 
-    como usada en la fila de acciones del tablero dada por parametro y 
-    elimina esas cartas de la mano dada por parametro 
+    Método que guarda las cartas seleccionadas del array dado por parámetro 
+    la acción 3 en la fila de acción pendiente, establece la acción 3 como 
+    usada en la fila de acciones del tablero dada por parámetro y elimina 
+    esas cartas de la mano dada por parámetro.
     '''
     def __guardarAccion3(self, manoIndex, filaAccionesIndex, accionArray):
         #Obtencion de las cartas
@@ -267,10 +264,10 @@ class ControladorTablero:
         self.__tablero[manoIndex] = manoList
         
     '''
-    Metodo que guarda las cartas seleccionadas del array dado por parametro 
-    para la accion 4 en la fila de accion pendiente, establece la accion 4 
-    como usada en la fila de acciones del tablero dada por parametro y 
-    elimina esas cartas de la mano dada por parametro 
+    Método que guarda las cartas seleccionadas del array dado por parámetro la
+    acción 4 en la fila de acción pendiente, establece la acción 4 como usada 
+    en la fila de acciones del tablero dada por parámetro y elimina esas cartas
+    de la mano dada por parámetro.
     '''
     def __guardarAccion4(self, manoIndex, filaAccionesIndex, accionArray):
         #Obtencion de las cartas
@@ -300,10 +297,10 @@ class ControladorTablero:
         self.__tablero[manoIndex] = manoList
         
     '''
-    Metodo que guarda las cartas seleccionadas del array dado por parametro 
-    para la accion de decision 3 en la fila de accion pendiente, sumamos las 
+    Método que guarda las cartas seleccionadas del array dado por parámetro 
+    para la acción de decisión 3 en la fila de acción pendiente, sumamos las 
     cartas seleccionadas a los jugadores en las filas de armas usadas y deja 
-    la fila de accion pendiente vacia
+    la fila de acción pendiente vacía.
     '''
     def __guardarAccionDecision3(self, jugadorIndex, accionArray):
 
@@ -333,10 +330,10 @@ class ControladorTablero:
         self.__tablero[const.ACCION_PENDIENTE] = np.zeros(const.NCOLUMNA, dtype=int)
         
     '''
-    Metodo que guarda las cartas seleccionadas del array dado por parametro 
-    para la accion de decision 4 en la fila de accion pendiente, sumamos las 
+    Método que guarda las cartas seleccionadas del array dado por parámetro 
+    para la acción de decisión 4 en la fila de acción pendiente, sumamos las 
     cartas seleccionadas a los jugadores en las filas de armas usadas y deja 
-    la fila de accion pendiente vacia
+    la fila de acción pendiente vacía.
     '''
     def __guardarAccionDecision4(self, jugadorIndex, accionArray):
         #Obtenemos el index de las armas del jugador y del adversario
@@ -376,22 +373,22 @@ class ControladorTablero:
         self.__tablero[const.ACCION_PENDIENTE] = np.zeros(const.NCOLUMNA, dtype=int)
         
     '''
-    Metodo que toma el valor de la carta de secreto de la fila del jugador 
-    seleccionada y la guarda en la fila de armas del jugador seleccionada
+    Método que toma el valor de la carta de secreto de la fila del jugador 
+    seleccionada y la guarda en la fila de armas del jugador seleccionada.
     '''
     def __guardarSecreto(self, accionesJugadorIndex, filaArmasIndex):
         carta = self.__tablero[accionesJugadorIndex][const.TIPO_SECRETO]
         self.__sumarCarta(filaArmasIndex, carta)
         
     '''
-    Metodo que dada una carta suma 1 al la columna correspondiente a esa 
-    carta y a la fila dada
+    Método que dada una carta suma 1 a la columna correspondiente a esa carta 
+    y a la fila dada.
     '''
     def __sumarCarta(self, filaArmasIndex, carta):
         self.__tablero[filaArmasIndex][carta-1] = self.__tablero[filaArmasIndex][carta-1]+1
         
     '''
-    Metodo que calcula todos los puntos de cada jugador y devuelve el ganador
+    Método que calcula todos los puntos de cada jugador y devuelve el ganador.
     '''
     def __getGanador(self):
         puntosGuerreras = [2, 2, 2, 3, 3, 4, 5]
@@ -420,8 +417,8 @@ class ControladorTablero:
             return const.GANADOR_EMPATE
         
     '''
-    Metodo que comprueba el numero de cartas en la mano dada y devuelve y esta 
-    llena o no
+    Método que comprueba el número de cartas en la mano dada y devuelve y está 
+    llena o no.
     '''
     def __manoLlena(self, filaMano):
         n = 0
@@ -432,8 +429,8 @@ class ControladorTablero:
         return n==const.NCOLUMNA
         
     '''
-    Metodo que inicializa el mazo con todas las cartas menos una y reparte 
-    las cartas iniciales
+    Método que inicializa el mazo con todas las cartas menos una y reparte las 
+    cartas iniciales.
     '''
     def initRonda(self):
         self.__initMazo()
@@ -443,8 +440,8 @@ class ControladorTablero:
         self.__borrarArmas()
         
     '''
-    Metodo que, dado el indice del jugador, roba una carta del mazo de cartas
-    y la guarda en la mano de dicho jugador
+    Método que, dado el índice del jugador, roba una carta del mazo de cartas
+    y la guarda en la mano de dicho jugador.
     '''
     def jugadorRobaCarta(self, jugadorIndex):
         manoIndex = self.__getMano(jugadorIndex)
@@ -454,8 +451,8 @@ class ControladorTablero:
         self.__ordenarMano(manoIndex)
         
     '''
-    Metodo que, dado el indice del jugador, devuelve una matriz de informacion 
-    parcial para ese jugador
+    Método que, dado el indice del jugador, devuelve una matriz de informacion 
+    parcial para ese jugador.
     '''
     def getVistaTablero(self, jugadorIndex):
         if(jugadorIndex != const.JUGADOR1 and jugadorIndex != const.JUGADOR2):
@@ -500,9 +497,9 @@ class ControladorTablero:
         return tableroParcial.copy()
         
     '''
-    Metodo que, dado el indice del jugador y una accion, comprueba que ese 
-    jugador puede realizar la accion, que esta está bien formada y de ser asi 
-    la ejecuta haciendo los cambios correspondientes en el tablero
+    Método que, dado el índice del jugador y una acción, comprueba que ese 
+    jugador puede realizar la acción, que esta está bien formada y de ser así 
+    la ejecuta haciendo los cambios correspondientes en el tablero.
     '''
     def realizarAccion(self, jugadorIndex, accionArray):
         if(jugadorIndex != const.JUGADOR1 and jugadorIndex != const.JUGADOR2):
@@ -540,17 +537,17 @@ class ControladorTablero:
             raise Exception("Accion no encontrada")
         
     '''
-    Metodo que, dado el indice del jugador y una accion, comprueba que ese 
-    jugador puede realizar la accion, que esta está bien formada y de ser asi 
-    la ejecuta haciendo los cambios correspondientes en el tablero
+    Método que, dado el índice del jugador y una acción, comprueba que ese 
+    jugador puede realizar la acción, que esta está bien formada y de ser así 
+    ejecuta haciendo los cambios correspondientes en el tablero.
     '''
     def hayAccionPendiente(self):
         pendiente = self.__tablero[const.ACCION_PENDIENTE][const.PENDIENTE_TIPO]
         return pendiente != 0
         
     '''
-    Metodo que realiza todas las acciones necesarias para dar el turno por 
-    terminado y devuelve el jugador ganador en caso de que lo hubiera
+    Método que realiza todas las acciones necesarias para dar el turno por 
+    terminado y devuelve el jugador ganador en caso de que lo hubiera.
     '''
     def finalizarTurno(self):
         self.__guardarSecreto(const.ACCIONES_USADAS_JUGADOR1, const.ARMAS_USADAS_JUGADOR1)
