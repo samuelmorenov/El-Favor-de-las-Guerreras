@@ -1,0 +1,134 @@
+@startuml
+
+participant  ControladorPartida
+participant  ControladorTablero
+participant  Jugador1
+participant  Jugador2
+
+activate ControladorPartida
+ControladorPartida -> ControladorTablero : Inicializar
+deactivate ControladorPartida
+
+activate ControladorTablero
+ControladorTablero -> ControladorPartida
+deactivate ControladorTablero
+activate ControladorPartida
+
+group Turno
+
+	loop 4 veces
+
+		alt Accion Simple Jugador 1
+		
+			ControladorPartida -> Jugador1 : Decidir Accion
+			deactivate ControladorPartida
+			activate Jugador1
+
+			Jugador1 -> ControladorPartida : Accion A Realizar
+			deactivate Jugador1
+			activate ControladorPartida
+
+			ControladorPartida -> ControladorTablero : Realizar Accion
+			deactivate ControladorPartida
+			activate ControladorTablero
+
+			ControladorTablero -> ControladorPartida : Accion realizada
+			deactivate ControladorTablero
+			activate ControladorPartida
+		
+		else  Accion Compleja Jugador 1
+		
+			ControladorPartida -> Jugador1 : Decidir Accion
+			deactivate ControladorPartida
+			activate Jugador1
+
+			Jugador1 -> ControladorPartida : Accion A Realizar
+			deactivate Jugador1
+			activate ControladorPartida
+
+			ControladorPartida -> ControladorTablero : Realizar Accion
+			deactivate ControladorPartida
+			activate ControladorTablero
+
+			ControladorTablero -> ControladorPartida : Accion realizada
+			deactivate ControladorTablero
+			activate ControladorPartida
+
+			ControladorPartida -> Jugador2 : Cartas a decidir
+			deactivate ControladorPartida
+			activate Jugador2
+
+			Jugador2 -> ControladorPartida : Cartas a decididas
+			deactivate Jugador2
+			activate ControladorPartida
+
+			ControladorPartida -> ControladorTablero : Realizar Accion
+			deactivate ControladorPartida
+			activate ControladorTablero
+
+			ControladorTablero -> ControladorPartida : Accion realizada
+			deactivate ControladorTablero
+			activate ControladorPartida
+
+		end
+
+
+
+		alt Accion Simple Jugador 2
+		
+			ControladorPartida -> Jugador2 : Decidir Accion
+			deactivate ControladorPartida
+			activate Jugador2
+
+			Jugador2 -> ControladorPartida : Accion A Realizar
+			deactivate Jugador2
+			activate ControladorPartida
+
+			ControladorPartida -> ControladorTablero : Realizar Accion
+			deactivate ControladorPartida
+			activate ControladorTablero
+
+			ControladorTablero -> ControladorPartida : Accion realizada
+			deactivate ControladorTablero
+			activate ControladorPartida
+
+		else Accion Compleja Jugador 2
+				
+			ControladorPartida -> Jugador2 : Decidir Accion
+			deactivate ControladorPartida
+			activate Jugador2
+
+			Jugador2 -> ControladorPartida : Accion A Realizar
+			deactivate Jugador2
+			activate ControladorPartida
+
+			ControladorPartida -> ControladorTablero : Realizar Accion
+			deactivate ControladorPartida
+			activate ControladorTablero
+
+			ControladorTablero -> ControladorPartida : Accion realizada
+			deactivate ControladorTablero
+			activate ControladorPartida
+
+			ControladorPartida -> Jugador1 : Cartas a decidir
+			deactivate ControladorPartida
+			activate Jugador1
+
+			Jugador1 -> ControladorPartida : Cartas a decididas
+			deactivate Jugador1
+			activate ControladorPartida
+
+			ControladorPartida -> ControladorTablero : Realizar Accion
+			deactivate ControladorPartida
+			activate ControladorTablero
+
+			ControladorTablero -> ControladorPartida : Accion realizada
+			deactivate ControladorTablero
+			activate ControladorPartida
+
+		end
+	end
+
+end
+
+@enduml
