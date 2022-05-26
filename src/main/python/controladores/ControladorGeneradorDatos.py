@@ -35,11 +35,17 @@ class ControladorGeneradorDatos:
         self.__resetArchivo(data.PARTIDAS_GANADAS_JUGADAS)
         self.__resetArchivo(data.PARTIDAS_GANADAS_TABLERO)
                 
-        for _ in range(menu.NUM_SIMULACIONES):
+        for i in range(menu.NUM_SIMULACIONES):
+            logger = logging.getLogger()
+            logger.disabled = True
+            
             self.__controladorPartida = ControladorPartida()
             self.__controladorPartida.run()
             self.__guardarGanador(self.__controladorPartida.getWinner())
-                
+            
+            logger.disabled = False
+            logging.info("---------------------------")
+            logging.info("Partidas simuladas: "+str(i))
             logging.info("Partidas ganadas por el 1: "+ str(self.__partidasGanadas1))
             logging.info("Partidas ganadas por el 2: "+ str(self.__partidasGanadas2))
             
