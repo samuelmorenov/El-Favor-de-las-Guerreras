@@ -11,6 +11,7 @@ MODO = int(config.get('Menu', 'MODO'))
 MODO_GENERAR_DATOS = int(1)
 MODO_ENTRENAR_RED = int(2)
 MODO_JUGAR = int(3)
+MODO_COMPETICION = int(4)
 
 NUM_SIMULACIONES = int(config.get('Menu', 'NUM_SIMULACIONES'))
 

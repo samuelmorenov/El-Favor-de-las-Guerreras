@@ -105,6 +105,10 @@ class ControladorPartida:
             if(menu.MODO_DIFICULTAD == menu.MODO_DIFICIL):
                 self.__jugador2 = ControladorRedNeuronal("Neuronal Network", const.JUGADOR2)
                 
+        if(menu.MODO == menu.MODO_COMPETICION):
+            self.__jugador1 = ControladorBot("Bot 1", const.JUGADOR1)
+            self.__jugador2 = ControladorRedNeuronal("Red neuronal 2", const.JUGADOR2)
+                
         self.__jugador1Inicio = self.__jugador1
         self.__jugador2Inicio = self.__jugador2
         

@@ -43,11 +43,13 @@ class ControladorGeneradorDatos:
             self.__controladorPartida.run()
             self.__guardarGanador(self.__controladorPartida.getWinner())
             
+            logger = logging.getLogger()
             logger.disabled = False
-            logging.info("---------------------------")
-            logging.info("Partidas simuladas: "+str(i))
-            logging.info("Partidas ganadas por el 1: "+ str(self.__partidasGanadas1))
-            logging.info("Partidas ganadas por el 2: "+ str(self.__partidasGanadas2))
+            logging.info("Partidas simuladas: "+str(i+1))
+                
+            if(menu.MODO == menu.MODO_COMPETICION):
+                logging.info("Partidas ganadas por el 1: "+ str(self.__partidasGanadas1))
+                logging.info("Partidas ganadas por el 2: "+ str(self.__partidasGanadas2))
             
     '''
     Método que dado un jugador obtiene los datos de su partida y los guarda en

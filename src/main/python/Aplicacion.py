@@ -32,6 +32,11 @@ if __name__ == "__main__":
         loggerConfig.initLogger(logging.DEBUG)
         ejecutor = Entrenamiento()
         
+    elif(menu.MODO == menu.MODO_COMPETICION):
+        logging.info('Seleccionado modo de competicion')
+        loggerConfig.initLogger(None)
+        ejecutor = ControladorGeneradorDatos()
+        
     inicio = datetime.datetime.now()
     ejecutor.run()
     fin = datetime.datetime.now()
