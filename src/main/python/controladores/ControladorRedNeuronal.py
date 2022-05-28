@@ -50,8 +50,6 @@ class ControladorRedNeuronal:
     def __procesarAccion(self, tablero):
         listaDeCartasEnMano, listaAccionesPosibles = self.__obtenerCartasEnManoYAccionesPosibles(tablero)
         
-        logging.debug(self.__miNombre+" : Estas son las acciones que puedo hacer: "+str(listaAccionesPosibles))
-        
         accionARealizar = self.__prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, listaAccionesPosibles)
         
         logging.debug(self.__miNombre+" : He decidido realizar la accion: "+str(accionARealizar))
@@ -63,7 +61,6 @@ class ControladorRedNeuronal:
             listaDeCartasEnMano = self.__eliminarCarta(carta, listaDeCartasEnMano)
             cartasSeleccionadas.append(carta)
             
-        logging.debug(self.__miNombre+" : Estas son las cartas que puedo usar: "+str(listaDeCartasEnMano))    
         logging.debug(self.__miNombre+" : He seleccionado estas cartas para hacer la accion: "+str(cartasSeleccionadas))
             
         accionCompleta = self.__crearAccionCompleta(accionARealizar, cartasSeleccionadas)
@@ -188,7 +185,7 @@ class ControladorRedNeuronal:
         cartasList.append(accionPendienteList[const.PENDIENTE_5_2])
         cartasList.append(accionPendienteList[const.PENDIENTE_5_3])
 
-        carta = self.__prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
+        carta = self.__prediccion.obtenerPrediccionCampo(const.PENDIENTE_5_ELEGIDA, cartasList)
         cartasSeleccionadas.append(carta)
         return cartasSeleccionadas
         
@@ -205,14 +202,14 @@ class ControladorRedNeuronal:
             
             cartasList.append(accionPendienteList[const.PENDIENTE_6_1_2]) 
             cartasList.append(accionPendienteList[const.PENDIENTE_6_2_2])
-            carta = self.__prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
+            carta = self.__prediccion.obtenerPrediccionCampo(const.PENDIENTE_6_ELEGIDA_2, cartasList)
             
             cartasSeleccionadas.append(carta)
             
         else:
             cartasList.append(accionPendienteList[const.PENDIENTE_6_1_2]) 
             cartasList.append(accionPendienteList[const.PENDIENTE_6_2_2])
-            carta = self.__prediccion.obtenerPrediccionCampo(const.ACCION_REALIZADA, cartasList)
+            carta = self.__prediccion.obtenerPrediccionCampo(const.PENDIENTE_6_ELEGIDA_1, cartasList)
             
             if(carta == accionPendienteList[const.PENDIENTE_6_1_2]):
                 cartasSeleccionadas.append(accionPendienteList[const.PENDIENTE_6_1_1])
