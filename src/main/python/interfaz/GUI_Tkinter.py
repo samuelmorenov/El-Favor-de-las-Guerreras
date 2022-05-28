@@ -245,8 +245,11 @@ class GUI_Tkinter:
     Método para añadir marcadores en la posición dada con el texto dado.
     '''
     def __addMarcador(self, fila, columna, texto):
-        borde = gui.BORDE_MARCADO
-        self.__addButtonConTexto(fila, columna, borde, texto)
+        borde = gui.BORDE_NULO
+        alto = gui.CARTA_MICRO_ALTO
+        ancho = gui.CARTA_MICRO_ANCHO
+        borde = gui.BORDE_NULO
+        self.__addLabelConImagen(fila, columna, alto, ancho, borde, texto, ip.CONTADOR)
     
     '''
     Método para añadir un botón, en la posición dada, de acción activa/inactiva
