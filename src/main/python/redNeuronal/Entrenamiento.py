@@ -9,7 +9,7 @@ import numpy as np
 import tensorflow as tf
 
 from tensorflow.python.keras.layers import Dropout, Flatten, Dense
-from tensorflow.python.keras.layers import  Convolution2D, Reshape
+from tensorflow.python.keras.layers import  Convolution2D, MaxPooling2D, Reshape, Input
 from tensorflow.python.keras import backend as K
 
 from tensorflow.python.framework.ops import disable_eager_execution
@@ -88,39 +88,80 @@ class Entrenamiento:
     neuronal.
     '''
     def __establecerCapas(self):
-        #Primera capa de convolucion
-        filtrosConv1=56
-        tamanio_filtro1=(1,7)
-        self.__cnn.add(Convolution2D( 
-                filtrosConv1, 
-                tamanio_filtro1, 
-                padding='valid',
-                #lo que va a hacer el filtro en las esquinas 
-                #valid(no hacer padding)/same(añadir 0 a las esquinas)
-                input_shape=(PCNN.altura, PCNN.longitud, 1), #altura, longitud y profundidad
-                activation='relu'
-                ))
+        '''Definicion de los parametros de las capas'''
+        #Filtros de las capas de convolucion
+        numeroFiltrosConv=56
+        tamanioFiltro=(1,7)
+        #Tamaño del pool
+        tamanioPool=(2,2)
         
-        #Transformacion de la red en una dimension
-        self.__cnn.add(Flatten())
+        #numero de neuronas de ampliacion
+        numeroNeuronasAmpliacion = 448*4
+        #numero de neuronas de salida
+        numeroNeuronasCapaFinal = PCNN.salida*PCNN.n_clases
+        #numero de neuronas inicial
+        numeroNeuronasCapaInicial = PCNN.altura*PCNN.longitud
         
-        #Capa densa
-        self.__cnn.add(Dense(
-                448*4, #numero de neuronas
-                activation='relu'
-                ))
+        #tamaño inicial (altura, longitud y profundidad)
+        tamanioInicial = (PCNN.altura, PCNN.longitud, 1)
+        #tamaño final (número de salidas, posibilidades de salidas)
+        tamanioFinal = (PCNN.salida, PCNN.n_clases)
         
-        #Se apagaran el 50% de las neuronas para no atrofiar caminos
-        self.__cnn.add(Dropout(0.5)) 
+        #porcentaje de desactivacion
+        porcentajeDeDesactivacion = 0.5
         
-        #Ultima capa
-        self.__cnn.add(Dense(
-                PCNN.salida*PCNN.n_clases, #numero de neuronas de salida
-                activation='softmax' #% de cada opcion
-                ))
+        '''Definicion de los tipos de capas'''
+        capa_entrada = Input(shape=tamanioInicial)
+        #Capa de convolucion
+        capa_convolucion = Convolution2D(numeroFiltrosConv, tamanioFiltro, padding='valid', activation='relu')
+        #Capa de pooling
+        capa_pooling = MaxPooling2D(tamanioPool,padding='same')
+        #Capa de transformacion
+        capa_transformacion = Flatten()
         
-        #Cambio del formato de la salida
-        self.__cnn.add(Reshape((PCNN.salida, PCNN.n_clases)))
+        #Capa de desactivacion
+        capa_desactivacion = Dropout(porcentajeDeDesactivacion)
+        
+        #Capa densa de empliacion
+        capa_densa_ampliacion = Dense(numeroNeuronasAmpliacion, activation='relu')
+        #Capa densa reinicio
+        capa_densa_reinicio = Dense(numeroNeuronasCapaInicial, activation='softmax')
+        #Capa densa final
+        capa_densa_final = Dense(numeroNeuronasCapaFinal, activation='softmax')
+        
+        #Capa de reescalado reinicio
+        capa_reescalado_reinicio = Reshape(tamanioInicial)
+        #Capa de reescalado final
+        capa_reescalado_final = Reshape(tamanioFinal)
+        
+        
+        '''Definicion del orden de las capas'''
+        #Capa 1
+        self.__cnn.add(capa_entrada)
+        #Capa 2
+        self.__cnn.add(capa_convolucion)
+        #Capa 3
+        self.__cnn.add(capa_pooling)
+        #Capa 4
+        self.__cnn.add(capa_transformacion)
+        #Capa 5
+        self.__cnn.add(capa_densa_ampliacion)
+        #Capa 6
+        self.__cnn.add(capa_desactivacion)
+        #Capa 7
+        self.__cnn.add(capa_densa_reinicio)
+        #Capa 8
+        self.__cnn.add(capa_reescalado_reinicio)
+        #Capa 9
+        self.__cnn.add(capa_convolucion)
+        #Capa 10
+        self.__cnn.add(capa_pooling)
+        #Capa 11
+        self.__cnn.add(capa_transformacion)
+        #Capa 12
+        self.__cnn.add(capa_densa_final)
+        #Capa 13
+        self.__cnn.add(capa_reescalado_final)
         
     '''
     Método encargado de compilar el modelo para su entrenamiento.
