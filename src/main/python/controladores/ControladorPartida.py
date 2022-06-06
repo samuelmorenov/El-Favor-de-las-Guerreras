@@ -65,9 +65,8 @@ class ControladorPartida:
     mostraran en un popup.
     '''
     def run(self):
-        self.__initJugadores()
-        
         try:
+            self.__initJugadores()
             self.__start()
         except:
             newPopup = Popup_Tkinter()

@@ -98,9 +98,9 @@ class Entrenamiento:
         #numero de neuronas de ampliacion
         numeroNeuronasAmpliacion = 448*4
         #numero de neuronas de salida
-        numeroNeuronasCapaFinal = PCNN.salida*PCNN.n_clases
+        numeroNeuronasCapaFinal = PCNN.salida*PCNN.n_clases #5*8
         #numero de neuronas inicial
-        numeroNeuronasCapaInicial = PCNN.altura*PCNN.longitud
+        numeroNeuronasCapaInicial = PCNN.altura*PCNN.longitud #8*7
         
         #tamaño inicial (altura, longitud y profundidad)
         tamanioInicial = (PCNN.altura, PCNN.longitud, 1)
@@ -112,20 +112,23 @@ class Entrenamiento:
         
         '''Definicion de los tipos de capas'''
         capa_entrada = Input(shape=tamanioInicial)
-        #Capa de convolucion
-        capa_convolucion = Convolution2D(numeroFiltrosConv, tamanioFiltro, padding='valid', activation='relu')
+        #Capas de convolucion
+        capa_convolucion1 = Convolution2D(numeroFiltrosConv, tamanioFiltro, padding='valid', activation='relu')
+        capa_convolucion2 = Convolution2D(numeroFiltrosConv, tamanioFiltro, padding='valid', activation='relu')
         #Capa de pooling
-        capa_pooling = MaxPooling2D(tamanioPool,padding='same')
+        capa_pooling1 = MaxPooling2D(tamanioPool,padding='same')
+        capa_pooling2 = MaxPooling2D(tamanioPool,padding='same')
         #Capa de transformacion
-        capa_transformacion = Flatten()
+        capa_transformacion1 = Flatten()
+        capa_transformacion2 = Flatten()
         
         #Capa de desactivacion
         capa_desactivacion = Dropout(porcentajeDeDesactivacion)
         
         #Capa densa de empliacion
-        capa_densa_ampliacion = Dense(numeroNeuronasAmpliacion, activation='relu')
+        capa_densa_ampliacion1 = Dense(numeroNeuronasAmpliacion, activation='relu')
         #Capa densa reinicio
-        capa_densa_reinicio = Dense(numeroNeuronasCapaInicial, activation='softmax')
+        capa_densa_reinicio = Dense(numeroNeuronasCapaInicial, activation='relu')
         #Capa densa final
         capa_densa_final = Dense(numeroNeuronasCapaFinal, activation='softmax')
         
@@ -136,32 +139,58 @@ class Entrenamiento:
         
         
         '''Definicion del orden de las capas'''
-        #Capa 1
+        # Capa 1
         self.__cnn.add(capa_entrada)
-        #Capa 2
-        self.__cnn.add(capa_convolucion)
+        # output_shape = (None, 8, 7, 1)
+        
+        # Capa 2
+        self.__cnn.add(capa_convolucion1)
+        # output_shape = (None, 8, 1, 56)
+        
         #Capa 3
-        self.__cnn.add(capa_pooling)
+        self.__cnn.add(capa_pooling1)
+        # output_shape = (None, 4, 1, 56)
+        
         #Capa 4
-        self.__cnn.add(capa_transformacion)
+        self.__cnn.add(capa_transformacion1)
+        # output_shape = (None, 224)
+        
         #Capa 5
-        self.__cnn.add(capa_densa_ampliacion)
+        self.__cnn.add(capa_densa_ampliacion1)
+        # output_shape = (None, 1792)
+        
         #Capa 6
         self.__cnn.add(capa_desactivacion)
+        # output_shape = (None, 1792)
+        
         #Capa 7
         self.__cnn.add(capa_densa_reinicio)
+        # output_shape = (None, 56)
+        
         #Capa 8
         self.__cnn.add(capa_reescalado_reinicio)
+        # output_shape = (None, 8, 7, 1)
+        
         #Capa 9
-        self.__cnn.add(capa_convolucion)
+        self.__cnn.add(capa_convolucion2)
+        # output_shape = (None, 8, 1, 56)
+        
         #Capa 10
-        self.__cnn.add(capa_pooling)
+        self.__cnn.add(capa_pooling2)
+        # output_shape = (None, 4, 1, 56)
+        
         #Capa 11
-        self.__cnn.add(capa_transformacion)
+        self.__cnn.add(capa_transformacion2)
+        # output_shape = (None, 224)
+        
         #Capa 12
         self.__cnn.add(capa_densa_final)
+        # output_shape = (None, 40)
+        
         #Capa 13
         self.__cnn.add(capa_reescalado_final)
+        # output_shape = (None, 5, 8)
+        
         
     '''
     Método encargado de compilar el modelo para su entrenamiento.
