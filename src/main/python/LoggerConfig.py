@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 import logging
+import main.python.parametrizacion.ParametrosMenu as menu
 
 def initLogger(level):
     logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
@@ -12,10 +14,7 @@ def initLogger(level):
         
     logger.setLevel(level) #INFO/DEBUG
     
-    #Desde python -> main/test -> src -> main -> recursos
-    path_dir = './../../main/recursos/'
-    nombre = 'logger.log'
-    fileHandler = logging.FileHandler(path_dir+nombre)
+    fileHandler = logging.FileHandler(menu.PATH_LOGGER+'logger.log')
     fileHandler.setFormatter(logFormatter)
     logger.addHandler(fileHandler)
     

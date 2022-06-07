@@ -1,5 +1,6 @@
 __pycache__/
-/src/main/recursos/datos/generados/*
+tableroGanadores.csv
+jugadasGanadoras.csv
 *.log
 *~$*
 *.tmp

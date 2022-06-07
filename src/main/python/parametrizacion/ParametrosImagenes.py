@@ -1,39 +1,36 @@
 # -*- coding: utf-8 -*-
+import main.python.parametrizacion.ParametrosMenu as menu
 
 #Parametros imagenes
+ICO = menu.PATH_IMAGENES+"icono.ico"
 
-#Desde python -> main/test -> src -> main -> recursos -> estaticos
-static = "./../../main/recursos/estaticos/"
+G1 = menu.PATH_IMAGENES+"guerrera1.png"
+G2 = menu.PATH_IMAGENES+"guerrera2.png"
+G3 = menu.PATH_IMAGENES+"guerrera3.png"
+G4 = menu.PATH_IMAGENES+"guerrera4.png"
+G5 = menu.PATH_IMAGENES+"guerrera5.png"
+G6 = menu.PATH_IMAGENES+"guerrera6.png"
+G7 = menu.PATH_IMAGENES+"guerrera7.png"
 
-ICO = static+"ico.ico"
+C1 = menu.PATH_IMAGENES+"carta1.png"
+C2 = menu.PATH_IMAGENES+"carta2.png"
+C3 = menu.PATH_IMAGENES+"carta3.png"
+C4 = menu.PATH_IMAGENES+"carta4.png"
+C5 = menu.PATH_IMAGENES+"carta5.png"
+C6 = menu.PATH_IMAGENES+"carta6.png"
+C7 = menu.PATH_IMAGENES+"carta7.png"
 
-G1 = static+"guerrera1.png"
-G2 = static+"guerrera2.png"
-G3 = static+"guerrera3.png"
-G4 = static+"guerrera4.png"
-G5 = static+"guerrera5.png"
-G6 = static+"guerrera6.png"
-G7 = static+"guerrera7.png"
+CO = menu.PATH_IMAGENES+"oculta.png"
 
-C1 = static+"carta1.png"
-C2 = static+"carta2.png"
-C3 = static+"carta3.png"
-C4 = static+"carta4.png"
-C5 = static+"carta5.png"
-C6 = static+"carta6.png"
-C7 = static+"carta7.png"
+ACCION_ENEMIGA_USADA = menu.PATH_IMAGENES+"azul.png"
+ACCION_ENEMIGA_NO_USADA = menu.PATH_IMAGENES+"azul_gris.png"
 
-CO = static+"oculta.png"
+ACCION_PROPIA_USADA = menu.PATH_IMAGENES+"azul_gris.png"
+ACCION_PROPIA_NO_USADA = menu.PATH_IMAGENES+"azul.png"
+ACCION_PROPIA_MARCADA = menu.PATH_IMAGENES+"verde.png"
 
-ACCION_ENEMIGA_USADA = static+"azul.png"
-ACCION_ENEMIGA_NO_USADA = static+"azul_gris.png"
+MARCO_TEXTO_EXPLICATIVO = menu.PATH_IMAGENES+"verde.png"
 
-ACCION_PROPIA_USADA = static+"azul_gris.png"
-ACCION_PROPIA_NO_USADA = static+"azul.png"
-ACCION_PROPIA_MARCADA = static+"verde.png"
+MARCADOR_VALOR = menu.PATH_IMAGENES+"marcador.png"
 
-MARCO_TEXTO_EXPLICATIVO = static+"verde.png"
-
-MARCADOR_VALOR = static+"marcador.png"
-
-CONTADOR = static+"contador.png"
+CONTADOR = menu.PATH_IMAGENES+"contador.png"

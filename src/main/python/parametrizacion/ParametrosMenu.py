@@ -3,10 +3,16 @@ import configparser
 
 config = configparser.RawConfigParser()
 
-#Desde python -> main/test -> src -> main -> recursos
-path_dir = './../../main/recursos/'
-nombre = 'parametros.properties'
-config.read(path_dir+nombre)
+#Desde python -> main/test -> src -> main
+PATH_MAIN       = './../../main/'
+PATH_PARAMETROS = PATH_MAIN + 'recursos/'
+PATH_LOGGER     = PATH_MAIN + 'recursos/'
+PATH_GENERADOS  = PATH_MAIN + 'recursos/entrenamiento/generados/'
+PATH_MODELO     = PATH_MAIN + 'recursos/entrenamiento/modelo/'
+PATH_IMAGENES   = PATH_MAIN + 'recursos/estaticos/'
+
+ARCHIVO_PARAMETROS = 'parametros.properties'
+config.read(PATH_PARAMETROS+ARCHIVO_PARAMETROS)
 
 #Parametros del modo de ejecucion del programa
 
