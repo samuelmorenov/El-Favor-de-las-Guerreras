@@ -12,7 +12,10 @@ def initLogger(level):
         
     logger.setLevel(level) #INFO/DEBUG
     
-    fileHandler = logging.FileHandler("logfile.log")
+    #Desde python -> main/test -> src -> main -> recursos
+    path_dir = './../../main/recursos/'
+    nombre = 'logger.log'
+    fileHandler = logging.FileHandler(path_dir+nombre)
     fileHandler.setFormatter(logFormatter)
     logger.addHandler(fileHandler)
     

@@ -1,5 +1,5 @@
 __pycache__/
-data/generated/*
-*logfile.log
+/src/main/recursos/datos/generados/*
+*.log
 *~$*
 *.tmp

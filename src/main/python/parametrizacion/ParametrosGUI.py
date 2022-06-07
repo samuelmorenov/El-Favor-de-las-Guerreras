@@ -19,9 +19,6 @@ POSICION_MI_MANO = 5+TAMANIO_GUERRERAS-1
 POSICION_ACCION = 6+TAMANIO_GUERRERAS-1
 POSICION_ACEPTAR = 7+TAMANIO_GUERRERAS-1
 
-#CARTA_ENORME_ALTO = 220
-#CARTA_ENORME_ANCHO = 150
-
 CARTA_GRANDE_ALTO = 145
 CARTA_GRANDE_ANCHO = 100
 
@@ -53,8 +50,8 @@ TEXTO_ACCION_SECRETO = "Secreto"
 TEXTO_ACCION_RENUNCIA = "Renuncia"
 TEXTO_ACCION_REGALO = "Regalo"
 TEXTO_ACCION_COMPETICION = "Competición"
-TEXTO_PENDIENTE_REGALO = "Elija una carta entre\nlas siguientes 3"
-TEXTO_PENDIENTE_COMPETICION = "Elija entre\nlas 2 primeras cartas\no las 2 ultimas"
+TEXTO_PENDIENTE_REGALO = "Elija una carta\nentre las\nsiguientes 3"
+TEXTO_PENDIENTE_COMPETICION = "Elija entre\nlas 2 primeras\ncartas o las\n2 ultimas"
 TEXTO_POPUP_GANADO_JUGADOR_POR_11_PUNTOS = "Has ganado al conseguir 11 puntos."
 TEXTO_POPUP_GANADO_JUGADOR_POR_4_FAVORES= "Has ganado al conseguir el favor de 4 guerreras."
 TEXTO_POPUP_PERDIDO_JUGADOR_POR_11_PUNTOS = "Tu oponente ha ganado al conseguir 11 puntos."

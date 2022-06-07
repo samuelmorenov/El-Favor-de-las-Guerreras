@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 #Parametros imagenes
+
+#Desde python -> main/test -> src -> main -> recursos -> estaticos
 static = "./../../main/recursos/estaticos/"
 
 ICO = static+"ico.ico"

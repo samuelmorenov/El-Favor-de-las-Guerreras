@@ -2,7 +2,11 @@
 import configparser
 
 config = configparser.RawConfigParser()
-config.read('./../recursos/param.properties')
+
+#Desde python -> main/test -> src -> main -> recursos
+path_dir = './../../main/recursos/'
+nombre = 'parametros.properties'
+config.read(path_dir+nombre)
 
 #Parametros del modo de ejecucion del programa
 

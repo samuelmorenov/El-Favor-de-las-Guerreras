@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 
-import parametrizacion.ParametrosDatos as data
-import parametrizacion.ParametrosCNN as PCNN
+import main.python.parametrizacion.ParametrosDatos as data
+import main.python.parametrizacion.ParametrosCNN as PCNN
 
 import pandas as pd
 import numpy as np
