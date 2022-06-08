@@ -78,8 +78,8 @@ class ControladorGeneradorDatos:
     para una nueva generación.
     '''
     def __resetArchivo(self, path):
-        if not os.path.exists(data.PARTIDAS_GANADAS_DIR):
-            os.mkdir(data.PARTIDAS_GANADAS_DIR)
+        if not os.path.exists(menu.PATH_GENERADOS):
+            os.mkdir(menu.PATH_GENERADOS)
         with open(path, 'w') as f:
             f.write('')
             
